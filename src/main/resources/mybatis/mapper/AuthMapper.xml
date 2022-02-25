@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.intw.mentorapi.mapper.AuthMapper">
+    <select id="findByEmail" resultType="User">
+        SELECT email, password, role, role_detail FROM User WHERE email = #{email}
+    </select>
+
+    <select id="findRefreshTokenByIdx" resultType="String">
+        SELECT refresh_token FROM Refresh_Token WHERE idx = #{idx}
+    </select>
+
+    <insert id="insertOrUpdateRefreshToken" useGeneratedKeys="true" keyProperty="idx">
+        INSERT INTO Refresh_Token (
+            user_email,
+            access_token,
+            refresh_token,
+            refresh_token_expiration_at
+        )
+        VALUES (
+           #{userEmail},
+           #{accessToken},
+           #{refreshToken},
+           #{refreshTokenExpirationAt}
+        )
+        ON DUPLICATE KEY UPDATE
+              idx = ( SELECT idx FROM
+                        ( SELECT (idx + 1) AS idx FROM Refresh_Token B ORDER BY idx DESC LIMIT 1)
+                    AS A),
+              access_token = #{accessToken},
+              refresh_token = #{refreshToken},
+              refresh_token_expiration_at = #{refreshTokenExpirationAt},
+              user_email = #{userEmail}
+    </insert>
+
+    <select id="isEmailExist" resultType="int">
+        SELECT COUNT(*) FROM User WHERE email = #{email}
+    </select>
+
+    <select id="isPhoneExist" resultType="int">
+        SELECT COUNT(*) FROM User WHERE phone = #{phone}
+    </select>
+
+    <insert id="insertUser">
+        INSERT INTO User (
+            email,
+            password,
+            role,
+            role_detail,
+            status,
+            name,
+            phone,
+            gender,
+            is_agreement,
+            write_at
+        )
+        VALUES (
+           #{email},
+           #{password},
+           #{role},
+           #{roleDetail},
+           #{status},
+           #{name},
+           #{phone},
+           #{gender},
+           #{isAgreement},
+           NOW()
+        )
+    </insert>
+</mapper>

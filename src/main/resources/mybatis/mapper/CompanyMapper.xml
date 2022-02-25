@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.intw.mentorapi.mapper.CompanyMapper">
+    <insert id="insertCompany">
+        INSERT INTO Company (
+            user_idx,
+            status,
+            name,
+            tel,
+            address,
+            category,
+            ceo,
+            employee_count,
+            corporation_number,
+            business_number,
+            create_at,
+            write_at
+        )
+        VALUES (
+           #{userIdx},
+           #{Company.status},
+           #{Company.name},
+           #{Company.tel},
+           #{Company.address},
+           #{Company.category},
+           #{Company.ceo},
+           #{Company.employeeCount},
+           #{Company.corporationNumber},
+           #{Company.businessNumber},
+           #{Company.createAt},
+           NOW()
+       )
+    </insert>
+
+</mapper>

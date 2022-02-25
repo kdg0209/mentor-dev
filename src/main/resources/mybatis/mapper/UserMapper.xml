@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.intw.mentorapi.mapper.UserMapper">
+
+    <select id="findAllUser" resultType="User">
+        SELECT idx, name, email, role, role_detail, status, write_at, visit_at FROM User
+    </select>
+
+    <select id="isEmailExist" resultType="int">
+        SELECT COUNT(*) FROM User WHERE email = #{email}
+    </select>
+
+    <select id="isPhoneExist" resultType="int">
+        SELECT COUNT(*) FROM User WHERE phone = #{phone}
+    </select>
+
+
+    <insert id="insertUser" useGeneratedKeys="true" keyProperty="idx">
+        INSERT INTO User (
+            email,
+            password,
+            role,
+            role_detail,
+            status,
+            name,
+            phone,
+            gender,
+            is_agreement,
+            write_at
+        )
+        VALUES (
+           #{email},
+           #{password},
+           #{role},
+           #{roleDetail},
+           #{status},
+           #{name},
+           #{phone},
+           #{gender},
+           #{isAgreement},
+           NOW()
+       )
+    </insert>
+
+    <update id="updateVisitAtByUserEmail">
+        UPDATE User
+            SET visit_at = NOW()
+        WHERE email = #{email}
+    </update>
+
+</mapper>
