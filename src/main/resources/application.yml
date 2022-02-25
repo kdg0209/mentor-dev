@@ -1,11 +1,10 @@
 server:
-#  port: 80
-  port: 8080
+  port: 8081
 
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://52.78.67.45:3306/sasu?serverTimezone=UTC&characterEncoding=UTF-8
+#    url: jdbc:mysql://52.78.67.45:3306/sasu?serverTimezone=UTC&characterEncoding=UTF-8
     url : jdbc:mysql://mysql-container:3306/sasu?serverTimezone=UTC&characterEncoding=UTF-8
     username: kdg
     password: 12345
