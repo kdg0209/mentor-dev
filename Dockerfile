@@ -1,6 +1,4 @@
-FROM openjdk:11-jdk
-EXPOSE 9000
-VOLUME /tmp
+FROM openjdk:11-jre-slim-buster
 ARG JAR_FILE=build/libs/*.jar
 COPY ${JAR_FILE} app.jar
-ENTRYPOINT ["java", "-jar", "/app.jar"]
+ENTRYPOINT ["java","-jar","/app.jar"]
