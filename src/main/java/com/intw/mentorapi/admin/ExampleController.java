@@ -28,4 +28,11 @@ public class ExampleController {
     public ApiResponse liststest() {
         return null;
     }
+
+
+    @GetMapping("/lists/2")
+    @ApiOperation(value="test 목록2")
+    public ApiResponse liststest2() {
+        return null;
+    }
 }
