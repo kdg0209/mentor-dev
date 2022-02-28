@@ -22,4 +22,10 @@ public class ExampleController {
     public ApiResponse lists() {
         return null;
     }
+
+    @GetMapping("/lists/1")
+    @ApiOperation(value="test 목록1")
+    public ApiResponse liststest() {
+        return null;
+    }
 }
