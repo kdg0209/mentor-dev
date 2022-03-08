@@ -22,4 +22,10 @@ public class KDGContoller {
     public ApiResponse lists() {
         return userService.lists();
     }
+
+    @GetMapping("/lists1")
+    @ApiOperation(value="사용자 계정 목록1")
+    public ApiResponse lists1() {
+        return userService.lists();
+    }
 }
