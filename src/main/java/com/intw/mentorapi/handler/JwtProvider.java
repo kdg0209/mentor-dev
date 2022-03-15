@@ -4,6 +4,7 @@ import com.intw.mentorapi.dto.auth.AuthDTO;
 import com.intw.mentorapi.service.CustomUserDetailService;
 import io.jsonwebtoken.*;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -21,12 +22,14 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class JwtProvider {
 
-    private final String secretKey ="c88d74ba-1554-48a4-b549-b926f5d77c9e";
+    @Value("${jwt.key}")
+    private String secretKey;
     private long accessExpireTime = (60 * 60 * 1000L) * 3; // 3시간 후
-//    private final long accessExpireTime = 1 * 60 * 1000L;   // 1분
     private long refreshExpireTime =  ((60 * 60 * 1000L) * 24) * 60; // 60일
-//    private final long refreshExpireTime = 1 * 60 * 2000L;   // 2분
     private final CustomUserDetailService customUserDetailService;
+
+    // private final long accessExpireTime = 1 * 60 * 1000L;   // 1분
+    // private final long refreshExpireTime = 1 * 60 * 2000L;   // 2분
 
     public String createAccessToken(AuthDTO.LoginDTO loginDTO) {
         Map<String, Object> headers = new HashMap<>();

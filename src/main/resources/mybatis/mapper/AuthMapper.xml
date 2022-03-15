@@ -4,6 +4,7 @@
 
 <mapper namespace="com.intw.mentorapi.mapper.AuthMapper">
     <select id="findByEmail" resultType="User">
+        /* NOT_SQL_LOG */
         SELECT email, password, role, role_detail FROM User WHERE email = #{email}
     </select>
 

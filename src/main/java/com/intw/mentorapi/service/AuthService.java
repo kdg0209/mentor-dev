@@ -1,5 +1,6 @@
 package com.intw.mentorapi.service;
 
+import com.intw.mentorapi.app.AuthController;
 import com.intw.mentorapi.common.HashPassword;
 import com.intw.mentorapi.dao.RefreshToken;
 import com.intw.mentorapi.dao.User;
@@ -13,6 +14,8 @@ import com.intw.mentorapi.response.ApiResponse;
 import com.intw.mentorapi.response.ResponseMap;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -27,6 +30,7 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class AuthService {
 
+    private final Logger LOGGER = LoggerFactory.getLogger(AuthController.class.getName());
     private final JwtProvider jwtProvider;
     private final AuthenticationManager authenticationManager;
     private final AuthMapper authMapper;
@@ -44,7 +48,7 @@ public class AuthService {
             result.setResponseData("accessToken", createToken.get("accessToken"));
             result.setResponseData("refreshIdx", createToken.get("refreshIdx"));
         } catch (Exception e) {
-            e.printStackTrace();
+            LOGGER.error(e.getMessage());
             throw new AuthenticationException(ErrorCode.UsernameOrPasswordNotFoundException);
         }
 
