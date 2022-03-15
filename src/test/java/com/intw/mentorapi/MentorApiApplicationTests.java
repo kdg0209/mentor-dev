@@ -3,7 +3,7 @@ package com.intw.mentorapi;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
-@SpringBootTest
+//@SpringBootTest
 class MentorApiApplicationTests {
 
     @Test
