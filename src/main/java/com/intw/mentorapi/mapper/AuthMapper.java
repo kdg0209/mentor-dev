@@ -2,7 +2,7 @@ package com.intw.mentorapi.mapper;
 
 import com.intw.mentorapi.dao.RefreshToken;
 import com.intw.mentorapi.dao.User;
-import org.mapstruct.Mapper;
+import org.apache.ibatis.annotations.Mapper;
 
 @Mapper
 public interface AuthMapper {

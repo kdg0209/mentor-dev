@@ -6,12 +6,15 @@ import lombok.Setter;
 
 import javax.validation.constraints.NotBlank;
 
-@Getter
 @Setter
+@Getter
 public class CompanyDTO {
 
     @ApiModelProperty(hidden = true)
     private long idx;
+
+    @ApiModelProperty(value = "회원 참조 코드", example = "1", required = true)
+    private long userIdx;
 
     @NotBlank
     @ApiModelProperty(value = "등록 미등록 여부", example = "Y", required = true)
@@ -52,4 +55,17 @@ public class CompanyDTO {
     @NotBlank
     @ApiModelProperty(value = "설립일", example = "2022-02-22", required = true)
     private String createAt;
+
+    @Getter
+    @Setter
+    public static class CompanyInsertDTO extends CompanyDTO{
+
+    }
+
+
+    @Getter
+    @Setter
+    public static class CompanyUpdateDTO extends CompanyDTO{
+
+    }
 }

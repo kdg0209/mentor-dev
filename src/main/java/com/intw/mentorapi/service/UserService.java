@@ -3,22 +3,18 @@ package com.intw.mentorapi.service;
 import com.intw.mentorapi.common.HashPassword;
 import com.intw.mentorapi.dao.Company;
 import com.intw.mentorapi.dao.User;
+import com.intw.mentorapi.dto.PageDTO;
+import com.intw.mentorapi.dto.company.CompanyDTO;
 import com.intw.mentorapi.dto.user.UserDTO;
 import com.intw.mentorapi.exception.ErrorCode;
-import com.intw.mentorapi.exception.customException.AuthException;
+import com.intw.mentorapi.exception.customException.UserException;
 import com.intw.mentorapi.mapper.CompanyMapper;
 import com.intw.mentorapi.mapper.UserMapper;
 import com.intw.mentorapi.response.ApiResponse;
 import com.intw.mentorapi.response.ResponseMap;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
-import java.util.stream.Collectors;
-
 
 @Service
 @RequiredArgsConstructor
@@ -28,13 +24,12 @@ public class UserService {
     private final CompanyMapper companyMapper;
     private final ModelMapper modelMapper;
 
-    public ApiResponse lists() {
+    public ApiResponse lists(PageDTO pageDTO) {
         ResponseMap result = new ResponseMap();
 
-        List<UserDTO> userList = userMapper.findAllUser().stream()
-                .map(item -> modelMapper.map(item, UserDTO.class)).collect(Collectors.toList());
-
-        result.setResponseData("userList", userList);
+        System.out.println(pageDTO.getPageIndex());
+        System.out.println(pageDTO.getPageSize());
+        result.setResponseData("userList", userMapper.findAllUser(pageDTO));
         return result;
     }
 
@@ -42,23 +37,54 @@ public class UserService {
         ResponseMap result = new ResponseMap();
 
         int isEmailCount = userMapper.isEmailExist(userDTO.getEmail());
-        int isPhoneCount = userMapper.isPhoneExist(userDTO.getPhone());
+        int isPhoneCount = userMapper.isPhoneExist(userDTO.getPhone(), null);
 
         if (isEmailCount > 0) {
-            throw new AuthException(ErrorCode.isEmailExistException);
+            throw new UserException(ErrorCode.isEmailExistException);
         }
 
         if (isPhoneCount > 0) {
-            throw new AuthException(ErrorCode.isPhoneExistException);
+            throw new UserException(ErrorCode.isPhoneExistException);
         }
 
         userDTO.setPassword(new HashPassword().hashPassword(userDTO.getPassword()));
         User user = modelMapper.map(userDTO, User.class);
-        Company company = modelMapper.map(userDTO.getCompanyDTO(), Company.class);
-
         userMapper.insertUser(user);
-        companyMapper.insertCompany(company, user.getIdx());
+
+        CompanyDTO.CompanyInsertDTO companyDTO = userDTO.getCompanyDTO();
+        companyDTO.setUserIdx(user.getIdx());
+        Company company = modelMapper.map(companyDTO, Company.class);
+        companyMapper.insertCompany(company);
         return result;
     }
 
+    public ApiResponse view(int idx) {
+        ResponseMap result = new ResponseMap();
+        result.setResponseData("user", userMapper.findOneUserByIdx(idx));
+        return result;
+    }
+
+    public ApiResponse update(UserDTO.UserUpdateDTO userDTO) {
+        ResponseMap result = new ResponseMap();
+
+        int isPhoneCount = userMapper.isPhoneExist(userDTO.getPhone(), userDTO.getIdx());
+
+        if (isPhoneCount > 0) {
+            throw new UserException(ErrorCode.isPhoneExistException);
+        }
+
+        if (userDTO.getPassword() != null) {
+            userDTO.setPassword(new HashPassword().hashPassword(userDTO.getPassword()));
+        }
+
+        User user = modelMapper.map(userDTO, User.class);
+        userMapper.updateUserByIdx(user);
+        return result;
+    }
+
+    public ApiResponse delete(int idx) {
+        ResponseMap result = new ResponseMap();
+        userMapper.deleteUserByIdx(idx);
+        return result;
+    }
 }

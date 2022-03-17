@@ -1,5 +1,6 @@
 package com.intw.mentorapi.admin;
 
+import com.intw.mentorapi.dto.PageDTO;
 import com.intw.mentorapi.dto.user.UserDTO;
 import com.intw.mentorapi.response.ApiResponse;
 import com.intw.mentorapi.service.UserService;
@@ -20,25 +21,31 @@ public class AdminUserController {
 
     @GetMapping("/lists")
     @ApiOperation(value="사용자 계정 목록")
-    public ApiResponse lists() {
-        return userService.lists();
+    public ApiResponse lists(@Valid PageDTO pageDTO) {
+        return userService.lists(pageDTO);
     }
 
-    @PostMapping("/write")
+    @PostMapping
     @ApiOperation(value="사용자 계정 등록")
     public ApiResponse write(@RequestBody @Valid UserDTO.UserInsertDTO userDTO) {
         return userService.write(userDTO);
     }
 
-    @PutMapping("update")
-    @ApiOperation(value="사용자 계정 수정")
-    public ApiResponse update(@RequestBody @Valid UserDTO.UserInsertDTO userDTO) {
-        return null;
+    @GetMapping("/view/{idx}")
+    @ApiOperation(value="사용자 계정 조회")
+    public ApiResponse view(@PathVariable("idx") int idx) {
+        return userService.view(idx);
     }
 
-    @DeleteMapping("delete")
+    @PutMapping
+    @ApiOperation(value="사용자 계정 수정")
+    public ApiResponse update(@Valid UserDTO.UserUpdateDTO userDTO) {
+        return userService.update(userDTO);
+    }
+
+    @DeleteMapping("/{idx}")
     @ApiOperation(value="사용자 계정 삭제")
-    public ApiResponse delete(@RequestBody @Valid UserDTO.UserInsertDTO userDTO) {
-        return null;
+    public ApiResponse delete(@PathVariable("idx") Integer idx) {
+        return userService.delete(idx);
     }
 }

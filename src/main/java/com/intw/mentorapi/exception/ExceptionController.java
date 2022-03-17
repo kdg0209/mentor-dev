@@ -1,6 +1,7 @@
 package com.intw.mentorapi.exception;
 
-import com.intw.mentorapi.exception.customException.AuthException;
+import com.intw.mentorapi.exception.customException.CompanyException;
+import com.intw.mentorapi.exception.customException.UserException;
 import com.intw.mentorapi.exception.customException.AuthenticationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -45,12 +46,16 @@ public class ExceptionController {
         return new ResponseEntity<>(errorResponse, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
-    /**
-     **** 회원 가입시 중복 체크 예외 처리
-     **/
-    @ExceptionHandler(AuthException.class)
+    @ExceptionHandler(UserException.class)
     @ResponseBody
-    public ResponseEntity<ErrorResponse> handleAuthException(AuthException ex){
+    public ResponseEntity<ErrorResponse> handleAuthException(UserException ex){
+        ErrorResponse errorResponse = new ErrorResponse(ex.getErrorCode().getCode(), ex.getErrorCode().getMessage());
+        return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(CompanyException.class)
+    @ResponseBody
+    public ResponseEntity<ErrorResponse> handleAuthException(CompanyException ex){
         ErrorResponse errorResponse = new ErrorResponse(ex.getErrorCode().getCode(), ex.getErrorCode().getMessage());
         return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
     }

@@ -4,11 +4,11 @@ import com.intw.mentorapi.exception.ErrorCode;
 import lombok.Getter;
 
 @Getter
-public class AuthException extends RuntimeException{
+public class UserException extends RuntimeException{
 
     private  ErrorCode errorCode;
 
-    public AuthException(ErrorCode errorCode) {
+    public UserException(ErrorCode errorCode) {
         this.errorCode = errorCode;
     }
 }

@@ -2,14 +2,13 @@ package com.intw.mentorapi.dao;
 
 import lombok.Getter;
 import lombok.Setter;
-import lombok.ToString;
 
 @Setter
 @Getter
-@ToString
 public class Company {
 
     private long idx;
+    private long userIdx;
     private String status;
     private String name;
     private String tel;

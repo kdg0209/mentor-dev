@@ -2,6 +2,7 @@ package com.intw.mentorapi.dto.auth;
 
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.validation.constraints.NotBlank;

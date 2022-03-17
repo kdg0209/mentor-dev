@@ -6,7 +6,7 @@ import com.intw.mentorapi.dao.RefreshToken;
 import com.intw.mentorapi.dao.User;
 import com.intw.mentorapi.dto.auth.AuthDTO;
 import com.intw.mentorapi.exception.ErrorCode;
-import com.intw.mentorapi.exception.customException.AuthException;
+import com.intw.mentorapi.exception.customException.UserException;
 import com.intw.mentorapi.exception.customException.AuthenticationException;
 import com.intw.mentorapi.handler.JwtProvider;
 import com.intw.mentorapi.mapper.AuthMapper;
@@ -18,8 +18,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletRequest;
@@ -84,11 +82,11 @@ public class AuthService {
         int isPhoneCount = authMapper.isPhoneExist(joinDTO.getPhone());
 
         if (isEmailCount > 0) {
-            throw new AuthException(ErrorCode.isEmailExistException);
+            throw new UserException(ErrorCode.isEmailExistException);
         }
 
         if (isPhoneCount > 0) {
-            throw new AuthException(ErrorCode.isPhoneExistException);
+            throw new UserException(ErrorCode.isPhoneExistException);
         }
 
         joinDTO.setPassword(new HashPassword().hashPassword(joinDTO.getPassword()));
@@ -106,13 +104,11 @@ public class AuthService {
         String refreshToken = jwtProvider.createRefreshToken(loginDTO).get("refreshToken");
         String refreshTokenExpirationAt = jwtProvider.createRefreshToken(loginDTO).get("refreshTokenExpirationAt");
 
-        RefreshToken insertRefreshToken = RefreshToken.builder()
-                .userEmail(loginDTO.getEmail())
-                .accessToken(accessToken)
-                .refreshToken(refreshToken)
-                .refreshTokenExpirationAt(refreshTokenExpirationAt)
-                .build();
-
+        RefreshToken insertRefreshToken = new RefreshToken();
+        insertRefreshToken.setUserEmail(loginDTO.getEmail());
+        insertRefreshToken.setAccessToken(accessToken);
+        insertRefreshToken.setRefreshToken(refreshToken);
+        insertRefreshToken.setRefreshTokenExpirationAt(refreshTokenExpirationAt);
         authMapper.insertOrUpdateRefreshToken(insertRefreshToken);
 
         result.put("accessToken", accessToken);

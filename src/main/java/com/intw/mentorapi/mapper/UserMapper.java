@@ -1,16 +1,24 @@
 package com.intw.mentorapi.mapper;
 
 import com.intw.mentorapi.dao.User;
-import org.mapstruct.Mapper;
+import com.intw.mentorapi.dto.PageDTO;
+import com.intw.mentorapi.dto.user.UserListDTO;
+import com.intw.mentorapi.dto.user.UserViewDTO;
+import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
 @Mapper
 public interface UserMapper {
 
-    List<User> findAllUser();
     int isEmailExist(String email);
-    int isPhoneExist(String phone);
-    void insertUser(User user);
+    int isPhoneExist(String phone, Long idx);
     void updateVisitAtByUserEmail(String email);
+
+    List<UserListDTO> findAllUser(@Param("pageDTO") PageDTO pageDTO);
+    void insertUser(User user);
+    UserViewDTO findOneUserByIdx(int idx);
+    void updateUserByIdx(User user);
+    void deleteUserByIdx(int idx);
 }

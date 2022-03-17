@@ -3,51 +3,99 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.intw.mentorapi.mapper.UserMapper">
-
-    <select id="findAllUser" resultType="User">
-        SELECT idx, name, email, role, role_detail, status, write_at, visit_at FROM User
-    </select>
-
     <select id="isEmailExist" resultType="int">
-        SELECT COUNT(*) FROM User WHERE email = #{email}
+        SELECT COUNT(*) FROM User WHERE EMAIL = #{email}
     </select>
 
     <select id="isPhoneExist" resultType="int">
-        SELECT COUNT(*) FROM User WHERE phone = #{phone}
+        SELECT COUNT(*) FROM User WHERE PHONE = #{phone}
+        <if test='idx != null'>
+            AND IDX != #{idx}
+        </if>
     </select>
-
-
-    <insert id="insertUser" useGeneratedKeys="true" keyProperty="idx">
-        INSERT INTO User (
-            email,
-            password,
-            role,
-            role_detail,
-            status,
-            name,
-            phone,
-            gender,
-            is_agreement,
-            write_at
-        )
-        VALUES (
-           #{email},
-           #{password},
-           #{role},
-           #{roleDetail},
-           #{status},
-           #{name},
-           #{phone},
-           #{gender},
-           #{isAgreement},
-           NOW()
-       )
-    </insert>
 
     <update id="updateVisitAtByUserEmail">
         UPDATE User
-            SET visit_at = NOW()
-        WHERE email = #{email}
+           SET VISIT_AT = NOW()
+         WHERE EMAIL = #{email}
     </update>
+
+    <select id="findAllUser" resultType="com.intw.mentorapi.dto.user.UserListDTO">
+        SELECT IDX
+             , NAME
+             , EMAIL
+             , ROLE
+             , ROLE_DETAIL
+             , STATUS
+             , WRITE_AT
+             , VISIT_AT
+        FROM User
+             <if test='#{pageDTO.pageIndex} != null'>
+               WHERE NAME LIKE CONCAT('%',#{pageDTO.keyword},'%')
+               OR EMAIL LIKE CONCAT('%',#{pageDTO.keyword},'%')
+               OR PHONE LIKE CONCAT('%',#{pageDTO.keyword},'%')
+             </if>
+             ORDER BY IDX DESC
+             LIMIT #{pageDTO.pageIndex}, #{pageDTO.pageSize}
+    </select>
+
+    <insert id="insertUser" useGeneratedKeys="true" keyProperty="idx">
+        INSERT INTO
+               User (
+               EMAIL
+             , PASSWORD
+             , ROLE
+             , ROLE_DETAIL
+             , STATUS
+             , NAME
+             , PHONE
+             , GENDER
+             , IS_AGREEMENT
+             , WRITE_AT
+        )
+        VALUES (
+               #{email}
+             , #{password}
+             , #{role}
+             , #{roleDetail}
+             , #{status}
+             , #{name}
+             , #{phone}
+             , #{gender}
+             , #{isAgreement}
+             , NOW()
+       )
+    </insert>
+
+    <select id="findOneUserByIdx" resultType="com.intw.mentorapi.dto.user.UserViewDTO">
+        SELECT IDX
+             , NAME
+             , EMAIL
+             , ROLE
+             , ROLE_DETAIL
+             , STATUS
+             , WRITE_AT
+             , VISIT_AT
+         FROM User
+        WHERE IDX = #{idx}
+    </select>
+
+    <update id="updateUserByIdx">
+        UPDATE User
+           SET ROLE = #{role}
+             , ROLE_DETAIL = #{roleDetail}
+             , STATUS = #{status}
+               <if test='password != null'>
+                PASSWORD = #{password}
+               </if>
+            , PHONE = #{phone}
+            , GENDER = #{gender}
+            , IS_AGREEMENT = #{isAgreement}
+        WHERE IDX = #{idx}
+    </update>
+
+    <delete id="deleteUserByIdx">
+        DELETE FROM User WHERE IDX = #{idx}
+    </delete>
 
 </mapper>

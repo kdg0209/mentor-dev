@@ -1,10 +1,10 @@
 package com.intw.mentorapi.dao;
 
-import lombok.Builder;
 import lombok.Getter;
+import lombok.Setter;
 
+@Setter
 @Getter
-@Builder
 public class RefreshToken {
 
     private long idx;
