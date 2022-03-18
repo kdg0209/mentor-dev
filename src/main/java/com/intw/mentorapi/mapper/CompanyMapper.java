@@ -4,7 +4,7 @@ import com.intw.mentorapi.dao.Company;
 import com.intw.mentorapi.dto.PageDTO;
 import com.intw.mentorapi.dto.company.CompanyListDTO;
 import com.intw.mentorapi.dto.company.CompanyViewDTO;
-import org.apache.ibatis.annotations.Mapper;
+import org.mapstruct.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
@@ -17,7 +17,7 @@ public interface CompanyMapper {
 
     List<CompanyListDTO> findAllCompany(@Param("pageDTO") PageDTO pageDTO);
     void insertCompany(Company company);
-    CompanyViewDTO findOneCompanyByIdx(int idx);
+    CompanyViewDTO findOneCompanyByIdx(long idx);
     void updateCompanyByIdx(Company company);
-    void deleteCompanyByIdx(int idx);
+    void deleteCompanyByIdx(long idx);
 }

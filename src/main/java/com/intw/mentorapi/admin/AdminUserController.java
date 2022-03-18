@@ -19,9 +19,9 @@ public class AdminUserController {
 
     private final UserService userService;
 
-    @GetMapping("/lists")
+    @GetMapping("/index")
     @ApiOperation(value="사용자 계정 목록")
-    public ApiResponse lists(@Valid PageDTO pageDTO) {
+    public ApiResponse index(@Valid PageDTO pageDTO) {
         return userService.lists(pageDTO);
     }
 
@@ -33,19 +33,19 @@ public class AdminUserController {
 
     @GetMapping("/view/{idx}")
     @ApiOperation(value="사용자 계정 조회")
-    public ApiResponse view(@PathVariable("idx") int idx) {
+    public ApiResponse view(@PathVariable("idx") long idx) {
         return userService.view(idx);
     }
 
     @PutMapping
     @ApiOperation(value="사용자 계정 수정")
-    public ApiResponse update(@Valid UserDTO.UserUpdateDTO userDTO) {
+    public ApiResponse update(@RequestBody @Valid UserDTO.UserUpdateDTO userDTO) {
         return userService.update(userDTO);
     }
 
     @DeleteMapping("/{idx}")
     @ApiOperation(value="사용자 계정 삭제")
-    public ApiResponse delete(@PathVariable("idx") Integer idx) {
+    public ApiResponse delete(@PathVariable("idx") long idx) {
         return userService.delete(idx);
     }
 }

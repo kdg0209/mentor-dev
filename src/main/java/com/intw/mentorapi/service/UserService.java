@@ -26,9 +26,6 @@ public class UserService {
 
     public ApiResponse lists(PageDTO pageDTO) {
         ResponseMap result = new ResponseMap();
-
-        System.out.println(pageDTO.getPageIndex());
-        System.out.println(pageDTO.getPageSize());
         result.setResponseData("userList", userMapper.findAllUser(pageDTO));
         return result;
     }
@@ -58,7 +55,7 @@ public class UserService {
         return result;
     }
 
-    public ApiResponse view(int idx) {
+    public ApiResponse view(long idx) {
         ResponseMap result = new ResponseMap();
         result.setResponseData("user", userMapper.findOneUserByIdx(idx));
         return result;
@@ -82,7 +79,7 @@ public class UserService {
         return result;
     }
 
-    public ApiResponse delete(int idx) {
+    public ApiResponse delete(long idx) {
         ResponseMap result = new ResponseMap();
         userMapper.deleteUserByIdx(idx);
         return result;

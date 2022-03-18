@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.intw.mentorapi.mapper.BoardMapper">
+
+    <select id="findAllBoard" resultType="com.intw.mentorapi.dto.board.BoardListDTO">
+        SELECT B.IDX
+             , B.TITLE
+             , B.VIEW_COUNT
+             , B.WRITE_AT
+             , U.NAME
+             , U.EMAIL
+          FROM Board B
+          LEFT JOIN User U ON U.IDX = B.USER_IDX
+               <if test='pageDTO.keyword != null'>
+                WHERE U.NAME LIKE CONCAT('%',#{pageDTO.keyword},'%')
+                   OR U.EMAIL LIKE CONCAT('%',#{pageDTO.keyword},'%')
+                   OR B.TITLE LIKE CONCAT('%',#{pageDTO.keyword},'%')
+               </if>
+         ORDER BY B.IDX DESC
+         LIMIT #{pageDTO.pageIndex}, #{pageDTO.pageSize}
+    </select>
+
+    <insert id="insertBoard">
+        INSERT INTO
+         Board (
+                BOARD_CONFIG_IDX
+              , BOARD_CATEGORY_CONFIG_IDX
+              , USER_IDX
+              , STATUS
+              , TITLE
+              , CONTENTS
+              , VIEW_COUNT
+              , WRITE_AT
+        )
+        VALUES (
+               #{boardConfigIdx}
+             , #{boardCategoryConfigIdx}
+             , #{userIdx}
+             , #{status}
+             , #{title}
+             , #{contents}
+             , 0
+             , NOW()
+               )
+    </insert>
+
+    <select id="findOneBoardByIdx" resultType="com.intw.mentorapi.dto.board.BoardViewDTO">
+        SELECT B.IDX
+             , B.TITLE
+             , B.VIEW_COUNT
+             , B.WRITE_AT
+             , U.NAME
+             , U.EMAIL
+          FROM Board B
+          LEFT JOIN User U ON U.IDX = B.USER_IDX
+         WHERE B.IDX = #{idx}
+    </select>
+
+    <update id="updateBoardByIdx">
+        UPDATE Board
+           SET BOARD_CONFIG_IDX = #{boardConfigIdx}
+             , BOARD_CATEGORY_CONFIG_IDX = #{boardCategoryConfigIdx}
+             , STATUS = #{status}
+             , TITLE = #{title}
+             , CONTENTS = #{contents}
+             , UPDATE_AT = NOW()
+        WHERE IDX = #{idx}
+    </update>
+
+    <update id="updateBoardViewCountByIdx">
+        UPDATE Board
+           SET VIEW_COUNT = VIEW_COUNT + 1
+         WHERE IDX = #{idx}
+    </update>
+
+
+    <delete id="deleteBoardByIdx">
+        UPDATE Board
+           SET STATUS = 'D'
+        WHERE IDX = #{idx}
+    </delete>
+</mapper>

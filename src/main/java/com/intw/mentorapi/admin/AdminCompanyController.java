@@ -19,9 +19,9 @@ public class AdminCompanyController {
 
     private final CompanyService companyService;
 
-    @GetMapping("/lists")
+    @GetMapping("/index")
     @ApiOperation(value="기업 계정 목록")
-    public ApiResponse lists(@Valid PageDTO pageDTO) {
+    public ApiResponse index(@Valid PageDTO pageDTO) {
         return companyService.lists(pageDTO);
     }
 
@@ -33,7 +33,7 @@ public class AdminCompanyController {
 
     @GetMapping("/view/{idx}")
     @ApiOperation(value="기업 계정 조회")
-    public ApiResponse view(@PathVariable("idx") int idx) {
+    public ApiResponse view(@PathVariable("idx") long idx) {
         return companyService.view(idx);
     }
 
@@ -45,7 +45,7 @@ public class AdminCompanyController {
 
     @DeleteMapping("/{idx}")
     @ApiOperation(value="기업 계정 삭제")
-    public ApiResponse delete(@PathVariable("idx") Integer idx) {
+    public ApiResponse delete(@PathVariable("idx") long idx) {
         return companyService.delete(idx);
     }
 

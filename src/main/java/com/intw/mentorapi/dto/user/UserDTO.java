@@ -6,13 +6,11 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Positive;
 
 @Setter
 @Getter
 public class UserDTO {
-
-    @ApiModelProperty(hidden = true)
-    private long idx;
 
     @NotBlank
     @ApiModelProperty(value = "아이디", example = "admin@naver.com", required = true)
@@ -65,7 +63,8 @@ public class UserDTO {
     @Setter
     public static class UserUpdateDTO {
 
-        @ApiModelProperty(value = "idx", example = "1", required = true)
+        @Positive
+        @ApiModelProperty(value = "번호", example = "1", required = true)
         private long idx;
 
         @ApiModelProperty(value = "권한", example = "ROLE_ADMIN")

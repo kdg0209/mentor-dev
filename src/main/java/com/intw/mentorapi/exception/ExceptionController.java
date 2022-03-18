@@ -1,8 +1,6 @@
 package com.intw.mentorapi.exception;
 
-import com.intw.mentorapi.exception.customException.CompanyException;
-import com.intw.mentorapi.exception.customException.UserException;
-import com.intw.mentorapi.exception.customException.AuthenticationException;
+import com.intw.mentorapi.exception.customException.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
@@ -48,14 +46,35 @@ public class ExceptionController {
 
     @ExceptionHandler(UserException.class)
     @ResponseBody
-    public ResponseEntity<ErrorResponse> handleAuthException(UserException ex){
+    public ResponseEntity<ErrorResponse> handleUserException(UserException ex){
         ErrorResponse errorResponse = new ErrorResponse(ex.getErrorCode().getCode(), ex.getErrorCode().getMessage());
         return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler(CompanyException.class)
     @ResponseBody
-    public ResponseEntity<ErrorResponse> handleAuthException(CompanyException ex){
+    public ResponseEntity<ErrorResponse> handleCompanyException(CompanyException ex){
+        ErrorResponse errorResponse = new ErrorResponse(ex.getErrorCode().getCode(), ex.getErrorCode().getMessage());
+        return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(BoardConfigException.class)
+    @ResponseBody
+    public ResponseEntity<ErrorResponse> handleBoardConfigException(BoardConfigException ex){
+        ErrorResponse errorResponse = new ErrorResponse(ex.getErrorCode().getCode(), ex.getErrorCode().getMessage());
+        return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(BoardCategoryConfigException.class)
+    @ResponseBody
+    public ResponseEntity<ErrorResponse> handleBoardCategoryConfigException(BoardCategoryConfigException ex){
+        ErrorResponse errorResponse = new ErrorResponse(ex.getErrorCode().getCode(), ex.getErrorCode().getMessage());
+        return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(BoardException.class)
+    @ResponseBody
+    public ResponseEntity<ErrorResponse> handleBoardException(BoardException ex){
         ErrorResponse errorResponse = new ErrorResponse(ex.getErrorCode().getCode(), ex.getErrorCode().getMessage());
         return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
     }

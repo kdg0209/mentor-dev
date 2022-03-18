@@ -9,26 +9,23 @@ spring:
 server:
   port: 8080
 
-  jpa:
-    database-platform: org.hibernate.dialect.MySQL8Dialect
-    hibernate:
-      show-sql: true
-      format_sql: true
-      ddl-auto: none
-
 logging:
-  level:
-    org:
-      hibernate:
-        SQL: DEBUG
-        type:
-          descriptor:
-            sql:
-              BasicBinder: TRACE
   config: classpath:log4j2.xml
 
 jwt:
   key: c88d74ba-1554-48a4-b549-b926f5d77c9e
+
+cloud:
+  aws:
+    credentials:
+      accessKey: AKIASMUBDF3EKJTYFPPK
+      secretKey: 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
+    s3:
+      bucket: mentor-dev-files
+    region:
+      static: ap-northeast-2
+    stack:
+      auto: false
 
 ---
 
@@ -40,26 +37,11 @@ spring:
     username: kdg
     password: 12345
 
-  jpa:
-    database-platform: org.hibernate.dialect.MySQL8Dialect
-    hibernate:
-      show-sql: true
-      format_sql: true
-      ddl-auto: none
-
-logging:
-  level:
-    org:
-      hibernate:
-        SQL: DEBUG
-        type:
-          descriptor:
-            sql:
-              BasicBinder: TRACE
-  config: classpath:log4j2.xml
-
 server:
   port: 8080
+
+logging:
+  config: classpath:log4j2.xml
 
 jwt:
   key: c88d74ba-1554-48a4-b549-b926f5d77c9e

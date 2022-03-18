@@ -27,7 +27,7 @@
              , ADDRESS
              , CREATE_AT
           FROM Company
-               <if test='#{pageDTO.pageIndex} != null'>
+               <if test='pageDTO.keyword != null'>
                  WHERE NAME LIKE CONCAT('%',#{pageDTO.keyword},'%')
                   OR TEL LIKE CONCAT('%',#{pageDTO.keyword},'%')
                   OR CEO LIKE CONCAT('%',#{pageDTO.keyword},'%')
@@ -83,8 +83,8 @@
              , U.PHONE AS USER_PHONE
              , U.GENDER AS USER_GENDER
           FROM Company C
-          LEFT JOIN User U ON C.user_idx = U.idx
-         WHERE C.idx = #{idx}
+          LEFT JOIN User U ON C.USER_IDX = U.IDX
+         WHERE C.IDX = #{idx}
     </select>
 
     <update id="updateCompanyByIdx">

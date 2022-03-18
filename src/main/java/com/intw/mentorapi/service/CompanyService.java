@@ -46,12 +46,11 @@ public class CompanyService {
         return result;
     }
 
-    public ApiResponse view(int idx) {
+    public ApiResponse view(long idx) {
         ResponseMap result = new ResponseMap();
         result.setResponseData("company", companyMapper.findOneCompanyByIdx(idx));
         return result;
     }
-
 
     public ApiResponse update(CompanyDTO.CompanyUpdateDTO companyUpdateDTO) {
         ResponseMap result = new ResponseMap();
@@ -72,7 +71,7 @@ public class CompanyService {
         return result;
     }
 
-    public ApiResponse delete(int idx) {
+    public ApiResponse delete(long idx) {
         ResponseMap result = new ResponseMap();
         companyMapper.deleteCompanyByIdx(idx);
         return result;

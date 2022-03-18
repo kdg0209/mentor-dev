@@ -4,7 +4,7 @@ import com.intw.mentorapi.dao.User;
 import com.intw.mentorapi.dto.PageDTO;
 import com.intw.mentorapi.dto.user.UserListDTO;
 import com.intw.mentorapi.dto.user.UserViewDTO;
-import org.apache.ibatis.annotations.Mapper;
+import org.mapstruct.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
@@ -18,7 +18,7 @@ public interface UserMapper {
 
     List<UserListDTO> findAllUser(@Param("pageDTO") PageDTO pageDTO);
     void insertUser(User user);
-    UserViewDTO findOneUserByIdx(int idx);
+    UserViewDTO findOneUserByIdx(long idx);
     void updateUserByIdx(User user);
-    void deleteUserByIdx(int idx);
+    void deleteUserByIdx(long idx);
 }

@@ -15,7 +15,13 @@ public enum ErrorCode {
     isPhoneExistException(446, "해당 연락처가 이미 존재합니다.", HttpStatus.BAD_REQUEST),
 
     isCorporationNumberExistException(600, "해당 법인번호는 이미 존재합니다.", HttpStatus.BAD_REQUEST),
-    isBusinessNumberExistException(601, "해당 사업자번호는 이미 존재합니다.", HttpStatus.BAD_REQUEST)
+    isBusinessNumberExistException(601, "해당 사업자번호는 이미 존재합니다.", HttpStatus.BAD_REQUEST),
+
+    isBoardConfigTypeExistException(701, "해당 타입은 이미 존재합니다.", HttpStatus.BAD_REQUEST),
+    isBoardConfigNotFoundException(701, "등록되어 있지 않은 게시판 모듈 입니다.", HttpStatus.BAD_REQUEST),
+
+    isBoardCategoryConfigNameExistException(701, "해당 카테고리이름은 이미 존재합니다.", HttpStatus.BAD_REQUEST),
+    isBoardCategoryConfigNotFoundException(701, "등록되어 있지 않은 카테고리 입니다.", HttpStatus.BAD_REQUEST),
 
     ;
 

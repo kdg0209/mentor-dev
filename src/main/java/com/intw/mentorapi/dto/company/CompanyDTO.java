@@ -5,16 +5,11 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Positive;
 
 @Setter
 @Getter
 public class CompanyDTO {
-
-    @ApiModelProperty(hidden = true)
-    private long idx;
-
-    @ApiModelProperty(value = "회원 참조 코드", example = "1", required = true)
-    private long userIdx;
 
     @NotBlank
     @ApiModelProperty(value = "등록 미등록 여부", example = "Y", required = true)
@@ -60,12 +55,16 @@ public class CompanyDTO {
     @Setter
     public static class CompanyInsertDTO extends CompanyDTO{
 
+        @ApiModelProperty(value = "회원 참조 코드", example = "1")
+        private long userIdx;
     }
-
 
     @Getter
     @Setter
     public static class CompanyUpdateDTO extends CompanyDTO{
 
+        @Positive
+        @ApiModelProperty(value = "번호", example = "1", required = true)
+        private long idx;
     }
 }

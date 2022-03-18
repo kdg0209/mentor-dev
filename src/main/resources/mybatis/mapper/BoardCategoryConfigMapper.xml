@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.intw.mentorapi.mapper.BoardCategoryConfigMapper">
+
+    <select id="isCategoryNameExist" resultType="int">
+        SELECT COUNT(*)
+          FROM Board_Category_Config
+         WHERE NAME = #{name}
+    </select>
+
+    <select id="isCategoryExist" resultType="int">
+        SELECT COUNT(*)
+          FROM Board_Category_Config
+         WHERE IDX = #{idx}
+    </select>
+
+    <select id="findAllCategoryConfig" resultType="com.intw.mentorapi.dto.boardCategoryConfig.BoardCategoryConfigListDTO">
+        SELECT IDX
+             , NAME
+             , WRITE_AT
+        FROM Board_Category_Config
+        <if test='pageDTO.keyword != null'>
+            WHERE NAME LIKE CONCAT('%',#{pageDTO.keyword},'%')
+        </if>
+        ORDER BY IDX DESC
+        LIMIT #{pageDTO.pageIndex}, #{pageDTO.pageSize}
+    </select>
+
+    <insert id="insertBoardCategoryConfig">
+        INSERT INTO
+               Board_Category_Config (
+               NAME
+             , WRITE_AT
+        )
+        VALUES (
+               #{name}
+             , NOW()
+               )
+    </insert>
+
+    <select id="findOneBoardCategoryConfigByIdx" resultType="com.intw.mentorapi.dto.boardCategoryConfig.BoardCategoryConfigViewDTO">
+        SELECT IDX
+             , NAME
+             , WRITE_AT
+             , UPDATE_AT
+          FROM Board_Category_Config
+         WHERE IDX = #{idx}
+    </select>
+
+    <update id="updateBoardCategoryConfigByIdx">
+        UPDATE Board_Category_Config
+           SET NAME = #{name}
+             , UPDATE_AT = NOW()
+         WHERE IDX = #{idx};
+    </update>
+
+    <delete id="deleteBoardCategoryConfigByIdx">
+        DELETE FROM Board_Category_Config WHERE IDX = #{idx}
+    </delete>
+
+</mapper>

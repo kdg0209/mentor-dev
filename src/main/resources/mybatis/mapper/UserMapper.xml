@@ -30,7 +30,7 @@
              , WRITE_AT
              , VISIT_AT
         FROM User
-             <if test='#{pageDTO.pageIndex} != null'>
+             <if test='pageDTO.keyword != null'>
                WHERE NAME LIKE CONCAT('%',#{pageDTO.keyword},'%')
                OR EMAIL LIKE CONCAT('%',#{pageDTO.keyword},'%')
                OR PHONE LIKE CONCAT('%',#{pageDTO.keyword},'%')
