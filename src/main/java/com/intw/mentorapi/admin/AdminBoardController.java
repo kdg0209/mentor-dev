@@ -7,12 +7,12 @@ import com.intw.mentorapi.response.ApiResponse;
 import com.intw.mentorapi.service.BoardService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
-import java.io.IOException;
 
 @Api(tags = "Board / 게시판")
 @RequestMapping("/admin/board")
@@ -23,7 +23,7 @@ public class AdminBoardController {
     private final BoardService boardService;
     private final S3Uploader s3Uploader;
 
-    @GetMapping("/index")
+    @GetMapping
     @ApiOperation(value="게시판 목록")
     public ApiResponse index(@Valid PageDTO pageDTO) {
         return boardService.lists(pageDTO);
@@ -31,10 +31,10 @@ public class AdminBoardController {
 
     @PostMapping
     @ApiOperation(value="게시판 작성")
-    public ApiResponse write(@RequestBody @Valid BoardDTO.BoardInsertDTO boardInsertDTO) {
+    public ApiResponse write(@Valid BoardDTO.BoardInsertDTO boardInsertDTO) {
         return boardService.write(boardInsertDTO);
     }
-    @GetMapping("/view/{idx}")
+    @GetMapping("/{idx}")
     @ApiOperation(value="게시판 조회")
     public ApiResponse view(@PathVariable("idx") long idx) {
         return boardService.view(idx);
@@ -42,7 +42,7 @@ public class AdminBoardController {
 
     @PutMapping
     @ApiOperation(value="게시판 수정")
-    public ApiResponse update(@RequestBody @Valid BoardDTO.BoardUpdateDTO boardUpdateDTO) {
+    public ApiResponse update(@Valid BoardDTO.BoardUpdateDTO boardUpdateDTO) {
         return boardService.update(boardUpdateDTO);
     }
 
@@ -50,11 +50,5 @@ public class AdminBoardController {
     @ApiOperation(value="게시판 삭제")
     public ApiResponse delete(@PathVariable("idx") long idx) {
         return boardService.delete(idx);
-    }
-
-    @PostMapping("/images")
-    public String upload(@RequestParam("images") MultipartFile multipartFile) throws IOException {
-        s3Uploader.upload(multipartFile, "static");
-        return "test";
     }
 }

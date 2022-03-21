@@ -1,11 +1,14 @@
 package com.intw.mentorapi.dto.board;
 
+import com.intw.mentorapi.dto.file.FileDTO;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Positive;
+import java.util.List;
 
 @Getter
 @Setter
@@ -39,13 +42,25 @@ public class BoardDTO {
         @ApiModelProperty(hidden = true)
         private long userIdx;
 
+        @ApiModelProperty(value = "첨부파일")
+        List<MultipartFile> files;
+
+        @ApiModelProperty(value = "첨부파일 종류", example = "files")
+        private String targetType;
     }
 
     @Getter
     @Setter
     public static class BoardUpdateDTO extends BoardDTO {
+
         @Positive
         @ApiModelProperty(value = "번호", example = "1", required = true)
         private long idx;
+
+        @ApiModelProperty(value = "첨부파일")
+        List<MultipartFile> files;
+
+        @ApiModelProperty(value = "첨부파일 종류", example = "files")
+        private String targetType;
     }
 }

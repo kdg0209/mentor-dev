@@ -83,7 +83,7 @@
         </Logger>
 
         <!-- springframework에서 발생하는 error 출력 -->
-        <Logger name="org.springframework" level="DEBUG" additivity="false">
+        <Logger name="org.springframework" level="ERROR" additivity="false">
             <AppenderRef ref="ERROR-Appneder"/>
         </Logger>
     </Loggers>

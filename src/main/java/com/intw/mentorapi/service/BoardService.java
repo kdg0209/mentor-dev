@@ -24,6 +24,7 @@ public class BoardService extends UserProvider {
     private final BoardMapper boardMapper;
     private final BoardCategoryConfigMapper boardCategoryConfigMapper;
     private final BoardConfigMapper boardConfigMapper;
+    private final FileService fileService;
 
     public ApiResponse lists(PageDTO pageDTO) {
         ResponseMap result = new ResponseMap();
@@ -48,6 +49,8 @@ public class BoardService extends UserProvider {
         boardInsertDTO.setUserIdx(getUserIdx());
         Board board = modelMapper.map(boardInsertDTO, Board.class);
         boardMapper.insertBoard(board);
+        fileService.fileUpload(boardInsertDTO.getFiles(), boardInsertDTO.getTargetType(), "board", board.getIdx());
+
         return result;
     }
 
@@ -55,6 +58,7 @@ public class BoardService extends UserProvider {
         ResponseMap result = new ResponseMap();
         boardMapper.updateBoardViewCountByIdx(idx);
         result.setResponseData("board", boardMapper.findOneBoardByIdx(idx));
+        result.setResponseData("boardFiles", boardMapper.findAllFilesByBoard(idx));
         return result;
     }
 
@@ -74,11 +78,14 @@ public class BoardService extends UserProvider {
 
         Board board = modelMapper.map(boardUpdateDTO, Board.class);
         boardMapper.updateBoardByIdx(board);
+        fileService.fileUpdate(boardUpdateDTO.getFiles(), "board", board.getIdx());
         return result;
     }
 
     public ApiResponse delete(long idx) {
         ResponseMap result = new ResponseMap();
+
+        fileService.fileDelete(idx, "board");
         boardMapper.deleteBoardByIdx(idx);
         return result;
     }

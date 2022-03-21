@@ -22,7 +22,7 @@
          LIMIT #{pageDTO.pageIndex}, #{pageDTO.pageSize}
     </select>
 
-    <insert id="insertBoard">
+    <insert id="insertBoard" useGeneratedKeys="true" keyProperty="idx">
         INSERT INTO
          Board (
                 BOARD_CONFIG_IDX
@@ -56,6 +56,17 @@
           FROM Board B
           LEFT JOIN User U ON U.IDX = B.USER_IDX
          WHERE B.IDX = #{idx}
+    </select>
+
+    <select id="findAllFilesByBoard" resultType="com.intw.mentorapi.dto.file.FileListDTO">
+        SELECT CFD.FILE_NAME
+             , CFD.FILE_PATH
+             , CF.TARGET_TYPE
+          FROM Common_File CF
+          LEFT JOIN Board B ON B.IDX = CF.FK_IDX
+          LEFT JOIN Common_File_Detail CFD ON CFD.COMMON_FILE_IDX = CF.IDX
+         WHERE B.IDX = #{idx}
+           AND CF.TABLES = "board"
     </select>
 
     <update id="updateBoardByIdx">

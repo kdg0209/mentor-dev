@@ -23,6 +23,9 @@ public enum ErrorCode {
     isBoardCategoryConfigNameExistException(701, "해당 카테고리이름은 이미 존재합니다.", HttpStatus.BAD_REQUEST),
     isBoardCategoryConfigNotFoundException(701, "등록되어 있지 않은 카테고리 입니다.", HttpStatus.BAD_REQUEST),
 
+    FileUploadFailException(701, "파일 업로드에 실패했습니다.", HttpStatus.BAD_REQUEST),
+    InvalidFileExtensionException(701, "잘못된 형식의 파일 확장자입니다.", HttpStatus.BAD_REQUEST),
+
     ;
 
     @Getter

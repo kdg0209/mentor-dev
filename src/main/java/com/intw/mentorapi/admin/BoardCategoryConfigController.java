@@ -19,7 +19,7 @@ public class BoardCategoryConfigController {
 
     private final BoardCategoryConfigService boardCategoryConfigService;
 
-    @GetMapping("/index")
+    @GetMapping
     @ApiOperation(value="게시판 카테고리 설정 목록")
     public ApiResponse index(@Valid PageDTO pageDTO) {
         return boardCategoryConfigService.lists(pageDTO);
@@ -31,8 +31,7 @@ public class BoardCategoryConfigController {
         return boardCategoryConfigService.write(boardCategoryConfigInsertDTO);
     }
 
-
-    @GetMapping("/view/{idx}")
+    @GetMapping("/{idx}")
     @ApiOperation(value="게시판 카테고리 설정 조회")
     public ApiResponse view(@PathVariable("idx") long idx) {
         return boardCategoryConfigService.view(idx);

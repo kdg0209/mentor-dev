@@ -5,6 +5,10 @@ spring:
     url: jdbc:log4jdbc:mysql://13.209.235.245:3306/sasu?serverTimezone=UTC&characterEncoding=UTF-8
     username: kdg
     password: 12345
+  servlet:
+    multipart:
+      max-file-size: 50MB
+      max-request-size: 50MB
 
 server:
   port: 8080
@@ -18,8 +22,8 @@ jwt:
 cloud:
   aws:
     credentials:
-      accessKey: AKIASMUBDF3EKJTYFPPK
-      secretKey: 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
+      accessKey: AKIASMUBDF3EPWDMFTC5
+      secretKey: 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
     s3:
       bucket: mentor-dev-files
     region:

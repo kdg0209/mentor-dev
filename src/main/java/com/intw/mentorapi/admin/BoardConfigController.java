@@ -19,7 +19,7 @@ public class BoardConfigController {
 
     private final BoardConfigService boardConfigService;
 
-    @GetMapping("/index")
+    @GetMapping
     @ApiOperation(value="게시판 설정 목록")
     public ApiResponse index(@Valid PageDTO pageDTO) {
         return boardConfigService.lists(pageDTO);
@@ -31,8 +31,7 @@ public class BoardConfigController {
         return boardConfigService.write(boardConfigInsertDTO);
     }
 
-
-    @GetMapping("/view/{idx}")
+    @GetMapping("/{idx}")
     @ApiOperation(value="게시판 설정 조회")
     public ApiResponse view(@PathVariable("idx") long idx) {
         return boardConfigService.view(idx);

@@ -19,7 +19,7 @@ public class AdminUserController {
 
     private final UserService userService;
 
-    @GetMapping("/index")
+    @GetMapping
     @ApiOperation(value="사용자 계정 목록")
     public ApiResponse index(@Valid PageDTO pageDTO) {
         return userService.lists(pageDTO);
@@ -31,7 +31,7 @@ public class AdminUserController {
         return userService.write(userDTO);
     }
 
-    @GetMapping("/view/{idx}")
+    @GetMapping("/{idx}")
     @ApiOperation(value="사용자 계정 조회")
     public ApiResponse view(@PathVariable("idx") long idx) {
         return userService.view(idx);
