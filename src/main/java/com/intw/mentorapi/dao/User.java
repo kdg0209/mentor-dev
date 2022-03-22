@@ -18,11 +18,12 @@ public class User implements UserDetails {
     private String password;
     private String name;
     private String role;
-    private String roleDetail;
+    private int roleCodeIdx;
     private String status;
     private String phone;
     private String gender;
     private String isAgreement;
+    private int roleCode;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

@@ -5,6 +5,7 @@
 <mapper namespace="com.intw.mentorapi.mapper.FileMapper">
 
     <select id="findAllFile" resultType="File">
+        /* NOT_SQL_LOG */
         SELECT IDX
              , FK_IDX
              , TABLES
@@ -27,6 +28,7 @@
     </insert>
 
     <delete id="deleteCommonFile">
+        /* NOT_SQL_LOG */
         DELETE FROM Common_File WHERE FK_IDX = #{fkIdx}
     </delete>
 </mapper>

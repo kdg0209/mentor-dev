@@ -5,13 +5,12 @@ import org.springframework.security.core.context.SecurityContextHolder;
 
 public class UserProvider {
 
-    public long getUserIdx() {
+    public User getUser() {
         Object authentication = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         User user = null;
         if (authentication instanceof User) {
             user = (User) authentication;
         }
-
-        return user.getIdx();
+        return user;
     }
 }

@@ -1,6 +1,7 @@
 package com.intw.mentorapi.service;
 
 import com.intw.mentorapi.dao.Board;
+import com.intw.mentorapi.dao.User;
 import com.intw.mentorapi.dto.PageDTO;
 import com.intw.mentorapi.dto.board.BoardDTO;
 import com.intw.mentorapi.exception.ErrorCode;
@@ -46,11 +47,10 @@ public class BoardService extends UserProvider {
             throw new BoardCategoryConfigException(ErrorCode.isBoardCategoryConfigNotFoundException);
         }
 
-        boardInsertDTO.setUserIdx(getUserIdx());
+        boardInsertDTO.setUserIdx(getUser().getIdx());
         Board board = modelMapper.map(boardInsertDTO, Board.class);
         boardMapper.insertBoard(board);
         fileService.fileUpload(boardInsertDTO.getFiles(), boardInsertDTO.getTargetType(), "board", board.getIdx());
-
         return result;
     }
 

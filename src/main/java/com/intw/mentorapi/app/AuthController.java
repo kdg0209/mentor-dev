@@ -34,7 +34,6 @@ public class AuthController {
         return authService.newAccessToken(getNewAccessTokenDTO, request);
     }
 
-
     @PostMapping("/join")
     @ApiOperation(value="사용자 계정 등록")
     public ApiResponse join(@RequestBody @Valid AuthDTO.JoinDTO joinDTO){

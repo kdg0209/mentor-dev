@@ -5,18 +5,21 @@
 <mapper namespace="com.intw.mentorapi.mapper.BoardCategoryConfigMapper">
 
     <select id="isCategoryNameExist" resultType="int">
+        /* NOT_SQL_LOG */
         SELECT COUNT(*)
           FROM Board_Category_Config
          WHERE NAME = #{name}
     </select>
 
     <select id="isCategoryExist" resultType="int">
+        /* NOT_SQL_LOG */
         SELECT COUNT(*)
           FROM Board_Category_Config
          WHERE IDX = #{idx}
     </select>
 
     <select id="findAllCategoryConfig" resultType="com.intw.mentorapi.dto.boardCategoryConfig.BoardCategoryConfigListDTO">
+        /* NOT_SQL_LOG */
         SELECT IDX
              , NAME
              , WRITE_AT
@@ -29,6 +32,7 @@
     </select>
 
     <insert id="insertBoardCategoryConfig">
+        /* NOT_SQL_LOG */
         INSERT INTO
                Board_Category_Config (
                NAME
@@ -41,6 +45,7 @@
     </insert>
 
     <select id="findOneBoardCategoryConfigByIdx" resultType="com.intw.mentorapi.dto.boardCategoryConfig.BoardCategoryConfigViewDTO">
+        /* NOT_SQL_LOG */
         SELECT IDX
              , NAME
              , WRITE_AT
@@ -50,6 +55,7 @@
     </select>
 
     <update id="updateBoardCategoryConfigByIdx">
+        /* NOT_SQL_LOG */
         UPDATE Board_Category_Config
            SET NAME = #{name}
              , UPDATE_AT = NOW()
@@ -57,6 +63,7 @@
     </update>
 
     <delete id="deleteBoardCategoryConfigByIdx">
+        /* NOT_SQL_LOG */
         DELETE FROM Board_Category_Config WHERE IDX = #{idx}
     </delete>
 

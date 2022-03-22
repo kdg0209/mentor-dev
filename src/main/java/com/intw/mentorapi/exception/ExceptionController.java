@@ -44,6 +44,13 @@ public class ExceptionController {
         return new ResponseEntity<>(errorResponse, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
+    @ExceptionHandler(RoleCodeException.class)
+    @ResponseBody
+    public ResponseEntity<ErrorResponse> handleRoleCodeException(RoleCodeException ex){
+        ErrorResponse errorResponse = new ErrorResponse(ex.getErrorCode().getCode(), ex.getErrorCode().getMessage());
+        return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
+    }
+
     @ExceptionHandler(UserException.class)
     @ResponseBody
     public ResponseEntity<ErrorResponse> handleUserException(UserException ex){

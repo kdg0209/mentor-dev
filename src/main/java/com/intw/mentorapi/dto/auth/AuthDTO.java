@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Positive;
 
 public class AuthDTO {
 
@@ -54,9 +55,9 @@ public class AuthDTO {
         @ApiModelProperty(value = "권한", example = "ROLE_ADMIN", required = true)
         private String role;
 
-        @NotBlank
-        @ApiModelProperty(value = "권한 상세", example = "ADMIN", required = true)
-        private String roleDetail;
+        @Positive
+        @ApiModelProperty(value = "권한  상세 코드", example = "100", required = true)
+        private int code;
 
         @NotBlank
         @ApiModelProperty(value = "회원 활성/비활성 여부", example = "Y", required = true)

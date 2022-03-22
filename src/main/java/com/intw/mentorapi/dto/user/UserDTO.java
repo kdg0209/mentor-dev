@@ -17,12 +17,16 @@ public class UserDTO {
     private String email;
 
     @NotBlank
-    @ApiModelProperty(value = "권한", example = "ADMIN_ROLE", required = true)
-    private String role;
+    @ApiModelProperty(value = "비밀번호", example = "12345", required = true)
+    private String password;
 
     @NotBlank
-    @ApiModelProperty(value = "권한 상세", example = "ADMIN", required = true)
-    private String roleDetail;
+    @ApiModelProperty(value = "권한", example = "ROLE_USER", required = true)
+    private String role;
+
+    @Positive
+    @ApiModelProperty(value = "권한  상세 코드", example = "100", required = true)
+    private int code;
 
     @NotBlank
     @ApiModelProperty(value = "활성/비활성 여부", example = "Y", required = true)
@@ -32,25 +36,21 @@ public class UserDTO {
     @ApiModelProperty(value = "사용자명", example = "홍길동", required = true)
     private String name;
 
+    @NotBlank
+    @ApiModelProperty(value = "연락처", example = "010-1234-5678", required = true)
+    private String phone;
+
+    @NotBlank
+    @ApiModelProperty(value = "성별", example = "M", required = true)
+    private String gender;
+
+    @NotBlank
+    @ApiModelProperty(value = "동의 여부", example = "Y", required = true)
+    private String isAgreement;
+
     @Getter
     @Setter
     public static class UserInsertDTO extends UserDTO {
-
-        @NotBlank
-        @ApiModelProperty(value = "비밀번호", example = "12345", required = true)
-        private String password;
-
-        @NotBlank
-        @ApiModelProperty(value = "연락처", example = "010-1234-5678", required = true)
-        private String phone;
-
-        @NotBlank
-        @ApiModelProperty(value = "성별", example = "M", required = true)
-        private String gender;
-
-        @NotBlank
-        @ApiModelProperty(value = "동의 여부", example = "Y", required = true)
-        private String isAgreement;
 
         @ApiModelProperty(value = "입사일", example = "2022-02-21")
         private String joinAt;
@@ -61,31 +61,10 @@ public class UserDTO {
 
     @Getter
     @Setter
-    public static class UserUpdateDTO {
+    public static class UserUpdateDTO extends UserDTO {
 
         @Positive
         @ApiModelProperty(value = "번호", example = "1", required = true)
         private long idx;
-
-        @ApiModelProperty(value = "권한", example = "ROLE_ADMIN")
-        private String role;
-
-        @ApiModelProperty(value = "권한 상세", example = "ADMIN")
-        private String roleDetail;
-
-        @ApiModelProperty(value = "활성/비활성 여부", example = "Y")
-        private String status;
-
-        @ApiModelProperty(value = "비밀번호", example = "12345")
-        private String password;
-
-        @ApiModelProperty(value = "연락처", example = "010-1234-5678")
-        private String phone;
-
-        @ApiModelProperty(value = "성별", example = "M")
-        private String gender;
-
-        @ApiModelProperty(value = "동의 여부", example = "Y")
-        private String isAgreement;
     }
 }

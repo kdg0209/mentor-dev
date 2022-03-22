@@ -25,7 +25,7 @@ public class FileService {
      * s3에 업로드하는 메서드
      * @param files : 업로드할 이미지
      * @param targetType : 첨부파일의 타입
-     * @param tables : 관련된 테이블
+     * @param tables : 관련된 테이블 명칭
      * @param fkIdx : 외래키
      */
     public void fileUpload(List<MultipartFile> files, String targetType, String tables, long fkIdx) {
@@ -76,8 +76,8 @@ public class FileService {
 
     /**
      * s3에 업로드된 이미지 삭제 및 데이터 삭제
-     * @param fkIdx
-     * @param tables
+     * @param fkIdx 외래키
+     * @param tables 관련된 테이블 명칭
      */
     public void fileDelete(long fkIdx, String tables) {
         File file = fileMapper.findAllFile(fkIdx, tables);
@@ -90,5 +90,4 @@ public class FileService {
         fileDetailMapper.deleteCommonFileDetailByCommonFile(file.getIdx());
         fileMapper.deleteCommonFile(fkIdx);
     }
-
 }

@@ -5,18 +5,21 @@
 <mapper namespace="com.intw.mentorapi.mapper.BoardConfigMapper">
 
     <select id="isBoardConfigExist" resultType="int">
+        /* NOT_SQL_LOG */
         SELECT COUNT(*)
           FROM Board_config
          WHERE IDX = #{idx)}
     </select>
 
     <select id="isTypeExist" resultType="int">
+        /* NOT_SQL_LOG */
         SELECT COUNT(*)
           FROM Board_config
          WHERE TYPE = #{type}
     </select>
 
     <select id="findAllBoardConfig" resultType="com.intw.mentorapi.dto.boardConfig.BoardConfigListDTO">
+        /* NOT_SQL_LOG */
         SELECT IDX
              , TYPE
              , NAME
@@ -32,6 +35,7 @@
     </select>
 
     <insert id="insertBoardConfig">
+        /* NOT_SQL_LOG */
         INSERT INTO
             Board_config (
                          TYPE
@@ -50,6 +54,7 @@
     </insert>
 
     <select id="findOneBoardConfigByIdx" resultType="com.intw.mentorapi.dto.boardConfig.BoardConfigViewDTO">
+        /* NOT_SQL_LOG */
         SELECT IDX
              , TYPE
              , NAME
@@ -61,6 +66,7 @@
     </select>
 
     <update id="updateBoardConfigByIdx">
+        /* NOT_SQL_LOG */
         UPDATE Board_config
            SET NAME = #{name}
              , ROLE = #{role}
@@ -70,6 +76,7 @@
     </update>
 
     <delete id="deleteBoardConfigByIdx">
+        /* NOT_SQL_LOG */
         DELETE FROM Board_config WHERE IDX = #{idx}
     </delete>
 

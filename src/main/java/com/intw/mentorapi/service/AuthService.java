@@ -3,13 +3,16 @@ package com.intw.mentorapi.service;
 import com.intw.mentorapi.app.AuthController;
 import com.intw.mentorapi.common.HashPassword;
 import com.intw.mentorapi.dao.RefreshToken;
+import com.intw.mentorapi.dao.RoleCode;
 import com.intw.mentorapi.dao.User;
 import com.intw.mentorapi.dto.auth.AuthDTO;
 import com.intw.mentorapi.exception.ErrorCode;
+import com.intw.mentorapi.exception.customException.RoleCodeException;
 import com.intw.mentorapi.exception.customException.UserException;
 import com.intw.mentorapi.exception.customException.AuthenticationException;
 import com.intw.mentorapi.handler.JwtProvider;
 import com.intw.mentorapi.mapper.AuthMapper;
+import com.intw.mentorapi.mapper.RoleCodeMapper;
 import com.intw.mentorapi.response.ApiResponse;
 import com.intw.mentorapi.response.ResponseMap;
 import lombok.RequiredArgsConstructor;
@@ -32,6 +35,7 @@ public class AuthService {
     private final JwtProvider jwtProvider;
     private final AuthenticationManager authenticationManager;
     private final AuthMapper authMapper;
+    private final RoleCodeMapper roleCodeMapper;
     private final ModelMapper modelMapper;
 
     public ApiResponse login(AuthDTO.LoginDTO loginDTO) {
@@ -80,7 +84,11 @@ public class AuthService {
 
         int isEmailCount = authMapper.isEmailExist(joinDTO.getEmail());
         int isPhoneCount = authMapper.isPhoneExist(joinDTO.getPhone());
+        RoleCode isRoleExist = roleCodeMapper.isRoleExist(joinDTO.getCode());
 
+        if (isRoleExist == null) {
+            throw new RoleCodeException(ErrorCode.isRoleNotFoundException);
+        }
         if (isEmailCount > 0) {
             throw new UserException(ErrorCode.isEmailExistException);
         }
@@ -91,6 +99,7 @@ public class AuthService {
 
         joinDTO.setPassword(new HashPassword().hashPassword(joinDTO.getPassword()));
         User user = modelMapper.map(joinDTO, User.class);
+        user.setRoleCodeIdx(isRoleExist.getIdx());
 
         authMapper.insertUser(user);
         return result;

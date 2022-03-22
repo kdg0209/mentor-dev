@@ -4,9 +4,11 @@
 
 <mapper namespace="com.intw.mentorapi.mapper.FileDetailMapper">
     <select id="findAllFileDetail" resultType="FileDetail">
+        /* NOT_SQL_LOG */
         SELECT IDX
              , FILE_PATH
-          FROM Common_File_Detail WHERE COMMON_FILE_IDX = #{fkIdx}
+          FROM Common_File_Detail
+         WHERE COMMON_FILE_IDX = #{fkIdx}
     </select>
 
     <insert id="insertFileDetail" parameterType="java.util.List">
@@ -31,6 +33,7 @@
     </insert>
 
     <delete id="deleteCommonFileDetailByCommonFile">
+        /* NOT_SQL_LOG */
         DELETE FROM Common_File_Detail WHERE COMMON_FILE_IDX = #{fkIdx}
     </delete>
 

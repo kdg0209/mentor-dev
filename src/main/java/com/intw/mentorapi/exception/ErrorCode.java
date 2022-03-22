@@ -11,6 +11,9 @@ public enum ErrorCode {
     ExpiredJwtException(444, "기존 토큰이 만료되었습니다. 새로운 토큰을 발급해주세요.", HttpStatus.UNAUTHORIZED),
     ReLogin(445, "모든 토큰이 만료되었습니다. 다시 로그인해주세요.", HttpStatus.UNAUTHORIZED),
 
+    isRoleNotFoundException(446, "해당 권한은 존재하지 않습니다.", HttpStatus.BAD_REQUEST),
+    isRoleExistException(446, "해당 권한은 이미 존재합니다.", HttpStatus.BAD_REQUEST),
+
     isEmailExistException(446, "해당 이메일이 이미 존재합니다.", HttpStatus.BAD_REQUEST),
     isPhoneExistException(446, "해당 연락처가 이미 존재합니다.", HttpStatus.BAD_REQUEST),
 

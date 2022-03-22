@@ -4,6 +4,7 @@
 
 <mapper namespace="com.intw.mentorapi.mapper.CompanyMapper">
     <select id="isCorporationNumberExist" resultType="int">
+        /* NOT_SQL_LOG */
         SELECT COUNT(*) FROM Company WHERE CORPORATION_NUMBER = #{corporationNumber}
         <if test='idx != null'>
             AND IDX != #{idx}
@@ -11,6 +12,7 @@
     </select>
 
     <select id="isBusinessNumberExist" resultType="int">
+        /* NOT_SQL_LOG */
         SELECT COUNT(*) FROM Company WHERE BUSINESS_NUMBER = #{businessNumber}
         <if test='idx != null'>
             AND IDX != #{idx}
@@ -18,6 +20,7 @@
     </select>
 
     <select id="findAllCompany" resultType="com.intw.mentorapi.dto.company.CompanyListDTO">
+        /* NOT_SQL_LOG */
         SELECT IDX
              , STATUS
              , NAME
@@ -70,6 +73,7 @@
     </insert>
 
     <select id="findOneCompanyByIdx" resultType="com.intw.mentorapi.dto.company.CompanyViewDTO">
+        /* NOT_SQL_LOG */
         SELECT C.IDX
              , C.STATUS AS COMPANY_STATUS
              , C.NAME AS COMPANY_NAME
@@ -88,6 +92,7 @@
     </select>
 
     <update id="updateCompanyByIdx">
+        /* NOT_SQL_LOG */
         UPDATE Company
            SET STATU = #{status}
              , NAME = #{name}
@@ -102,6 +107,7 @@
     </update>
 
     <delete id="deleteCompanyByIdx">
+        /* NOT_SQL_LOG */
         DELETE FROM Company WHERE IDX = #{idx};
     </delete>
 
