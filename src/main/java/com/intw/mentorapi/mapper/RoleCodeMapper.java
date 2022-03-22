@@ -8,8 +8,7 @@ import java.util.List;
 @Mapper
 public interface RoleCodeMapper {
 
-
-    RoleCode isRoleExist(int code);
+    RoleCode isRoleExist(int idx);
 
     List<RoleCode> findAllRoleCode();
     void inserRoleCode(RoleCode roleCode);

@@ -21,7 +21,7 @@ public class UserListDTO {
     private String role;
 
     @ApiModelProperty(value = "권한 상세", example = "ADMIN")
-    private String roleDetail;
+    private int roleCodeIdx;
 
     @ApiModelProperty(value = "활성/비활성 여부", example = "Y")
     private String status;

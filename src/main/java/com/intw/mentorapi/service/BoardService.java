@@ -89,5 +89,4 @@ public class BoardService extends UserProvider {
         boardMapper.deleteBoardByIdx(idx);
         return result;
     }
-
 }

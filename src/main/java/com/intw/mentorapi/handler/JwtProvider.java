@@ -1,5 +1,6 @@
 package com.intw.mentorapi.handler;
 
+import com.intw.mentorapi.dao.User;
 import com.intw.mentorapi.dto.auth.AuthDTO;
 import com.intw.mentorapi.service.CustomUserDetailService;
 import io.jsonwebtoken.*;
@@ -31,12 +32,13 @@ public class JwtProvider {
     // private final long accessExpireTime = 1 * 60 * 1000L;   // 1분
     // private final long refreshExpireTime = 1 * 60 * 2000L;   // 2분
 
-    public String createAccessToken(AuthDTO.LoginDTO loginDTO) {
+    public String createAccessToken(User user) {
         Map<String, Object> headers = new HashMap<>();
         headers.put("type", "token");
 
         Map<String, Object> payloads = new HashMap<>();
-        payloads.put("email", loginDTO.getEmail());
+        payloads.put("email", user.getEmail());
+        payloads.put("roleCode", user.getRoleCode());
 
         Date expiration = new Date();
         expiration.setTime(expiration.getTime() + accessExpireTime);
@@ -53,12 +55,13 @@ public class JwtProvider {
         return jwt;
     }
 
-    public Map<String, String> createRefreshToken(AuthDTO.LoginDTO loginDTO) {
+    public Map<String, String> createRefreshToken(User user) {
         Map<String, Object> headers = new HashMap<>();
         headers.put("type", "token");
 
         Map<String, Object> payloads = new HashMap<>();
-        payloads.put("email", loginDTO.getEmail());
+        payloads.put("email", user.getEmail());
+        payloads.put("roleCode", user.getRoleCode());
 
         Date expiration = new Date();
         expiration.setTime(expiration.getTime() + refreshExpireTime);

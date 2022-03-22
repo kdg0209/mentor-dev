@@ -21,6 +21,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletRequest;
@@ -42,11 +44,11 @@ public class AuthService {
         ResponseMap result = new ResponseMap();
 
         try {
-            authenticationManager.authenticate(
+            User user = (User)authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(loginDTO.getEmail(), loginDTO.getPassword())
-            );
+            ).getPrincipal();
 
-            Map createToken = createTokenReturn(loginDTO);
+            Map createToken = createTokenReturn(user);
             result.setResponseData("accessToken", createToken.get("accessToken"));
             result.setResponseData("refreshIdx", createToken.get("refreshIdx"));
         } catch (Exception e) {
@@ -63,11 +65,9 @@ public class AuthService {
 
         // AccessToken은 만료되었지만 RefreshToken은 만료되지 않은 경우
         if(jwtProvider.validateJwtToken(request, refreshToken)){
-            String email = jwtProvider.getUserInfo(refreshToken);
-            AuthDTO.LoginDTO loginDTO = new AuthDTO.LoginDTO();
-            loginDTO.setEmail(email);
+            User user = (User) jwtProvider.getAuthentication(refreshToken).getPrincipal();
 
-            Map createToken = createTokenReturn(loginDTO);
+            Map createToken = createTokenReturn(user);
             result.setResponseData("accessToken", createToken.get("accessToken"));
             result.setResponseData("refreshIdx", createToken.get("refreshIdx"));
         }else{
@@ -84,7 +84,7 @@ public class AuthService {
 
         int isEmailCount = authMapper.isEmailExist(joinDTO.getEmail());
         int isPhoneCount = authMapper.isPhoneExist(joinDTO.getPhone());
-        RoleCode isRoleExist = roleCodeMapper.isRoleExist(joinDTO.getCode());
+        RoleCode isRoleExist = roleCodeMapper.isRoleExist(joinDTO.getRoleCodeIdx());
 
         if (isRoleExist == null) {
             throw new RoleCodeException(ErrorCode.isRoleNotFoundException);
@@ -99,22 +99,25 @@ public class AuthService {
 
         joinDTO.setPassword(new HashPassword().hashPassword(joinDTO.getPassword()));
         User user = modelMapper.map(joinDTO, User.class);
-        user.setRoleCodeIdx(isRoleExist.getIdx());
-
         authMapper.insertUser(user);
         return result;
     }
 
-    // 토큰을 생성해서 반환
-    private Map<String, String> createTokenReturn(AuthDTO.LoginDTO loginDTO) {
+    /**
+     *
+     * @param user
+     * @return accessToken 새로운 토큰
+     * @return refreshIdx DB의 새로운 토큰 IDX
+     */
+    private Map<String, String> createTokenReturn(User user) {
         Map result = new HashMap();
 
-        String accessToken = jwtProvider.createAccessToken(loginDTO);
-        String refreshToken = jwtProvider.createRefreshToken(loginDTO).get("refreshToken");
-        String refreshTokenExpirationAt = jwtProvider.createRefreshToken(loginDTO).get("refreshTokenExpirationAt");
+        String accessToken = jwtProvider.createAccessToken(user);
+        String refreshToken = jwtProvider.createRefreshToken(user).get("refreshToken");
+        String refreshTokenExpirationAt = jwtProvider.createRefreshToken(user).get("refreshTokenExpirationAt");
 
         RefreshToken insertRefreshToken = new RefreshToken();
-        insertRefreshToken.setUserEmail(loginDTO.getEmail());
+        insertRefreshToken.setUserEmail(user.getEmail());
         insertRefreshToken.setAccessToken(accessToken);
         insertRefreshToken.setRefreshToken(refreshToken);
         insertRefreshToken.setRefreshTokenExpirationAt(refreshTokenExpirationAt);

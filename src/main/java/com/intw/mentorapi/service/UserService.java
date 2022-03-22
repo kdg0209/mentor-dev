@@ -39,7 +39,7 @@ public class UserService {
 
         int isEmailCount = userMapper.isEmailExist(userDTO.getEmail());
         int isPhoneCount = userMapper.isPhoneExist(userDTO.getPhone(), null);
-        RoleCode isRoleExist = roleCodeMapper.isRoleExist(userDTO.getCode());
+        RoleCode isRoleExist = roleCodeMapper.isRoleExist(userDTO.getRoleCodeIdx());
 
         if (isRoleExist == null) {
             throw new RoleCodeException(ErrorCode.isRoleNotFoundException);
@@ -55,7 +55,6 @@ public class UserService {
 
         userDTO.setPassword(new HashPassword().hashPassword(userDTO.getPassword()));
         User user = modelMapper.map(userDTO, User.class);
-        user.setRoleCodeIdx(isRoleExist.getIdx());
         userMapper.insertUser(user);
 
         CompanyDTO.CompanyInsertDTO companyDTO = userDTO.getCompanyDTO();
@@ -75,7 +74,7 @@ public class UserService {
         ResponseMap result = new ResponseMap();
 
         int isPhoneCount = userMapper.isPhoneExist(userDTO.getPhone(), userDTO.getIdx());
-        RoleCode isRoleExist = roleCodeMapper.isRoleExist(userDTO.getCode());
+        RoleCode isRoleExist = roleCodeMapper.isRoleExist(userDTO.getRoleCodeIdx());
 
         if (isRoleExist == null) {
             throw new RoleCodeException(ErrorCode.isRoleNotFoundException);
@@ -90,7 +89,6 @@ public class UserService {
         }
 
         User user = modelMapper.map(userDTO, User.class);
-        user.setRoleCodeIdx(isRoleExist.getIdx());
         userMapper.updateUserByIdx(user);
         return result;
     }

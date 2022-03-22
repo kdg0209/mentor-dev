@@ -57,7 +57,7 @@ public class AuthDTO {
 
         @Positive
         @ApiModelProperty(value = "권한  상세 코드", example = "100", required = true)
-        private int code;
+        private int roleCodeIdx;
 
         @NotBlank
         @ApiModelProperty(value = "회원 활성/비활성 여부", example = "Y", required = true)

@@ -10,7 +10,7 @@
              , NAME
              , CODE
           FROM Role_Code
-         WHERE CODE = #{code}
+         WHERE IDX = #{idx}
     </select>
 
     <select id="findAllRoleCode" resultType="RoleCode">

@@ -20,8 +20,8 @@ public class UserViewDTO {
     @ApiModelProperty(value = "권한", example = "ADMIN_ROLE")
     private String role;
 
-    @ApiModelProperty(value = "권한 상세", example = "ADMIN")
-    private String roleDetail;
+    @ApiModelProperty(value = "권한 상세", example = "1")
+    private int roleCodeIdx;
 
     @ApiModelProperty(value = "활성/비활성 여부", example = "Y")
     private String status;
