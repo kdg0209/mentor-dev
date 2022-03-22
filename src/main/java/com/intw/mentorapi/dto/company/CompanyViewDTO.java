@@ -29,6 +29,36 @@ public class CompanyViewDTO {
     @ApiModelProperty(value = "기업 주소", example = "서울특별시")
     private String companyAddress;
 
+    @ApiModelProperty(value = "법인 번호", example = "1234-5689-456")
+    private String companyCorporationNumber;
+
+    @ApiModelProperty(value = "사업자 번호", example = "7894-5612-1234")
+    private String companyBusinessNumber;
+
+    @ApiModelProperty(value = "담당자 이름", example = "홍길동")
+    private String companyManagerName;
+
+    @ApiModelProperty(value = "담당자 이메일", example = "admin@admin.co.kr")
+    private String companyManagerEmail;
+
+    @ApiModelProperty(value = "담당자 연락처", example = "010-1234-5678")
+    private String companyManagerPhone;
+
+    @ApiModelProperty(value = "총 결제 시간", example = "1")
+    private float companyTotalTime;
+
+    @ApiModelProperty(value = "총 이용 시간", example = "1")
+    private float companyTotalUsedTime;
+
+    @ApiModelProperty(value = "잔여할당 시간", example = "1")
+    private float companyAvailableTime;
+
+    @ApiModelProperty(value = "서비스 시작일", example = "2022-01-01")
+    private String companyServiceStartAt;
+
+    @ApiModelProperty(value = "서비스 종료일", example = "2022-01-01")
+    private String companyServiceEndAt;
+
     @ApiModelProperty(value = "설립일", example = "2022-02-22")
     private String companyCreateAt;
 

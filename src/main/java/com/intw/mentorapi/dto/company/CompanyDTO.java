@@ -24,6 +24,10 @@ public class CompanyDTO {
     private String tel;
 
     @NotBlank
+    @ApiModelProperty(value = "기업 대표 이메일", example = "admin@admin.co.kr", required = true)
+    private String email;
+
+    @NotBlank
     @ApiModelProperty(value = "기업 주소", example = "서울특별시", required = true)
     private String address;
 
@@ -48,6 +52,18 @@ public class CompanyDTO {
     private String businessNumber;
 
     @NotBlank
+    @ApiModelProperty(value = "담당자 이름", example = "홍길동", required = true)
+    private String managerName;
+
+    @NotBlank
+    @ApiModelProperty(value = "담당자 이메일", example = "admin@admin.co.kr", required = true)
+    private String managerEmail;
+
+    @NotBlank
+    @ApiModelProperty(value = "담당자 연락처", example = "010-1234-5678", required = true)
+    private String managerPhone;
+
+    @NotBlank
     @ApiModelProperty(value = "설립일", example = "2022-02-22", required = true)
     private String createAt;
 
@@ -66,5 +82,22 @@ public class CompanyDTO {
         @Positive
         @ApiModelProperty(value = "번호", example = "1", required = true)
         private long idx;
+
+        @ApiModelProperty(value = "총 결제 시간", example = "1")
+        private float totalTime;
+
+        @ApiModelProperty(value = "총 이용 시간", example = "1")
+        private float totalUsedTime;
+
+        @ApiModelProperty(value = "잔여할당 시간", example = "1")
+        private float availableTime;
+
+        @NotBlank
+        @ApiModelProperty(value = "서비스 시작일", example = "2022-01-01", required = true)
+        private String serviceStartAt;
+
+        @NotBlank
+        @ApiModelProperty(value = "서비스 종료일", example = "2022-01-01", required = true)
+        private String serviceEndAt;
     }
 }

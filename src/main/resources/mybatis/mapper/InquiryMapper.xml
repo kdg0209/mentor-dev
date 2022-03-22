@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.intw.mentorapi.mapper.InquiryMapper">
+
+    <select id="isInquiryExist" resultType="int">
+        /* NOT_SQL_LOG */
+        SELECT COUNT(*) FROM Inquiry WHERE IDX = #{idx}
+    </select>
+
+    <select id="findAllInquiry" resultType="com.intw.mentorapi.dto.inquiry.InquiryListDTO">
+        /* NOT_SQL_LOG */
+        SELECT I.IDX
+             , I.STATUS
+             , I.MEMO
+             , I.WRITE_AT
+             , C.NAME AS COMPANY_NAME
+             , U.NAME AS USER_NAME
+          FROM Inquiry I
+          LEFT JOIN Company AS C ON C.IDX = I.COMPANY_IDX
+          LEFT JOIN User AS U ON U.IDX = I.USER_IDX
+               <if test='pageDTO.keyword != null'>
+                   WHERE C.NAME LIKE CONCAT('%', #{pageDTO.keyword}, '%')
+                   OR U.NAME LIKE CONCAT('%', #{pageDTO.keyword}, '%')
+                   OR I.MEMO LIKE CONCAT('%', #{pageDTO.keyword}, '%')
+               </if>
+         ORDER BY I.IDX DESC
+         LIMIT #{pageDTO.pageIndex}, #{pageDTO.pageSize}
+    </select>
+
+    <insert id="insertInquiry">
+        INSERT INTO
+            Inquiry (
+                    STATUS
+                  , MEMO
+                  , USER_IDX
+                  , COMPANY_IDX
+                  , WRITE_IP
+                  , WRITE_AT
+        )
+        VALUES (
+               #{status}
+             , #{memo}
+             , #{userIdx}
+             , #{companyIdx}
+             , #{writeIp}
+             , NOW()
+               )
+    </insert>
+
+    <select id="findOneInquiryByIdx" resultType="com.intw.mentorapi.dto.inquiry.InquiryViewDTO">
+        /* NOT_SQL_LOG */
+        SELECT I.IDX
+             , I.STATUS
+             , I.MEMO
+             , I.WRITE_AT
+             , C.NAME AS COMPANY_NAME
+             , U.NAME AS USER_NAME
+          FROM Inquiry I
+          LEFT JOIN Company AS C ON C.IDX = I.COMPANY_IDX
+          LEFT JOIN User AS U ON U.IDX = I.USER_IDX
+        WHERE I.IDX = #{idx}
+    </select>
+
+    <update id="updateStatusByInquiryReply">
+        /* NOT_SQL_LOG */
+        UPDATE Inquiry
+           SET STATUS = "Y"
+         WHERE IDX = #{idx};
+    </update>
+
+    <delete id="deleteInquiryByIdx">
+        /* NOT_SQL_LOG */
+        DELETE FROM Inquiry WHERE IDX = #{idx};
+    </delete>
+
+    <select id="findAllInquiryByCompany" resultType="com.intw.mentorapi.dto.inquiry.InquiryListDTO">
+        /* NOT_SQL_LOG */
+        SELECT I.IDX
+             , I.STATUS
+             , I.MEMO
+             , I.WRITE_AT
+             , C.NAME AS COMPANY_NAME
+             , U.NAME AS USER_NAME
+          FROM Inquiry I
+          LEFT JOIN Company AS C ON C.IDX = I.COMPANY_IDX
+          LEFT JOIN User AS U ON U.IDX = I.USER_IDX
+         WHERE C.IDX = #{idx}
+               <if test='pageDTO.keyword != null'>
+                   AND C.NAME LIKE CONCAT('%', #{pageDTO.keyword}, '%')
+                   OR U.NAME LIKE CONCAT('%', #{pageDTO.keyword}, '%')
+                   OR I.MEMO LIKE CONCAT('%', #{pageDTO.keyword}, '%')
+               </if>
+         ORDER BY I.IDX DESC
+         LIMIT #{pageDTO.pageIndex}, #{pageDTO.pageSize}
+    </select>
+</mapper>

@@ -14,6 +14,8 @@ import java.util.Collection;
 public class User implements UserDetails {
 
     private long idx;
+    private int roleCode;
+    private long companyIdx;
     private String email;
     private String password;
     private String name;
@@ -23,7 +25,6 @@ public class User implements UserDetails {
     private String phone;
     private String gender;
     private String isAgreement;
-    private int roleCode;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

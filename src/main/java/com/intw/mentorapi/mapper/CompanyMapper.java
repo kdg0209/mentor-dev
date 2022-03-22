@@ -12,6 +12,7 @@ import java.util.List;
 @Mapper
 public interface CompanyMapper {
 
+    int isCompanyExist(long idx);
     int isCorporationNumberExist(String corporationNumber, Long idx);
     int isBusinessNumberExist(String businessNumber, Long idx);
 

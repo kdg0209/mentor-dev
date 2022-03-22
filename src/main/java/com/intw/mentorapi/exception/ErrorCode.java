@@ -17,6 +17,7 @@ public enum ErrorCode {
     isEmailExistException(446, "해당 이메일이 이미 존재합니다.", HttpStatus.BAD_REQUEST),
     isPhoneExistException(446, "해당 연락처가 이미 존재합니다.", HttpStatus.BAD_REQUEST),
 
+    isCompanyNotFoundException(600, "해당 기업은 존재하지 않습니다.", HttpStatus.BAD_REQUEST),
     isCorporationNumberExistException(600, "해당 법인번호는 이미 존재합니다.", HttpStatus.BAD_REQUEST),
     isBusinessNumberExistException(601, "해당 사업자번호는 이미 존재합니다.", HttpStatus.BAD_REQUEST),
 
@@ -28,6 +29,9 @@ public enum ErrorCode {
 
     FileUploadFailException(701, "파일 업로드에 실패했습니다.", HttpStatus.BAD_REQUEST),
     InvalidFileExtensionException(701, "잘못된 형식의 파일 확장자입니다.", HttpStatus.BAD_REQUEST),
+
+
+    isInquiryNotFoundException(701, "등록되어 있지 않은 문의 입니다.", HttpStatus.BAD_REQUEST),
 
     ;
 

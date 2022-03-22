@@ -46,6 +46,22 @@ public class SwaggerConfig {
     }
 
     @Bean
+    public Docket ManagerApi(){
+        title = "Manager Service";
+        description = "기업 관리자 API";
+
+        return new Docket(DocumentationType.SWAGGER_2)
+                .groupName("Manager")
+                .select()
+                .apis(RequestHandlerSelectors.basePackage("com.intw.mentorapi.manager"))
+                .paths(PathSelectors.ant("/manager/**"))
+                .build()
+                .securityContexts(Arrays.asList(adminSecurityContext()))
+                .securitySchemes(Arrays.asList(apiKey()))
+                .apiInfo(apiInfo(title, description));
+    }
+
+    @Bean
     public Docket AdminApi(){
         title = "Admin Service";
         description = "관리자 API";

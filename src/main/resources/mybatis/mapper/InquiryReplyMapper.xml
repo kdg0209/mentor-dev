@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.intw.mentorapi.mapper.InquiryReplyMapper">
+
+    <insert id="insertInquiryReply">
+        INSERT INTO
+               Inquiry_Reply (
+               USER_IDX
+             , INQUIRY_IDX
+             , REPLY
+             , WRITE_IP
+             , WRITE_AT
+        )
+        VALUES (
+               #{userIdx}
+             , #{inquiryIdx}
+             , #{reply}
+             , #{writeIp}
+             , NOW()
+               )
+    </insert>
+
+
+    <update id="updateInquiryReply">
+        /* NOT_SQL_LOG */
+        UPDATE Inquiry_Reply
+           SET REPLY = #{reply}
+             , USER_IDX = #{userIdx}
+         WHERE IDX = #{idx};
+    </update>
+
+    <delete id="deleteInquiryReplyByIdx">
+        /* NOT_SQL_LOG */
+        DELETE FROM Inquiry_Reply WHERE IDX = #{idx};
+    </delete>
+
+</mapper>

@@ -19,6 +19,11 @@
         </if>
     </select>
 
+    <select id="isCompanyExist" resultType="int">
+        /* NOT_SQL_LOG */
+        SELECT COUNT(*) FROM Company WHERE IDX = #{idx}
+    </select>
+
     <select id="findAllCompany" resultType="com.intw.mentorapi.dto.company.CompanyListDTO">
         /* NOT_SQL_LOG */
         SELECT IDX
@@ -28,6 +33,16 @@
              , CATEGORY
              , EMPLOYEE_COUNT
              , ADDRESS
+             , CORPORATION_NUMBER
+             , BUSINESS_NUMBER
+             , MANAGER_NAME
+             , MANAGER_EMAIL
+             , MANAGER_PHONE
+             , TOTAL_TIME
+             , TOTAL_USED_TIME
+             , AVAILABLE_TIME
+             , SERVICE_START_AT
+             , SERVICE_END_AT
              , CREATE_AT
           FROM Company
                <if test='pageDTO.keyword != null'>
@@ -47,12 +62,16 @@
              , STATUS
              , NAME
              , TEL
+             , EMAIL
              , ADDRESS
              , CATEGORY
              , CEO
              , EMPLOYEE_COUNT
              , CORPORATION_NUMBER
              , BUSINESS_NUMBER
+             , MANAGER_NAME
+             , MANAGER_EMAIL
+             , MANAGER_PHONE
              , CREATE_AT
              , WRITE_AT
         )
@@ -61,12 +80,16 @@
              , #{status}
              , #{name}
              , #{tel}
+             , #{email}
              , #{address}
              , #{category}
              , #{ceo}
              , #{employeeCount}
              , #{corporationNumber}
              , #{businessNumber}
+             , #{managerName}
+             , #{managerEmail}
+             , #{managerPhone}
              , #{createAt}
              , NOW()
        )
@@ -81,6 +104,16 @@
              , C.CATEGORY AS COMPANY_CATEGORY
              , C.EMPLOYEE_COUNT AS COMPANY_EMPLOYEE_COUNT
              , C.ADDRESS AS COMPANY_ADDRESS
+             , C.CORPORATION_NUMBER AS COMPANY_CORPORATION_NUMBER
+             , C.BUSINESS_NUMBER AS COMPANY_BUSINESS_NUMBER
+             , C.MANAGER_NAME AS COMPANY_MANAGER_NAME
+             , C.MANAGER_EMAIL AS COMPANY_MANAGER_EMAIL
+             , C.MANAGER_PHONE AS COMPANY_MANAGER_PHONE
+             , C.TOTAL_TIME AS COMPANY_TOTAL_TIME
+             , C.TOTAL_USED_TIME AS COMPANY_TOTAL_USED_TIME
+             , C.AVAILABLE_TIME AS COMPANY_AVAILABLE_TIME
+             , C.SERVICE_START_AT AS COMPANY_SERVICE_START_AT
+             , C.SERVICE_END_AT AS COMPANY_SERVICE_END_AT
              , C.CREATE_AT AS COMPANY_CREATE_AT
              , U.NAME AS USER_NAME
              , U.EMAIL AS USER_EMAIL
@@ -94,14 +127,20 @@
     <update id="updateCompanyByIdx">
         /* NOT_SQL_LOG */
         UPDATE Company
-           SET STATU = #{status}
+           SET STATUS = #{status}
              , NAME = #{name}
              , TEL = #{tel}
+             , EMAIL = #{email}
              , ADDRESS = #{address}
              , CATEGORY = #{category}
              , EMPLOYEE_COUNT = #{employeeCount}
              , CORPORATION_NUMBER = #{corporationNumber}
              , BUSINESS_NUMBER = #{businessNumber}
+             , TOTAL_TIME = #{totalTime}
+             , TOTAL_USED_TIME = #{totalUsedTime}
+             , AVAILABLE_TIME = #{availableTime}
+             , SERVICE_START_AT = #{serviceStartAt}
+             , SERVICE_END_AT = #{serviceEndAt}
              , UPDATE_AT = NOW()
          WHERE IDX = #{idx};
     </update>

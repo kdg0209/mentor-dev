@@ -11,8 +11,10 @@
              , U.ROLE
              , U.ROLE_CODE_IDX
              , RC.CODE AS ROLE_CODE
+             , C.IDX AS COMPANY_IDX
           FROM User U
           LEFT JOIN Role_Code RC ON RC.IDX = U.ROLE_CODE_IDX
+          LEFT JOIN Company C ON C.USER_IDX = U.IDX
          WHERE U.EMAIL = #{email}
     </select>
 
