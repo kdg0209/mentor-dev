@@ -29,7 +29,7 @@ public class BoardService extends UserProvider {
 
     public ApiResponse lists(PageDTO pageDTO) {
         ResponseMap result = new ResponseMap();
-        result.setResponseData("boardList", boardMapper.findAllBoard(pageDTO));
+        result.setResponseData("boardList", boardMapper.findAllBoard(pageDTO, getUser().getRole()));
         return result;
     }
 
@@ -57,7 +57,7 @@ public class BoardService extends UserProvider {
     public ApiResponse view(long idx) {
         ResponseMap result = new ResponseMap();
         boardMapper.updateBoardViewCount(idx);
-        result.setResponseData("board", boardMapper.findOneBoard(idx));
+        result.setResponseData("board", boardMapper.findOneBoard(idx, getUser().getRole()));
         result.setResponseData("boardFiles", boardMapper.findAllFilesByBoard(idx));
         return result;
     }

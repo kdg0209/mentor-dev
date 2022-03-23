@@ -15,4 +15,5 @@ public interface InquiryReplyMapper {
     void insertInquiryReply(InquiryReply inquiryReply);
     void updateInquiryReply(@Param("inquiryReply") InquiryReply inquiryReply, String role);
     void deleteInquiryReply(long idx, String role, long companyIdx);
+    void deleteAllInquiryReplyByInquiry(long inquiryIdx, String role, long companyIdx);
 }

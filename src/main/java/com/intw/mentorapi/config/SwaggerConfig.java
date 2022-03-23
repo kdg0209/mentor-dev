@@ -40,7 +40,7 @@ public class SwaggerConfig {
                 .apis(RequestHandlerSelectors.basePackage("com.intw.mentorapi.app"))
                 .paths(PathSelectors.ant("/app/**"))
                 .build()
-                .securityContexts(AppSecurityContext())
+                .securityContexts(Arrays.asList(adminSecurityContext()))
                 .securitySchemes(Arrays.asList(apiKey()))
                 .apiInfo(apiInfo(title, description));
     }
@@ -91,20 +91,24 @@ public class SwaggerConfig {
                 .build();
     }
 
-    private List<SecurityContext> AppSecurityContext() {
-        String paths[] = {
-                "/app/board/write",
-        };
+    private SecurityContext AppSecurityContext() {
+        return SecurityContext.builder()
+                .securityReferences(defaultAuth())
+                .build();
 
-        List<SecurityContext> securityContexts = new ArrayList<>();
-
-        for (String path: paths) {
-            securityContexts.add(SecurityContext.builder()
-                    .securityReferences(defaultAuth())
-                    .forPaths(PathSelectors.regex(path))
-                    .build());
-        }
-        return securityContexts;
+//        String paths[] = {
+//                "/app/comment/write",
+//        };
+//
+//        List<SecurityContext> securityContexts = new ArrayList<>();
+//
+//        for (String path: paths) {
+//            securityContexts.add(SecurityContext.builder()
+//                    .securityReferences(defaultAuth())
+//                    .forPaths(PathSelectors.regex(path))
+//                    .build());
+//        }
+//        return securityContexts;
     }
 
     private List<SecurityReference> defaultAuth() {

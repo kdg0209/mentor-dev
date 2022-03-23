@@ -45,6 +45,7 @@ public class InquiryService extends UserProvider {
     public ApiResponse delete(long idx) {
         ResponseMap result = new ResponseMap();
         inquiryMapper.deleteInquiry(idx, getUser().getRole(), getUser().getCompanyIdx());
+        inquiryReplyMapper.deleteAllInquiryReplyByInquiry(idx, getUser().getRole(), getUser().getCompanyIdx());
         return result;
     }
 

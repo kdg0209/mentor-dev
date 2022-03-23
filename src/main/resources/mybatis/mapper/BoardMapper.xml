@@ -4,6 +4,12 @@
 
 <mapper namespace="com.intw.mentorapi.mapper.BoardMapper">
 
+    <select id="isBoardExist" resultType="int">
+        /* NOT_SQL_LOG */
+        SELECT COUNT(*) FROM Board
+         WHERE IDX = #{idx}
+    </select>
+
     <select id="findAllBoard" resultType="com.intw.mentorapi.dto.board.BoardListDTO">
         /* NOT_SQL_LOG */
         SELECT B.IDX
@@ -14,10 +20,14 @@
              , U.EMAIL
           FROM Board B
           LEFT JOIN User U ON U.IDX = B.USER_IDX
+         WHERE 1 = 1
                <if test='pageDTO.keyword != null'>
-                WHERE U.NAME LIKE CONCAT('%',#{pageDTO.keyword},'%')
+                  AND U.NAME LIKE CONCAT('%',#{pageDTO.keyword},'%')
                    OR U.EMAIL LIKE CONCAT('%',#{pageDTO.keyword},'%')
                    OR B.TITLE LIKE CONCAT('%',#{pageDTO.keyword},'%')
+               </if>
+               <if test='!role.equals("ROLE_ADMIN")'>
+                   AND B.STATUS = "Y"
                </if>
          ORDER BY B.IDX DESC
          LIMIT #{pageDTO.pageIndex}, #{pageDTO.pageSize}
@@ -57,6 +67,9 @@
           FROM Board B
           LEFT JOIN User U ON U.IDX = B.USER_IDX
          WHERE B.IDX = #{idx}
+               <if test='!role.equals("ROLE_ADMIN")'>
+                   AND B.STATUS = "Y"
+               </if>
     </select>
 
     <select id="findAllFilesByBoard" resultType="com.intw.mentorapi.dto.file.FileListDTO">
@@ -89,7 +102,6 @@
            SET VIEW_COUNT = VIEW_COUNT + 1
          WHERE IDX = #{idx}
     </update>
-
 
     <delete id="deleteBoard">
         /* NOT_SQL_LOG */
