@@ -17,8 +17,8 @@ public interface CompanyMapper {
     int isBusinessNumberExist(String businessNumber, Long idx);
 
     List<CompanyListDTO> findAllCompany(@Param("pageDTO") PageDTO pageDTO);
+    CompanyViewDTO findOneCompany(long idx);
     void insertCompany(Company company);
-    CompanyViewDTO findOneCompanyByIdx(long idx);
-    void updateCompanyByIdx(Company company);
-    void deleteCompanyByIdx(long idx);
+    void updateCompany(Company company);
+    void deleteCompany(long idx);
 }

@@ -53,7 +53,7 @@
                )
     </insert>
 
-    <select id="findOneBoardConfigByIdx" resultType="com.intw.mentorapi.dto.boardConfig.BoardConfigViewDTO">
+    <select id="findOneBoardConfig" resultType="com.intw.mentorapi.dto.boardConfig.BoardConfigViewDTO">
         /* NOT_SQL_LOG */
         SELECT IDX
              , TYPE
@@ -65,7 +65,7 @@
          WHERE IDX = #{idx}
     </select>
 
-    <update id="updateBoardConfigByIdx">
+    <update id="updateBoardConfig">
         /* NOT_SQL_LOG */
         UPDATE Board_config
            SET NAME = #{name}
@@ -75,7 +75,7 @@
         WHERE IDX = #{idx};
     </update>
 
-    <delete id="deleteBoardConfigByIdx">
+    <delete id="deleteBoardConfig">
         /* NOT_SQL_LOG */
         DELETE FROM Board_config WHERE IDX = #{idx}
     </delete>

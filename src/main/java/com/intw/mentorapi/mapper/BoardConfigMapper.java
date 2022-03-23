@@ -17,7 +17,7 @@ public interface BoardConfigMapper {
 
     List<BoardConfigListDTO> findAllBoardConfig(@Param("pageDTO") PageDTO pageDTO);
     void insertBoardConfig(BoardConfig boardConfig);
-    BoardConfigViewDTO findOneBoardConfigByIdx(long idx);
-    void updateBoardConfigByIdx(BoardConfig boardConfig);
-    void deleteBoardConfigByIdx(long idx);
+    BoardConfigViewDTO findOneBoardConfig(long idx);
+    void updateBoardConfig(BoardConfig boardConfig);
+    void deleteBoardConfig(long idx);
 }

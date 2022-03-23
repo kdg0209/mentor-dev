@@ -48,7 +48,7 @@ public class CompanyService {
 
     public ApiResponse view(long idx) {
         ResponseMap result = new ResponseMap();
-        result.setResponseData("company", companyMapper.findOneCompanyByIdx(idx));
+        result.setResponseData("company", companyMapper.findOneCompany(idx));
         return result;
     }
 
@@ -67,13 +67,13 @@ public class CompanyService {
         }
 
         Company company = modelMapper.map(companyUpdateDTO, Company.class);
-        companyMapper.updateCompanyByIdx(company);
+        companyMapper.updateCompany(company);
         return result;
     }
 
     public ApiResponse delete(long idx) {
         ResponseMap result = new ResponseMap();
-        companyMapper.deleteCompanyByIdx(idx);
+        companyMapper.deleteCompany(idx);
         return result;
     }
 }

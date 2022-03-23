@@ -17,8 +17,8 @@ public interface BoardCategoryConfigMapper {
 
     List<BoardCategoryConfigListDTO> findAllCategoryConfig(@Param("pageDTO") PageDTO pageDTO);
     void insertBoardCategoryConfig(BoardCategoryConfig boardCategoryConfig);
-    BoardCategoryConfigViewDTO findOneBoardCategoryConfigByIdx(long idx);
-    void updateBoardCategoryConfigByIdx(BoardCategoryConfig boardCategoryConfig);
-    void deleteBoardCategoryConfigByIdx(long idx);
+    BoardCategoryConfigViewDTO findOneBoardCategoryConfig(long idx);
+    void updateBoardCategoryConfig(BoardCategoryConfig boardCategoryConfig);
+    void deleteBoardCategoryConfig(long idx);
 
 }

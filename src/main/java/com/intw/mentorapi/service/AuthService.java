@@ -61,7 +61,7 @@ public class AuthService {
 
     public ApiResponse newAccessToken(AuthDTO.GetNewAccessTokenDTO getNewAccessTokenDTO, HttpServletRequest request){
         ResponseMap result = new ResponseMap();
-        String refreshToken = authMapper.findRefreshTokenByIdx(getNewAccessTokenDTO.getRefreshIdx());
+        String refreshToken = authMapper.findOneRefreshToken(getNewAccessTokenDTO.getRefreshIdx());
 
         // AccessToken은 만료되었지만 RefreshToken은 만료되지 않은 경우
         if(jwtProvider.validateJwtToken(request, refreshToken)){

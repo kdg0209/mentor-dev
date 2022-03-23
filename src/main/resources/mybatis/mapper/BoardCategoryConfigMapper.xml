@@ -44,7 +44,7 @@
                )
     </insert>
 
-    <select id="findOneBoardCategoryConfigByIdx" resultType="com.intw.mentorapi.dto.boardCategoryConfig.BoardCategoryConfigViewDTO">
+    <select id="findOneBoardCategoryConfig" resultType="com.intw.mentorapi.dto.boardCategoryConfig.BoardCategoryConfigViewDTO">
         /* NOT_SQL_LOG */
         SELECT IDX
              , NAME
@@ -54,7 +54,7 @@
          WHERE IDX = #{idx}
     </select>
 
-    <update id="updateBoardCategoryConfigByIdx">
+    <update id="updateBoardCategoryConfig">
         /* NOT_SQL_LOG */
         UPDATE Board_Category_Config
            SET NAME = #{name}
@@ -62,7 +62,7 @@
          WHERE IDX = #{idx};
     </update>
 
-    <delete id="deleteBoardCategoryConfigByIdx">
+    <delete id="deleteBoardCategoryConfig">
         /* NOT_SQL_LOG */
         DELETE FROM Board_Category_Config WHERE IDX = #{idx}
     </delete>

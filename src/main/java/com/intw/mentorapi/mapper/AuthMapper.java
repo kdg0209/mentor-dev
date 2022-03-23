@@ -7,10 +7,11 @@ import org.mapstruct.Mapper;
 @Mapper
 public interface AuthMapper {
 
-    User findByEmail(String email);
     int isEmailExist(String email);
     int isPhoneExist(String phone);
+
+    User findOneUserEmail(String email);
     void insertUser(User user);
-    String findRefreshTokenByIdx(long idx);
+    String findOneRefreshToken(long idx);
     void insertOrUpdateRefreshToken(RefreshToken refreshToken);
 }

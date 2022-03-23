@@ -11,18 +11,6 @@ import javax.validation.constraints.Positive;
 @Getter
 public class InquiryDTO {
 
-    @Positive
-    @ApiModelProperty(value = "회원 코드", example = "1", required = true)
-    private long userIdx;
-
-    @Positive
-    @ApiModelProperty(value = "기업 코드", example = "1", required = true)
-    private long companyIdx;
-
-    @NotBlank
-    @ApiModelProperty(value = "답변 여부", example = "N", required = true)
-    private String status;
-
     @NotBlank
     @ApiModelProperty(value = "문의 사항", example = "문의 사항", required = true)
     private String memo;
@@ -37,5 +25,8 @@ public class InquiryDTO {
     @Getter
     public static class InquiryUpdateDTO extends InquiryDTO {
 
+        @Positive
+        @ApiModelProperty(value = "번호", example = "1", required = true)
+        private long idx;
     }
 }

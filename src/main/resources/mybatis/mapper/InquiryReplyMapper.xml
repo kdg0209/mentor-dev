@@ -4,6 +4,27 @@
 
 <mapper namespace="com.intw.mentorapi.mapper.InquiryReplyMapper">
 
+    <select id="isCompanyExist" resultType="Integer">
+        SELECT I.COMPANY_IDX
+          FROM Inquiry_Reply AS IR
+          LEFT JOIN Inquiry AS I ON I.IDX = IR.INQUIRY_IDX
+         WHERE IR.IDX = #{idx}
+    </select>
+
+    <select id="findAllInquiryReply" resultType="com.intw.mentorapi.dto.inquiryReply.InquiryReplyListDTO">
+        SELECT IR.IDX
+             , U.NAME AS USER_NAME
+             , IR.REPLY
+             , IR.WRITE_AT
+          FROM Inquiry_Reply AS IR
+          LEFT JOIN Inquiry AS I ON I.IDX = IR.INQUIRY_IDX
+          LEFT JOIN User AS U ON U.IDX = IR.USER_IDX
+          LEFT JOIN Company AS C ON C.IDX = I.COMPANY_IDX
+         WHERE I.IDX = #{inquiryIdx}
+           AND C.IDX = #{companyIdx}
+         ORDER BY IR.WRITE_AT ASC
+    </select>
+
     <insert id="insertInquiryReply">
         INSERT INTO
                Inquiry_Reply (
@@ -22,18 +43,26 @@
                )
     </insert>
 
-
     <update id="updateInquiryReply">
         /* NOT_SQL_LOG */
-        UPDATE Inquiry_Reply
-           SET REPLY = #{reply}
-             , USER_IDX = #{userIdx}
-         WHERE IDX = #{idx};
+        UPDATE Inquiry_Reply IR
+          LEFT JOIN User AS U ON U.IDX = IR.USER_IDX
+           SET REPLY = #{inquiryReply.reply}
+         WHERE IR.IDX = #{inquiryReply.idx}
+           <if test='role.equals("ROLE_MANAGER")'>
+               AND U.ROLE = "ROLE_MANAGER"
+           </if>
     </update>
 
-    <delete id="deleteInquiryReplyByIdx">
+    <delete id="deleteInquiryReply">
         /* NOT_SQL_LOG */
-        DELETE FROM Inquiry_Reply WHERE IDX = #{idx};
+        DELETE IR FROM Inquiry_Reply AS IR
+          LEFT JOIN Inquiry AS I ON I.IDX = IR.INQUIRY_IDX
+          LEFT JOIN User AS U ON U.IDX = IR.USER_IDX
+         WHERE IR.IDX = #{idx}
+           <if test='role.equals("ROLE_MANAGER")'>
+               AND I.COMPANY_IDX = #{companyIdx}
+               AND U.ROLE = "ROLE_MANAGER"
+           </if>
     </delete>
-
 </mapper>

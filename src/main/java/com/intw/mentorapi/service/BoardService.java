@@ -56,8 +56,8 @@ public class BoardService extends UserProvider {
 
     public ApiResponse view(long idx) {
         ResponseMap result = new ResponseMap();
-        boardMapper.updateBoardViewCountByIdx(idx);
-        result.setResponseData("board", boardMapper.findOneBoardByIdx(idx));
+        boardMapper.updateBoardViewCount(idx);
+        result.setResponseData("board", boardMapper.findOneBoard(idx));
         result.setResponseData("boardFiles", boardMapper.findAllFilesByBoard(idx));
         return result;
     }
@@ -77,7 +77,7 @@ public class BoardService extends UserProvider {
         }
 
         Board board = modelMapper.map(boardUpdateDTO, Board.class);
-        boardMapper.updateBoardByIdx(board);
+        boardMapper.updateBoard(board);
         fileService.fileUpdate(boardUpdateDTO.getFiles(), "board", board.getIdx());
         return result;
     }
@@ -86,7 +86,7 @@ public class BoardService extends UserProvider {
         ResponseMap result = new ResponseMap();
 
         fileService.fileDelete(idx, "board");
-        boardMapper.deleteBoardByIdx(idx);
+        boardMapper.deleteBoard(idx);
         return result;
     }
 }

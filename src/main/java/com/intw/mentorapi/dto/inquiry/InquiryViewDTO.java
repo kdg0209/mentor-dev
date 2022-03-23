@@ -14,6 +14,9 @@ public class InquiryViewDTO {
     @ApiModelProperty(value = "답변 여부", example = "N")
     private String status;
 
+    @ApiModelProperty(value = "기업명 코드", example = "1")
+    private long companyIdx;
+
     @ApiModelProperty(value = "기업명", example = "인트윈")
     private String companyName;
 

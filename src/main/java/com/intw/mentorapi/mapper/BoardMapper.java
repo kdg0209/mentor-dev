@@ -13,11 +13,12 @@ import java.util.List;
 @Mapper
 public interface BoardMapper {
 
-    List<BoardListDTO> findAllBoard(@Param("pageDTO") PageDTO pageDTO);
-    void insertBoard(Board board);
-    BoardViewDTO findOneBoardByIdx(long idx);
     List<FileListDTO> findAllFilesByBoard(long idx);
-    void updateBoardViewCountByIdx(long idx);
-    void updateBoardByIdx(Board board);
-    void deleteBoardByIdx(long idx);
+    void updateBoardViewCount(long idx);
+
+    List<BoardListDTO> findAllBoard(@Param("pageDTO") PageDTO pageDTO);
+    BoardViewDTO findOneBoard(long idx);
+    void insertBoard(Board board);
+    void updateBoard(Board board);
+    void deleteBoard(long idx);
 }

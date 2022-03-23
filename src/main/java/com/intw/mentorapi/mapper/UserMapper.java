@@ -17,8 +17,8 @@ public interface UserMapper {
     void updateVisitAtByUserEmail(String email);
 
     List<UserListDTO> findAllUser(@Param("pageDTO") PageDTO pageDTO);
+    UserViewDTO findOneUser(long idx);
     void insertUser(User user);
-    UserViewDTO findOneUserByIdx(long idx);
-    void updateUserByIdx(User user);
-    void deleteUserByIdx(long idx);
+    void updateUser(User user);
+    void deleteUser(long idx);
 }

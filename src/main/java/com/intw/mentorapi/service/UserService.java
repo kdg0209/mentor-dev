@@ -66,7 +66,7 @@ public class UserService {
 
     public ApiResponse view(long idx) {
         ResponseMap result = new ResponseMap();
-        result.setResponseData("user", userMapper.findOneUserByIdx(idx));
+        result.setResponseData("user", userMapper.findOneUser(idx));
         return result;
     }
 
@@ -89,13 +89,13 @@ public class UserService {
         }
 
         User user = modelMapper.map(userDTO, User.class);
-        userMapper.updateUserByIdx(user);
+        userMapper.updateUser(user);
         return result;
     }
 
     public ApiResponse delete(long idx) {
         ResponseMap result = new ResponseMap();
-        userMapper.deleteUserByIdx(idx);
+        userMapper.deleteUser(idx);
         return result;
     }
 }

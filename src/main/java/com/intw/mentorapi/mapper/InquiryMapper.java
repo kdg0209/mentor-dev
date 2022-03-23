@@ -14,11 +14,17 @@ public interface InquiryMapper {
 
     int isInquiryExist(long idx);
 
-    List<InquiryListDTO> findAllInquiry(@Param("pageDTO") PageDTO pageDTO);
-    void insertInquiry(Inquiry inquiry);
-    InquiryViewDTO findOneInquiryByIdx(long idx);
-    void updateStatusByInquiryReply(long idx);
-    void deleteInquiryByIdx(long idx);
+    /**
+     * 최종 관리자가 사용하는 메서드
+     */
+    List<InquiryListDTO> findAllInquiry(@Param("pageDTO") PageDTO pageDTO, String role, long companyIdx);
+    InquiryViewDTO findOneInquiry(long idx, String role, long companyIdx);
+    void updateStatusByInquiryReply(long idx, String role);
+    void deleteInquiry(long idx, String role, long companyIdx);
 
-    List<InquiryListDTO> findAllInquiryByCompany(@Param("pageDTO") PageDTO pageDTO, long idx);
+    /**
+     * 기업 관리자가 사용하는 메서드
+     */
+    void insertInquiryByCompany(Inquiry inquiry);
+    void updateInquiryByCompany(Inquiry inquiry);
 }

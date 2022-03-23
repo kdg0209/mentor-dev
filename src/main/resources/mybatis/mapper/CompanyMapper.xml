@@ -95,7 +95,7 @@
        )
     </insert>
 
-    <select id="findOneCompanyByIdx" resultType="com.intw.mentorapi.dto.company.CompanyViewDTO">
+    <select id="findOneCompany" resultType="com.intw.mentorapi.dto.company.CompanyViewDTO">
         /* NOT_SQL_LOG */
         SELECT C.IDX
              , C.STATUS AS COMPANY_STATUS
@@ -124,7 +124,7 @@
          WHERE C.IDX = #{idx}
     </select>
 
-    <update id="updateCompanyByIdx">
+    <update id="updateCompany">
         /* NOT_SQL_LOG */
         UPDATE Company
            SET STATUS = #{status}
@@ -145,7 +145,7 @@
          WHERE IDX = #{idx};
     </update>
 
-    <delete id="deleteCompanyByIdx">
+    <delete id="deleteCompany">
         /* NOT_SQL_LOG */
         DELETE FROM Company WHERE IDX = #{idx};
     </delete>

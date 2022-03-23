@@ -3,7 +3,21 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.intw.mentorapi.mapper.AuthMapper">
-    <select id="findByEmail" resultType="User">
+    <select id="isEmailExist" resultType="int">
+        /* NOT_SQL_LOG */
+        SELECT COUNT(*)
+        FROM User
+        WHERE EMAIL = #{email}
+    </select>
+
+    <select id="isPhoneExist" resultType="int">
+        /* NOT_SQL_LOG */
+        SELECT COUNT(*)
+        FROM User
+        WHERE PHONE = #{phone}
+    </select>
+
+    <select id="findOneUserEmail" resultType="User">
         /* NOT_SQL_LOG */
         SELECT U.IDX
              , U.EMAIL
@@ -18,7 +32,7 @@
          WHERE U.EMAIL = #{email}
     </select>
 
-    <select id="findRefreshTokenByIdx" resultType="String">
+    <select id="findOneRefreshToken" resultType="String">
         /* NOT_SQL_LOG */
         SELECT REFRESH_TOKEN
           FROM Refresh_Token
@@ -49,20 +63,6 @@
               , REFRESH_TOKEN_EXPIRATION_AT = #{refreshTokenExpirationAt}
               , USER_EMAIL = #{userEmail}
     </insert>
-
-    <select id="isEmailExist" resultType="int">
-        /* NOT_SQL_LOG */
-        SELECT COUNT(*)
-          FROM User
-         WHERE EMAIL = #{email}
-    </select>
-
-    <select id="isPhoneExist" resultType="int">
-        /* NOT_SQL_LOG */
-        SELECT COUNT(*)
-          FROM User
-         WHERE PHONE = #{phone}
-    </select>
 
     <insert id="insertUser">
         /* NOT_SQL_LOG */

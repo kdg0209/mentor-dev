@@ -1,6 +1,7 @@
 package com.intw.mentorapi.manager;
 
 import com.intw.mentorapi.dto.PageDTO;
+import com.intw.mentorapi.dto.company.CompanyDTO;
 import com.intw.mentorapi.dto.inquiry.InquiryDTO;
 import com.intw.mentorapi.response.ApiResponse;
 import com.intw.mentorapi.service.InquiryService;
@@ -11,18 +12,18 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
-@Api(tags = "Inquiry Reply / 문의 답변")
-@RequestMapping("/manager/inquiry-reply")
+@Api(tags = "Inquiry / 문의 ")
+@RequestMapping("/manager/inquiry")
 @RestController
 @RequiredArgsConstructor
 public class ManagerInquiryController {
 
     private final InquiryService inquiryService;
 
-    @GetMapping("/{idx}")
+    @GetMapping
     @ApiOperation(value="문의 목록")
-    public ApiResponse index(PageDTO pageDTO, @PathVariable("idx") long idx) {
-        return inquiryService.managerLists(pageDTO, idx);
+    public ApiResponse index(PageDTO pageDTO) {
+        return inquiryService.lists(pageDTO);
     }
 
     @PostMapping
@@ -31,4 +32,21 @@ public class ManagerInquiryController {
         return inquiryService.managerWrite(inquiryInsertDTO);
     }
 
+    @GetMapping("/{idx}")
+    @ApiOperation(value="문의 조회")
+    public ApiResponse view(@PathVariable("idx") long idx) {
+        return inquiryService.view(idx);
+    }
+
+    @PutMapping
+    @ApiOperation(value="문의 수정")
+    public ApiResponse update(@RequestBody @Valid InquiryDTO.InquiryUpdateDTO inquiryUpdateDTO) {
+        return inquiryService.managerUpdate(inquiryUpdateDTO);
+    }
+
+    @DeleteMapping("/{idx}")
+    @ApiOperation(value="문의 삭제")
+    public ApiResponse delete(@PathVariable("idx") long idx) {
+        return inquiryService.delete(idx);
+    }
 }

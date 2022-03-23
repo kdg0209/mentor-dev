@@ -41,20 +41,20 @@ public class BoardCategoryConfigService {
 
     public ApiResponse view(long idx) {
         ResponseMap result = new ResponseMap();
-        result.setResponseData("boardCategoryConfig", boardCategoryConfigMapper.findOneBoardCategoryConfigByIdx(idx));
+        result.setResponseData("boardCategoryConfig", boardCategoryConfigMapper.findOneBoardCategoryConfig(idx));
         return result;
     }
 
     public ApiResponse update(BoardCategoryConfigDTO.BoardCategoryConfigUpdateDTO boardCategoryConfigUpdateDTO) {
         ResponseMap result = new ResponseMap();
         BoardCategoryConfig boardCategoryConfig = modelMapper.map(boardCategoryConfigUpdateDTO, BoardCategoryConfig.class);
-        boardCategoryConfigMapper.updateBoardCategoryConfigByIdx(boardCategoryConfig);
+        boardCategoryConfigMapper.updateBoardCategoryConfig(boardCategoryConfig);
         return result;
     }
 
     public ApiResponse delete(long idx) {
         ResponseMap result = new ResponseMap();
-        boardCategoryConfigMapper.deleteBoardCategoryConfigByIdx(idx);
+        boardCategoryConfigMapper.deleteBoardCategoryConfig(idx);
         return result;
     }
 }

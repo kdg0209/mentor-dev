@@ -72,7 +72,7 @@
        )
     </insert>
 
-    <select id="findOneUserByIdx" resultType="com.intw.mentorapi.dto.user.UserViewDTO">
+    <select id="findOneUser" resultType="com.intw.mentorapi.dto.user.UserViewDTO">
         /* NOT_SQL_LOG */
         SELECT IDX
              , NAME
@@ -86,7 +86,7 @@
         WHERE IDX = #{idx}
     </select>
 
-    <update id="updateUserByIdx">
+    <update id="updateUser">
         /* NOT_SQL_LOG */
         UPDATE User
            SET ROLE = #{role}
@@ -101,7 +101,7 @@
         WHERE IDX = #{idx}
     </update>
 
-    <delete id="deleteUserByIdx">
+    <delete id="deleteUser">
         /* NOT_SQL_LOG */
         DELETE FROM User WHERE IDX = #{idx}
     </delete>

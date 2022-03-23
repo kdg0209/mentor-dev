@@ -20,7 +20,7 @@ public class CustomUserDetailService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        User user = authMapper.findByEmail(username);
+        User user = authMapper.findOneUserEmail(username);
 
         if(user == null){
             throw new AuthenticationException(ErrorCode.UsernameOrPasswordNotFoundException);
