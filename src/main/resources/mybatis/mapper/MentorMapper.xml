@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.intw.mentorapi.mapper.MentorMapper">
+
+    <select id="isMentorRegistered" resultType="int">
+        /* NOT_SQL_LOG */
+        SELECT COUNT(*) FROM Mentor
+         WHERE USER_IDX = #{userIdx}
+    </select>
+
+    <select id="isMentorExist" resultType="int">
+        /* NOT_SQL_LOG */
+        SELECT COUNT(*) FROM Mentor
+         WHERE IDX = #{idx}
+    </select>
+
+    <select id="findAllMentor" resultType="com.intw.mentorapi.dto.mentor.MentorListDTO">
+        /* NOT_SQL_LOG */
+        SELECT U.NAME AS USER_NAME
+             , U.EMAIL AS USER_EMAIL
+             , U.PHONE AS USER_PHONE
+             , M.IDX AS MENTOR_IDX
+             , M.STATUS AS MENTOR_STATUS
+             , M.WRITE_AT AS MENTOR_WRITE_AT
+          FROM Mentor AS M
+          LEFT JOIN User AS U ON U.IDX = M.USER_IDX
+         WHERE 1 = 1
+           <if test='pageDTO.keyword != null'>
+               AND U.NAME LIKE CONCAT('%',#{pageDTO.keyword},'%')
+               OR U.EMAIL LIKE CONCAT('%',#{pageDTO.keyword},'%')
+               OR U.PHONE LIKE CONCAT('%',#{pageDTO.keyword},'%')
+           </if>
+         ORDER BY M.IDX DESC
+         LIMIT #{pageDTO.pageIndex}, #{pageDTO.pageSize}
+    </select>
+
+    <insert id="insertMentor" useGeneratedKeys="true" keyProperty="idx">
+        INSERT INTO
+               Mentor (
+               USER_IDX
+             , STATUS
+             , IS_FREELANCER
+             , MENTORING_COUNT
+             , CAREER_YEAR
+             , WRITE_AT
+        )
+        VALUES (
+               #{userIdx}
+             , #{status}
+             , #{isFreelancer}
+             , 0
+             , 0
+             , NOW()
+               )
+    </insert>
+
+    <select id="findOneMentor" resultType="com.intw.mentorapi.dto.mentor.MentorViewDTO">
+        SELECT U.NAME AS USER_NAME
+             , U.EMAIL AS USER_EMAIL
+             , U.PHONE AS USER_PHONE
+             , M.IDX AS MENTOR_IDX
+             , M.STATUS AS MENTOR_STATUS
+             , M.WRITE_AT AS MENTOR_WRITE_AT
+          FROM Mentor AS M
+          LEFT JOIN User AS U ON U.IDX = M.USER_IDX
+         WHERE M.IDX = #{idx}
+    </select>
+
+    <update id="updateMentor">
+        /* NOT_SQL_LOG */
+        UPDATE Mentor
+           SET STATUS = #{status}
+             , IS_FREELANCER = #{isFreelancer}
+             , MENTORING_COUNT = #{mentoringCount}
+             , CAREER_YEAR = #{careerYear}
+         WHERE IDX = #{idx}
+    </update>
+
+    <delete id="deleteMentor">
+        /* NOT_SQL_LOG */
+        DELETE FROM Mentor
+         WHERE IDX = #{idx};
+    </delete>
+</mapper>

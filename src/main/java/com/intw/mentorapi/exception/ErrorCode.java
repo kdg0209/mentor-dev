@@ -5,6 +5,7 @@ import org.springframework.http.HttpStatus;
 
 public enum ErrorCode {
 
+    isUserNotFoundException (400, "해당 유저가 존재하지 않습니다.", HttpStatus.BAD_REQUEST),
     UsernameOrPasswordNotFoundException (400, "아이디 또는 비밀번호가 일치하지 않습니다.", HttpStatus.BAD_REQUEST),
     ForbiddenException(403, "해당 요청에 대한 권한이 없습니다.", HttpStatus.FORBIDDEN),
     UNAUTHORIZEDException (401, "로그인 후 이용가능합니다.", HttpStatus.UNAUTHORIZED),
@@ -34,6 +35,11 @@ public enum ErrorCode {
     isInquiryNotFoundException(701, "등록되어 있지 않은 문의 입니다.", HttpStatus.BAD_REQUEST),
 
     isCommentNotFoundException(600, "해당 댓글은 존재하지 않습니다.", HttpStatus.BAD_REQUEST),
+
+    isMentorNotFoundException(701, "등록되어 있지 않은 멘토 입니다.", HttpStatus.BAD_REQUEST),
+    isMentorRegisteredException(701, "이미 등록되어 있는 멘토 입니다.", HttpStatus.BAD_REQUEST),
+    InvalidMentorCategoryConfigException(600, "잘못된 카테고리 선택입니다", HttpStatus.BAD_REQUEST),
+    isMentorCategoryConfigNameExistException(600, "해당 카테고리명은 존재합니다.", HttpStatus.BAD_REQUEST),
 
     ;
 

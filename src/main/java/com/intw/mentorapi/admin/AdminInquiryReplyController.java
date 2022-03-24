@@ -1,7 +1,5 @@
 package com.intw.mentorapi.admin;
 
-import com.intw.mentorapi.dto.company.CompanyDTO;
-import com.intw.mentorapi.dto.inquiry.InquiryDTO;
 import com.intw.mentorapi.dto.inquiryReply.InquiryReplyDTO;
 import com.intw.mentorapi.response.ApiResponse;
 import com.intw.mentorapi.service.InquiryReplyService;
