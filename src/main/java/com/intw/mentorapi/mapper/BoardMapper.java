@@ -13,7 +13,6 @@ import java.util.List;
 @Mapper
 public interface BoardMapper {
 
-
     int isBoardExist(long idx);
     List<FileListDTO> findAllFilesByBoard(long idx);
     void updateBoardViewCount(long idx);

@@ -26,7 +26,7 @@
                    OR U.EMAIL LIKE CONCAT('%',#{pageDTO.keyword},'%')
                    OR B.TITLE LIKE CONCAT('%',#{pageDTO.keyword},'%')
                </if>
-               <if test='!role.equals("ROLE_ADMIN")'>
+               <if test='role.equals("ALL") || !role.equals("ROLE_ADMIN")'>
                    AND B.STATUS = "Y"
                </if>
          ORDER BY B.IDX DESC
@@ -67,7 +67,7 @@
           FROM Board B
           LEFT JOIN User U ON U.IDX = B.USER_IDX
          WHERE B.IDX = #{idx}
-               <if test='!role.equals("ROLE_ADMIN")'>
+               <if test='role.equals("ALL") || !role.equals("ROLE_ADMIN")'>
                    AND B.STATUS = "Y"
                </if>
     </select>

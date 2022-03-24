@@ -31,8 +31,9 @@ public enum ErrorCode {
     FileUploadFailException(701, "파일 업로드에 실패했습니다.", HttpStatus.BAD_REQUEST),
     InvalidFileExtensionException(701, "잘못된 형식의 파일 확장자입니다.", HttpStatus.BAD_REQUEST),
 
-
     isInquiryNotFoundException(701, "등록되어 있지 않은 문의 입니다.", HttpStatus.BAD_REQUEST),
+
+    isCommentNotFoundException(600, "해당 댓글은 존재하지 않습니다.", HttpStatus.BAD_REQUEST),
 
     ;
 

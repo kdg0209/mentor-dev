@@ -1,13 +1,9 @@
 package com.intw.mentorapi.service;
 
 import com.intw.mentorapi.common.GetUserIp;
-import com.intw.mentorapi.dao.Board;
 import com.intw.mentorapi.dao.Comment;
-import com.intw.mentorapi.dto.board.BoardDTO;
 import com.intw.mentorapi.dto.comment.CommentDTO;
 import com.intw.mentorapi.exception.ErrorCode;
-import com.intw.mentorapi.exception.customException.BoardCategoryConfigException;
-import com.intw.mentorapi.exception.customException.BoardConfigException;
 import com.intw.mentorapi.exception.customException.BoardException;
 import com.intw.mentorapi.handler.UserProvider;
 import com.intw.mentorapi.mapper.BoardMapper;

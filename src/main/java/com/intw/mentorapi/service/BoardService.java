@@ -1,7 +1,7 @@
 package com.intw.mentorapi.service;
 
+import com.intw.mentorapi.common.Role;
 import com.intw.mentorapi.dao.Board;
-import com.intw.mentorapi.dao.User;
 import com.intw.mentorapi.dto.PageDTO;
 import com.intw.mentorapi.dto.board.BoardDTO;
 import com.intw.mentorapi.exception.ErrorCode;
@@ -11,6 +11,7 @@ import com.intw.mentorapi.handler.UserProvider;
 import com.intw.mentorapi.mapper.BoardCategoryConfigMapper;
 import com.intw.mentorapi.mapper.BoardConfigMapper;
 import com.intw.mentorapi.mapper.BoardMapper;
+import com.intw.mentorapi.mapper.CommentMapper;
 import com.intw.mentorapi.response.ApiResponse;
 import com.intw.mentorapi.response.ResponseMap;
 import lombok.RequiredArgsConstructor;
@@ -23,13 +24,20 @@ public class BoardService extends UserProvider {
 
     private final ModelMapper modelMapper;
     private final BoardMapper boardMapper;
+    private final CommentMapper commentMapper;
     private final BoardCategoryConfigMapper boardCategoryConfigMapper;
     private final BoardConfigMapper boardConfigMapper;
     private final FileService fileService;
 
     public ApiResponse lists(PageDTO pageDTO) {
         ResponseMap result = new ResponseMap();
-        result.setResponseData("boardList", boardMapper.findAllBoard(pageDTO, getUser().getRole()));
+
+        if (getUser() != null) {
+            result.setResponseData("boardList", boardMapper.findAllBoard(pageDTO, getUser().getRole()));
+        } else {
+            result.setResponseData("boardList", boardMapper.findAllBoard(pageDTO, Role.ALL.toString()));
+        }
+
         return result;
     }
 
@@ -57,8 +65,15 @@ public class BoardService extends UserProvider {
     public ApiResponse view(long idx) {
         ResponseMap result = new ResponseMap();
         boardMapper.updateBoardViewCount(idx);
-        result.setResponseData("board", boardMapper.findOneBoard(idx, getUser().getRole()));
+
+        if (getUser() != null) {
+            result.setResponseData("board", boardMapper.findOneBoard(idx, getUser().getRole()));
+        } else {
+            result.setResponseData("board", boardMapper.findOneBoard(idx, Role.ALL.toString()));
+        }
+
         result.setResponseData("boardFiles", boardMapper.findAllFilesByBoard(idx));
+        result.setResponseData("commentList", commentMapper.findAllCommentByBoard(idx));
         return result;
     }
 

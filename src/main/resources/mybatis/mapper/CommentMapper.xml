@@ -4,6 +4,25 @@
 
 <mapper namespace="com.intw.mentorapi.mapper.CommentMapper">
 
+    <select id="isCommentExist" resultType="int">
+        /* NOT_SQL_LOG */
+        SELECT COUNT(*) FROM Comment
+         WHERE IDX = #{idx}
+    </select>
+
+    <select id="findAllCommentByBoard" resultType="com.intw.mentorapi.dto.comment.CommentListDTO">
+        /* NOT_SQL_LOG */
+        SELECT C.IDX
+             , C.COMMENT
+             , C.WRITE_AT
+             , U.IDX AS USER_IDX
+             , U.NAME AS USER_NAME
+          FROM Comment C
+          LEFT JOIN Board AS B ON B.IDX = C.BOARD_IDX
+          LEFT JOIN User AS U ON U.IDX = C.USER_IDX
+        ORDER BY C.IDX DESC
+    </select>
+
     <insert id="insertComment">
         INSERT INTO
                Comment (
