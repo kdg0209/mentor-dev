@@ -65,7 +65,6 @@ public class MentorProjectService {
                     .etc(mentorProjectUpdateDTO.getEtc())
                     .build();
 
-
         mentorProjectMapper.updateMentorProject(mentorProject);
         return result;
     }

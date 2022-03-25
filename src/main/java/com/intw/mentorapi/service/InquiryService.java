@@ -61,6 +61,7 @@ public class InquiryService extends UserProvider {
         inquiry.setCompanyIdx(getUser().getCompanyIdx());
         inquiry.setMemo(inquiryInsertDTO.getMemo());
         inquiry.setWriteIp(getUserIp.returnIP());
+
         inquiryMapper.insertInquiryByCompany(inquiry);
         return result;
     }
@@ -72,6 +73,7 @@ public class InquiryService extends UserProvider {
         inquiry.setIdx(inquiryUpdateDTO.getIdx());
         inquiry.setCompanyIdx(getUser().getCompanyIdx());
         inquiry.setMemo(inquiryUpdateDTO.getMemo());
+
         inquiryMapper.updateInquiryByCompany(inquiry);
         return result;
     }

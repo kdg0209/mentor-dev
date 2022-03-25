@@ -7,6 +7,7 @@ import com.intw.mentorapi.dto.board.BoardDTO;
 import com.intw.mentorapi.exception.ErrorCode;
 import com.intw.mentorapi.exception.customException.BoardCategoryConfigException;
 import com.intw.mentorapi.exception.customException.BoardConfigException;
+import com.intw.mentorapi.exception.customException.BoardException;
 import com.intw.mentorapi.handler.UserProvider;
 import com.intw.mentorapi.mapper.BoardCategoryConfigMapper;
 import com.intw.mentorapi.mapper.BoardConfigMapper;
@@ -64,7 +65,6 @@ public class BoardService extends UserProvider {
 
     public ApiResponse view(long idx) {
         ResponseMap result = new ResponseMap();
-        boardMapper.updateBoardViewCount(idx);
 
         if (getUser() != null) {
             result.setResponseData("board", boardMapper.findOneBoard(idx, getUser().getRole()));
@@ -72,6 +72,7 @@ public class BoardService extends UserProvider {
             result.setResponseData("board", boardMapper.findOneBoard(idx, Role.ALL.toString()));
         }
 
+        boardMapper.updateBoardViewCount(idx);
         result.setResponseData("boardFiles", boardMapper.findAllFilesByBoard(idx));
         result.setResponseData("commentList", commentMapper.findAllCommentByBoard(idx));
         return result;
@@ -80,8 +81,13 @@ public class BoardService extends UserProvider {
     public ApiResponse update(BoardDTO.BoardUpdateDTO boardUpdateDTO) {
         ResponseMap result = new ResponseMap();
 
+        int isBoardExist = boardMapper.isBoardExist(boardUpdateDTO.getIdx());
         int isBoardConfigExist = boardConfigMapper.isBoardConfigExist(boardUpdateDTO.getBoardConfigIdx());
         int isCategoryExist = boardCategoryConfigMapper.isCategoryExist(boardUpdateDTO.getBoardCategoryConfigIdx());
+
+        if (isBoardExist == 0) {
+            throw new BoardException(ErrorCode.isBoardNotFoundException);
+        }
 
         if (isBoardConfigExist == 0) {
             throw new BoardConfigException(ErrorCode.isBoardConfigNotFoundException);

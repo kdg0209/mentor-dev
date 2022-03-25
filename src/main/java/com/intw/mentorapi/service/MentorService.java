@@ -1,6 +1,5 @@
 package com.intw.mentorapi.service;
 
-import com.intw.mentorapi.common.Role;
 import com.intw.mentorapi.dao.Mentor;
 import com.intw.mentorapi.dto.PageDTO;
 import com.intw.mentorapi.dto.mentor.MentorDTO;
@@ -86,6 +85,7 @@ public class MentorService {
         mentor.setStatus(mentorUpdateDTO.getStatus());
         mentor.setIsFreelancer(mentorUpdateDTO.getIFreelancer());
         mentor.setMentoringCount(mentorUpdateDTO.getMentoringCount());
+
         mentorMapper.updateMentor(mentor);
         mentorCategoryMapper.deleteMentorCategory(mentor.getIdx());
         mentorCategoryMapper.insertMentorCategory(mentor.getIdx(), mentorUpdateDTO.getMentorCategoryConfigIdx());

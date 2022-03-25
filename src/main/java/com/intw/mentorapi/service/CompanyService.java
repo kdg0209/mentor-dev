@@ -55,14 +55,19 @@ public class CompanyService {
     public ApiResponse update(CompanyDTO.CompanyUpdateDTO companyUpdateDTO) {
         ResponseMap result = new ResponseMap();
 
-        int isCorporationNumberCount = companyMapper.isCorporationNumberExist(companyUpdateDTO.getCorporationNumber(), companyUpdateDTO.getIdx());
-        int isBusinessNumberCount = companyMapper.isBusinessNumberExist(companyUpdateDTO.getBusinessNumber(), companyUpdateDTO.getIdx());
+        int isCompanyExist = companyMapper.isCompanyExist(companyUpdateDTO.getIdx());
+        int isCorporationNumberExist = companyMapper.isCorporationNumberExist(companyUpdateDTO.getCorporationNumber(), companyUpdateDTO.getIdx());
+        int isBusinessNumberExist = companyMapper.isBusinessNumberExist(companyUpdateDTO.getBusinessNumber(), companyUpdateDTO.getIdx());
 
-        if (isCorporationNumberCount > 0) {
+        if (isCompanyExist > 0) {
+            throw new CompanyException(ErrorCode.isCompanyNotFoundException);
+        }
+
+        if (isCorporationNumberExist > 0) {
             throw new CompanyException(ErrorCode.isCorporationNumberExistException);
         }
 
-        if (isBusinessNumberCount > 0) {
+        if (isBusinessNumberExist > 0) {
             throw new UserException(ErrorCode.isBusinessNumberExistException);
         }
 

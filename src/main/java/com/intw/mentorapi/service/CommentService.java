@@ -5,6 +5,7 @@ import com.intw.mentorapi.dao.Comment;
 import com.intw.mentorapi.dto.comment.CommentDTO;
 import com.intw.mentorapi.exception.ErrorCode;
 import com.intw.mentorapi.exception.customException.BoardException;
+import com.intw.mentorapi.exception.customException.CommentException;
 import com.intw.mentorapi.handler.UserProvider;
 import com.intw.mentorapi.mapper.BoardMapper;
 import com.intw.mentorapi.mapper.CommentMapper;
@@ -42,6 +43,12 @@ public class CommentService extends UserProvider {
 
     public ApiResponse update(CommentDTO.CommentUpdateDTO commentUpdateDTO) {
         ResponseMap result = new ResponseMap();
+
+        int isCommentExist = commentMapper.isCommentExist(commentUpdateDTO.getIdx());
+
+        if (isCommentExist == 0) {
+            throw new CommentException(ErrorCode.isCommentNotFoundException);
+        }
 
         Comment comment = new Comment();
         comment.setIdx(commentUpdateDTO.getIdx());

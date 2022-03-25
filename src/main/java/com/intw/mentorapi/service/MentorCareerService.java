@@ -80,6 +80,12 @@ public class MentorCareerService {
         return result;
     }
 
+    /**
+     * 연차를 계산하는 메서드
+     * @param startAt
+     * @param endAt
+     * @return
+     */
     private double yearCalculation(String startAt, String endAt) {
         SimpleDateFormat format = new SimpleDateFormat("yyyyMMdd");
         long diffMonth = 0;
@@ -95,6 +101,7 @@ public class MentorCareerService {
             diffMonth = diffDate / baseMonth;
         } catch (Exception e) {
             e.printStackTrace();
+            throw new MentorCareerException(ErrorCode.InvalidMentorCareerException);
         }
 
         double result = (double) diffMonth / 12;
@@ -103,7 +110,7 @@ public class MentorCareerService {
 
     /**
      * 소수값을 적당한 길이로 잘라 리턴
-     * @param size
+     * @param cutSize
      * @param value
      */
     private double cutDecimal(int cutSize, double value) {

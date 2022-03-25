@@ -28,9 +28,9 @@ public class BoardCategoryConfigService {
     public ApiResponse write(BoardCategoryConfigDTO.BoardCategoryConfigInsertDTO boardCategoryConfigInsertDTO) {
         ResponseMap result = new ResponseMap();
 
-        int isCategoryCount = boardCategoryConfigMapper.isCategoryNameExist(boardCategoryConfigInsertDTO.getName());
+        int isCategoryNameExist = boardCategoryConfigMapper.isCategoryNameExist(boardCategoryConfigInsertDTO.getName());
 
-        if (isCategoryCount > 0) {
+        if (isCategoryNameExist > 0) {
             throw new BoardCategoryConfigException(ErrorCode.isBoardCategoryConfigNameExistException);
         }
 

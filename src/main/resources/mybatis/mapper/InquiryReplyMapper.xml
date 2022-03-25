@@ -4,7 +4,7 @@
 
 <mapper namespace="com.intw.mentorapi.mapper.InquiryReplyMapper">
 
-    <select id="isCompanyExist" resultType="Integer">
+    <select id="isAccessible" resultType="Integer">
         /* NOT_SQL_LOG */
         SELECT I.COMPANY_IDX
           FROM Inquiry_Reply AS IR
@@ -72,7 +72,7 @@
         DELETE IR FROM Inquiry_Reply AS IR
           LEFT JOIN Inquiry AS I ON I.IDX = IR.INQUIRY_IDX
           LEFT JOIN User AS U ON U.IDX = IR.USER_IDX
-        WHERE IR.INQUIRY_IDX = #{inquiryIdx}
+         WHERE IR.INQUIRY_IDX = #{inquiryIdx}
         <if test='role.equals("ROLE_MANAGER")'>
             AND I.COMPANY_IDX = #{companyIdx}
             AND U.ROLE = "ROLE_MANAGER"

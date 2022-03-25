@@ -10,7 +10,8 @@ import java.util.List;
 @Mapper
 public interface InquiryReplyMapper {
 
-    Integer isCompanyExist(long idx);
+    Integer isAccessible(long idx);
+
     List<InquiryReplyListDTO> findAllInquiryReply(long inquiryIdx, long companyIdx);
     void insertInquiryReply(InquiryReply inquiryReply);
     void updateInquiryReply(@Param("inquiryReply") InquiryReply inquiryReply, String role);

@@ -22,7 +22,6 @@ public class MentorCategoryConfigService {
         return result;
     }
 
-
     public ApiResponse write(MentorCategoryConfigDTO.MentorCategoryConfigInsertDTO mentorCategoryConfigInsertDTO) {
         ResponseMap result = new ResponseMap();
 
@@ -48,7 +47,6 @@ public class MentorCategoryConfigService {
 
     public ApiResponse update(MentorCategoryConfigDTO.MentorCategoryConfigUpdateDTO mentorCategoryConfigUpdateDTO) {
         ResponseMap result = new ResponseMap();
-
 
         MentorCategoryConfig mentorCategoryConfig = new MentorCategoryConfig();
         mentorCategoryConfig.setIdx(mentorCategoryConfigUpdateDTO.getIdx());

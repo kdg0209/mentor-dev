@@ -55,7 +55,6 @@ public class FileService {
 
     public void fileUpdate(List<MultipartFile> files, String tables, long fkIdx){
         File file = fileMapper.findAllFile(fkIdx, tables);
-        System.out.println(file.toString());
         List<Map> uploadedFiles = s3Uploader.uploadFile(files);
         List<FileDetail> fileDetails = new ArrayList<>();
 
@@ -67,7 +66,6 @@ public class FileService {
                     .fileExt(item.get("extension").toString())
                     .build();
 
-            System.out.println(fileDetail.toString());
             fileDetails.add(fileDetail);
         });
 

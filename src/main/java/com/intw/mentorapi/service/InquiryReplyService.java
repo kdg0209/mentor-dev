@@ -35,16 +35,9 @@ public class InquiryReplyService extends UserProvider {
         inquiryReply.setReply(inquiryReplyInsertDTO.getReply());
         inquiryReply.setUserIdx(getUser().getIdx());
         inquiryReply.setWriteIp(getUserIp.returnIP());
+
         inquiryReplyMapper.insertInquiryReply(inquiryReply);
-
-        if (getUser().getRole().equals("ROLE_ADMIN")) {
-            inquiryMapper.updateStatusByInquiryReply(inquiryReplyInsertDTO.getInquiryIdx(), "ROLE_ADMIN");
-        }
-
-        if (getUser().getRole().equals("ROLE_MANAGER")) {
-            inquiryMapper.updateStatusByInquiryReply(inquiryReplyInsertDTO.getInquiryIdx(), "ROLE_MANAGER");
-        }
-
+        inquiryMapper.updateStatusByInquiryReply(inquiryReplyInsertDTO.getInquiryIdx(), getUser().getRole());
         return result;
     }
 
@@ -55,7 +48,7 @@ public class InquiryReplyService extends UserProvider {
         inquiryReply.setIdx(inquiryReplyUpdateDTO.getIdx());
         inquiryReply.setReply(inquiryReplyUpdateDTO.getReply());
 
-        boolean isAccessRole = roleCheck(getUser().getRole(), inquiryReplyUpdateDTO.getIdx());
+        boolean isAccessRole = isAccessInquiryReply(getUser().getRole(), inquiryReplyUpdateDTO.getIdx());
 
         if (!isAccessRole) {
             throw new InquiryException(ErrorCode.ForbiddenException);
@@ -67,7 +60,7 @@ public class InquiryReplyService extends UserProvider {
 
     public ApiResponse delete(long idx) {
         ResponseMap result = new ResponseMap();
-        boolean isAccessRole = roleCheck(getUser().getRole(), idx);
+        boolean isAccessRole = isAccessInquiryReply(getUser().getRole(), idx);
 
         if (!isAccessRole) {
             throw new InquiryException(ErrorCode.ForbiddenException);
@@ -77,9 +70,14 @@ public class InquiryReplyService extends UserProvider {
         return result;
     }
 
-    private boolean roleCheck(String role, long idx) {
+    /**
+     * 기업 관리자가 접근 가능한 문의 답글인지 확인하는 메서드
+     * @param role
+     * @param idx
+     */
+    private boolean isAccessInquiryReply(String role, long idx) {
         if (role.equals("ROLE_MANAGER")) {
-            Integer companyIdx = inquiryReplyMapper.isCompanyExist(idx);
+            Integer companyIdx = inquiryReplyMapper.isAccessible(idx);
 
             if (companyIdx == null || companyIdx != getUser().getCompanyIdx()) {
                 return false;

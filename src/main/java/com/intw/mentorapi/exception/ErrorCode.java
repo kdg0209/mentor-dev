@@ -38,6 +38,7 @@ public enum ErrorCode {
 
     isMentorNotFoundException(701, "등록되어 있지 않은 멘토 입니다.", HttpStatus.BAD_REQUEST),
     isMentorRegisteredException(701, "이미 등록되어 있는 멘토 입니다.", HttpStatus.BAD_REQUEST),
+    InvalidMentorCareerException(701, "잘못된 형식의 멘토 경력 양식입니다.", HttpStatus.BAD_REQUEST),
     InvalidMentorCategoryConfigException(600, "잘못된 카테고리 선택입니다", HttpStatus.BAD_REQUEST),
     isMentorCategoryConfigNameExistException(600, "해당 카테고리명은 존재합니다.", HttpStatus.BAD_REQUEST),
 
