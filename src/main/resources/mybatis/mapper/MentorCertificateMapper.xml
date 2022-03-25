@@ -29,6 +29,18 @@
                   )
     </insert>
 
+    <select id="findOneMentorCertificate" resultType="MentorCertificate">
+        /* NOT_SQL_LOG */
+        SELECT IDX
+             , MENTOR_IDX
+             , NAME
+             , CONTENTS
+             , ACCEPTANCE_ORGANIZATION
+             , EXPIRATION_AT
+             , WRITE_AT
+          FROM Mentor_Certificate
+         WHERE IDX = #{idx}
+    </select>
 
     <update id="updateMentorCertificate">
         /* NOT_SQL_LOG */

@@ -8,6 +8,7 @@ public interface MentorCareerMapper {
 
     int isMentorCareerExist(long idx);
 
+    MentorCareer findOneMentorCareer(long idx);
     void insertMentorCareer(MentorCareer mentorCareer);
     void updateMentorCareer(MentorCareer mentorCareer);
     void deleteMentorCareer(long idx);

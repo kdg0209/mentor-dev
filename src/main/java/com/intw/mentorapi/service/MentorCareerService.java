@@ -48,6 +48,12 @@ public class MentorCareerService {
         return result;
     }
 
+    public ApiResponse view(long idx) {
+        ResponseMap result = new ResponseMap();
+        result.setResponseData("mentorCareer", mentorCareerMapper.findOneMentorCareer(idx));
+        return result;
+    }
+
     public ApiResponse update(MentorCareerDTO.MentorCareerUpdateDTO mentorCareerUpdateDTO) {
         ResponseMap result = new ResponseMap();
 

@@ -43,6 +43,7 @@ public class MentorCertificateService {
     public ApiResponse view(long idx) {
         ResponseMap result = new ResponseMap();
 
+        result.setResponseData("mentorCertificate", mentorCertificateMapper.findOneMentorCertificate(idx));
         return result;
     }
 
@@ -51,7 +52,7 @@ public class MentorCertificateService {
 
         int isMentorCertificateExist = mentorCertificateMapper.isMentorCertificateExist(mentorCertificateUpdateDTO.getIdx());
 
-        if (isMentorCertificateExist > 0) {
+        if (isMentorCertificateExist == 0) {
             throw new MentorCertificateException(ErrorCode.isMentorCertificateNotFoundException);
         }
 

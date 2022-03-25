@@ -24,6 +24,12 @@ public class AdminMentorCareerController {
         return mentorCareerService.write(mentorCareerInsertDTO);
     }
 
+    @GetMapping("/{idx}")
+    @ApiOperation(value="멘토 경력 조회")
+    public ApiResponse view(@PathVariable("idx") long idx) {
+        return mentorCareerService.view(idx);
+    }
+
     @PutMapping
     @ApiOperation(value="멘토 경력 수정")
     public ApiResponse update(@RequestBody @Valid MentorCareerDTO.MentorCareerUpdateDTO mentorCareerUpdateDTO) {

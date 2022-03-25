@@ -8,6 +8,7 @@ public interface MentorProjectMapper {
 
     int isMentorProjectExist(long idx);
 
+    MentorProject findOneMentorProject(long idx);
     void insertMentorProject(MentorProject mentorProject);
     void updateMentorProject(MentorProject mentorProject);
     void deleteMentorProject(long idx);

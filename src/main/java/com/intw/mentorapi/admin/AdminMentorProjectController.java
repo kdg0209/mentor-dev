@@ -25,6 +25,13 @@ public class AdminMentorProjectController {
         return mentorProjectService.write(mentorProjectInsertDTO);
     }
 
+    @GetMapping("/{idx}")
+    @ApiOperation(value="멘토 프로젝트 조회")
+    public ApiResponse view(@PathVariable("idx") long idx) {
+        return mentorProjectService.view(idx);
+    }
+
+
     @PutMapping
     @ApiOperation(value="멘토 프로젝트 수정")
     public ApiResponse update(@RequestBody @Valid MentorProjectDTO.MentorProjectUpdateDTO mentorProjectUpdateDTO) {

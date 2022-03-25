@@ -33,6 +33,21 @@
                   )
     </insert>
 
+    <select id="findOneMentorProject" resultType="MentorProject">
+        /* NOT_SQL_LOG */
+        SELECT IDX
+             , MENTOR_IDX
+             , NAME
+             , CATEGORY
+             , ROLE
+             , START_AT
+             , END_AT
+             , ETC
+             , WRITE_AT
+          FROM Mentor_Project
+         WHERE IDX = #{idx}
+    </select>
+
     <update id="updateMentorProject">
         /* NOT_SQL_LOG */
         UPDATE Mentor_Project

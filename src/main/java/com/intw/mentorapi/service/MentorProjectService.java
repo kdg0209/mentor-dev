@@ -42,6 +42,13 @@ public class MentorProjectService {
         return result;
     }
 
+    public ApiResponse view(long idx) {
+        ResponseMap result = new ResponseMap();
+
+        result.setResponseData("mentorProject", mentorProjectMapper.findOneMentorProject(idx));
+        return result;
+    }
+
     public ApiResponse update(MentorProjectDTO.MentorProjectUpdateDTO mentorProjectUpdateDTO) {
         ResponseMap result = new ResponseMap();
 
