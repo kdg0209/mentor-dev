@@ -43,9 +43,5 @@ public class MentorDTO {
         @Positive
         @ApiModelProperty(value = "멘토 진행 횟수", example = "1")
         private int mentoringCount;
-
-        @Positive
-        @ApiModelProperty(value = "연차", example = "1")
-        private float careerYear;
     }
 }

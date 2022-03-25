@@ -12,11 +12,10 @@
     </select>
 
     <insert id="insertMentorCategory">
-        INSERT INTO
-               Mentor_Category (
-               MENTOR_IDX
-             , MENTOR_CATEGORY_CONFIG_IDX
-        )
+        INSERT INTO Mentor_Category
+                  ( MENTOR_IDX
+                  , MENTOR_CATEGORY_CONFIG_IDX
+                  )
         VALUES
             <foreach item="categoryIdx" collection="mentorCategoryConfigIdx" separator=", ">
                 (

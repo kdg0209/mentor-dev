@@ -5,6 +5,7 @@
 <mapper namespace="com.intw.mentorapi.mapper.InquiryReplyMapper">
 
     <select id="isCompanyExist" resultType="Integer">
+        /* NOT_SQL_LOG */
         SELECT I.COMPANY_IDX
           FROM Inquiry_Reply AS IR
           LEFT JOIN Inquiry AS I ON I.IDX = IR.INQUIRY_IDX
@@ -12,6 +13,7 @@
     </select>
 
     <select id="findAllInquiryReply" resultType="com.intw.mentorapi.dto.inquiryReply.InquiryReplyListDTO">
+        /* NOT_SQL_LOG */
         SELECT IR.IDX
              , U.NAME AS USER_NAME
              , IR.REPLY
@@ -26,21 +28,20 @@
     </select>
 
     <insert id="insertInquiryReply">
-        INSERT INTO
-               Inquiry_Reply (
-               USER_IDX
-             , INQUIRY_IDX
-             , REPLY
-             , WRITE_IP
-             , WRITE_AT
-        )
-        VALUES (
-               #{userIdx}
-             , #{inquiryIdx}
-             , #{reply}
-             , #{writeIp}
-             , NOW()
-               )
+        /* NOT_SQL_LOG */
+        INSERT INTO Inquiry_Reply
+                  ( USER_IDX
+                  , INQUIRY_IDX
+                  , REPLY
+                  , WRITE_IP
+                  , WRITE_AT
+                  )
+           VALUES ( #{userIdx}
+                  , #{inquiryIdx}
+                  , #{reply}
+                  , #{writeIp}
+                  , NOW()
+                  )
     </insert>
 
     <update id="updateInquiryReply">

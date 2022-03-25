@@ -37,23 +37,21 @@
     </select>
 
     <insert id="insertMentor" useGeneratedKeys="true" keyProperty="idx">
-        INSERT INTO
-               Mentor (
-               USER_IDX
-             , STATUS
-             , IS_FREELANCER
-             , MENTORING_COUNT
-             , CAREER_YEAR
-             , WRITE_AT
-        )
-        VALUES (
-               #{userIdx}
-             , #{status}
-             , #{isFreelancer}
-             , 0
-             , 0
-             , NOW()
-               )
+        INSERT INTO Mentor
+                  ( USER_IDX
+                  , STATUS
+                  , IS_FREELANCER
+                  , MENTORING_COUNT
+                  , CAREER_YEAR
+                  , WRITE_AT
+                  )
+           VALUES ( #{userIdx}
+                  , #{status}
+                  , #{isFreelancer}
+                  , 0
+                  , 0
+                  , NOW()
+                  )
     </insert>
 
     <select id="findOneMentor" resultType="com.intw.mentorapi.dto.mentor.MentorViewDTO">
@@ -74,7 +72,6 @@
            SET STATUS = #{status}
              , IS_FREELANCER = #{isFreelancer}
              , MENTORING_COUNT = #{mentoringCount}
-             , CAREER_YEAR = #{careerYear}
          WHERE IDX = #{idx}
     </update>
 

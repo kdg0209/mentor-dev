@@ -86,7 +86,6 @@ public class MentorService {
         mentor.setStatus(mentorUpdateDTO.getStatus());
         mentor.setIsFreelancer(mentorUpdateDTO.getIFreelancer());
         mentor.setMentoringCount(mentorUpdateDTO.getMentoringCount());
-        mentor.setCareerYear(mentorUpdateDTO.getCareerYear());
         mentorMapper.updateMentor(mentor);
         mentorCategoryMapper.deleteMentorCategory(mentor.getIdx());
         mentorCategoryMapper.insertMentorCategory(mentor.getIdx(), mentorUpdateDTO.getMentorCategoryConfigIdx());

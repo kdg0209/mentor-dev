@@ -34,30 +34,30 @@
     </select>
 
     <insert id="insertBoard" useGeneratedKeys="true" keyProperty="idx">
-        INSERT INTO
-         Board (
-                BOARD_CONFIG_IDX
-              , BOARD_CATEGORY_CONFIG_IDX
-              , USER_IDX
-              , STATUS
-              , TITLE
-              , CONTENTS
-              , VIEW_COUNT
-              , WRITE_AT
-        )
-        VALUES (
-               #{boardConfigIdx}
-             , #{boardCategoryConfigIdx}
-             , #{userIdx}
-             , #{status}
-             , #{title}
-             , #{contents}
-             , 0
-             , NOW()
-               )
+        /* NOT_SQL_LOG */
+        INSERT INTO Board
+                  ( BOARD_CONFIG_IDX
+                  , BOARD_CATEGORY_CONFIG_IDX
+                  , USER_IDX
+                  , STATUS
+                  , TITLE
+                  , CONTENTS
+                  , VIEW_COUNT
+                  , WRITE_AT
+                  )
+           VALUES ( #{boardConfigIdx}
+                  , #{boardCategoryConfigIdx}
+                  , #{userIdx}
+                  , #{status}
+                  , #{title}
+                  , #{contents}
+                  , 0
+                  , NOW()
+                  )
     </insert>
 
     <select id="findOneBoard" resultType="com.intw.mentorapi.dto.board.BoardViewDTO">
+        /* NOT_SQL_LOG */
         SELECT B.IDX
              , B.TITLE
              , B.VIEW_COUNT
@@ -93,7 +93,7 @@
              , TITLE = #{title}
              , CONTENTS = #{contents}
              , UPDATE_AT = NOW()
-        WHERE IDX = #{idx}
+         WHERE IDX = #{idx}
     </update>
 
     <update id="updateBoardViewCount">
@@ -107,6 +107,6 @@
         /* NOT_SQL_LOG */
         UPDATE Board
            SET STATUS = 'D'
-        WHERE IDX = #{idx}
+         WHERE IDX = #{idx}
     </delete>
 </mapper>

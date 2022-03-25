@@ -5,21 +5,20 @@
 <mapper namespace="com.intw.mentorapi.mapper.CommentReplyMapper">
 
     <insert id="insertCommentReply">
-        INSERT INTO
-               Comment_Reply (
-               USER_IDX
-             , COMMENT_IDX
-             , REPLY
-             , WRITE_IP
-             , WRITE_AT
-        )
-        VALUES (
-               #{userIdx}
-             , #{commentIdx}
-             , #{reply}
-             , #{writeIp}
-             , NOW()
-               )
+        /* NOT_SQL_LOG */
+        INSERT INTO Comment_Reply
+                  ( USER_IDX
+                  , COMMENT_IDX
+                  , REPLY
+                  , WRITE_IP
+                  , WRITE_AT
+                  )
+           VALUES ( #{userIdx}
+                  , #{commentIdx}
+                  , #{reply}
+                  , #{writeIp}
+                  , NOW()
+                  )
     </insert>
 
     <update id="updateCommentReply">

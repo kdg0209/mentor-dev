@@ -36,21 +36,19 @@
 
     <insert id="insertBoardConfig">
         /* NOT_SQL_LOG */
-        INSERT INTO
-            Board_config (
-                         TYPE
-                       , NAME
-                       , ROLE
-                       , LIST_COUNT
-                       , PAGE_COUNT
-        )
-        VALUES (
-               #{type}
-             , #{name}
-             , #{role}
-             , #{listCount}
-             , #{pageCount}
-               )
+        INSERT INTO Board_config
+                  ( TYPE
+                  , NAME
+                  , ROLE
+                  , LIST_COUNT
+                  , PAGE_COUNT
+                  )
+           VALUES ( #{type}
+                  , #{name}
+                  , #{role}
+                  , #{listCount}
+                  , #{pageCount}
+                  )
     </insert>
 
     <select id="findOneBoardConfig" resultType="com.intw.mentorapi.dto.boardConfig.BoardConfigViewDTO">
@@ -72,12 +70,13 @@
              , ROLE = #{role}
              , LIST_COUNT = #{listCount}
              , PAGE_COUNT = #{pageCount}
-        WHERE IDX = #{idx};
+         WHERE IDX = #{idx};
     </update>
 
     <delete id="deleteBoardConfig">
         /* NOT_SQL_LOG */
-        DELETE FROM Board_config WHERE IDX = #{idx}
+        DELETE FROM Board_config
+         WHERE IDX = #{idx}
     </delete>
 
 </mapper>

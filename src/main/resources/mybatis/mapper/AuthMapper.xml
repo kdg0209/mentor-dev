@@ -66,21 +66,19 @@
 
     <insert id="insertUser">
         /* NOT_SQL_LOG */
-        INSERT INTO
-               User (
-                     EMAIL
-                   , PASSWORD
-                   , ROLE
-                   , ROLE_CODE_IDX
-                   , STATUS
-                   , NAME
-                   , PHONE
-                   , GENDER
-                   , IS_AGREEMENT
-                   , WRITE_AT
-        )
-        VALUES (
-                    #{email}
+        INSERT INTO User
+                  ( EMAIL
+                  , PASSWORD
+                  , ROLE
+                  , ROLE_CODE_IDX
+                  , STATUS
+                  , NAME
+                  , PHONE
+                  , GENDER
+                  , IS_AGREEMENT
+                  , WRITE_AT
+                  )
+           VALUES ( #{email}
                   , #{password}
                   , #{role}
                   , #{roleCodeIdx}
@@ -90,6 +88,6 @@
                   , #{gender}
                   , #{isAgreement}
                   , NOW()
-        )
+                  )
     </insert>
 </mapper>

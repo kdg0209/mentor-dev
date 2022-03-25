@@ -5,7 +5,8 @@
 <mapper namespace="com.intw.mentorapi.mapper.CompanyMapper">
     <select id="isCorporationNumberExist" resultType="int">
         /* NOT_SQL_LOG */
-        SELECT COUNT(*) FROM Company WHERE CORPORATION_NUMBER = #{corporationNumber}
+        SELECT COUNT(*) FROM Company
+         WHERE CORPORATION_NUMBER = #{corporationNumber}
         <if test='idx != null'>
             AND IDX != #{idx}
         </if>
@@ -13,7 +14,8 @@
 
     <select id="isBusinessNumberExist" resultType="int">
         /* NOT_SQL_LOG */
-        SELECT COUNT(*) FROM Company WHERE BUSINESS_NUMBER = #{businessNumber}
+        SELECT COUNT(*) FROM Company
+         WHERE BUSINESS_NUMBER = #{businessNumber}
         <if test='idx != null'>
             AND IDX != #{idx}
         </if>
@@ -21,7 +23,8 @@
 
     <select id="isCompanyExist" resultType="int">
         /* NOT_SQL_LOG */
-        SELECT COUNT(*) FROM Company WHERE IDX = #{idx}
+        SELECT COUNT(*) FROM Company
+         WHERE IDX = #{idx}
     </select>
 
     <select id="findAllCompany" resultType="com.intw.mentorapi.dto.company.CompanyListDTO">
@@ -56,43 +59,42 @@
     </select>
 
     <insert id="insertCompany">
-        INSERT INTO
-               Company (
-               USER_IDX
-             , STATUS
-             , NAME
-             , TEL
-             , EMAIL
-             , ADDRESS
-             , CATEGORY
-             , CEO
-             , EMPLOYEE_COUNT
-             , CORPORATION_NUMBER
-             , BUSINESS_NUMBER
-             , MANAGER_NAME
-             , MANAGER_EMAIL
-             , MANAGER_PHONE
-             , CREATE_AT
-             , WRITE_AT
-        )
-        VALUES (
-               #{userIdx}
-             , #{status}
-             , #{name}
-             , #{tel}
-             , #{email}
-             , #{address}
-             , #{category}
-             , #{ceo}
-             , #{employeeCount}
-             , #{corporationNumber}
-             , #{businessNumber}
-             , #{managerName}
-             , #{managerEmail}
-             , #{managerPhone}
-             , #{createAt}
-             , NOW()
-       )
+        /* NOT_SQL_LOG */
+        INSERT INTO Company
+                  ( USER_IDX
+                  , STATUS
+                  , NAME
+                  , TEL
+                  , EMAIL
+                  , ADDRESS
+                  , CATEGORY
+                  , CEO
+                  , EMPLOYEE_COUNT
+                  , CORPORATION_NUMBER
+                  , BUSINESS_NUMBER
+                  , MANAGER_NAME
+                  , MANAGER_EMAIL
+                  , MANAGER_PHONE
+                  , CREATE_AT
+                  , WRITE_AT
+                  )
+           VALUES ( #{userIdx}
+                  , #{status}
+                  , #{name}
+                  , #{tel}
+                  , #{email}
+                  , #{address}
+                  , #{category}
+                  , #{ceo}
+                  , #{employeeCount}
+                  , #{corporationNumber}
+                  , #{businessNumber}
+                  , #{managerName}
+                  , #{managerEmail}
+                  , #{managerPhone}
+                  , #{createAt}
+                  , NOW()
+                  )
     </insert>
 
     <select id="findOneCompany" resultType="com.intw.mentorapi.dto.company.CompanyViewDTO">
@@ -147,7 +149,8 @@
 
     <delete id="deleteCompany">
         /* NOT_SQL_LOG */
-        DELETE FROM Company WHERE IDX = #{idx};
+        DELETE FROM Company
+         WHERE IDX = #{idx};
     </delete>
 
 </mapper>

@@ -14,21 +14,21 @@
     </select>
 
     <insert id="insertFile" useGeneratedKeys="true" keyProperty="idx">
-        INSERT INTO
-               Common_File (
-                   TABLES
-                 , FK_IDX
-                 , TARGET_TYPE
-        )
-        VALUES (
-                 #{tables}
-               , #{fkIdx}
-               , #{targetType}
-               )
+        /* NOT_SQL_LOG */
+        INSERT INTO Common_File
+                  ( TABLES
+                  , FK_IDX
+                  , TARGET_TYPE
+                  )
+           VALUES ( #{tables}
+                  , #{fkIdx}
+                  , #{targetType}
+                  )
     </insert>
 
     <delete id="deleteCommonFile">
         /* NOT_SQL_LOG */
-        DELETE FROM Common_File WHERE FK_IDX = #{fkIdx}
+        DELETE FROM Common_File
+         WHERE FK_IDX = #{fkIdx}
     </delete>
 </mapper>

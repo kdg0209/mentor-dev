@@ -12,6 +12,5 @@ public class Mentor {
     private String status;
     private String isFreelancer;
     private int mentoringCount;
-    private float careerYear;
     private String writeAt;
 }

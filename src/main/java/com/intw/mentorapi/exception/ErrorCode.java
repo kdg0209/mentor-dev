@@ -41,6 +41,9 @@ public enum ErrorCode {
     InvalidMentorCategoryConfigException(600, "잘못된 카테고리 선택입니다", HttpStatus.BAD_REQUEST),
     isMentorCategoryConfigNameExistException(600, "해당 카테고리명은 존재합니다.", HttpStatus.BAD_REQUEST),
 
+
+    isMentorCareerNotFoundException(701, "등록되어 있지 않은 멘토 경력 입니다.", HttpStatus.BAD_REQUEST),
+    isMentorProjectNotFoundException(701, "등록되어 있지 않은 멘토 프로젝트 입니다.", HttpStatus.BAD_REQUEST),
     ;
 
     @Getter

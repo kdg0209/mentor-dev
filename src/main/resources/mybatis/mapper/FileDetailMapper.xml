@@ -12,14 +12,14 @@
     </select>
 
     <insert id="insertFileDetail" parameterType="java.util.List">
-        INSERT INTO
-               Common_File_Detail (
-               COMMON_FILE_IDX
-             , FILE_NAME
-             , FILE_PATH
-             , FILE_EXT
-             , WRITE_AT
-        )
+        /* NOT_SQL_LOG */
+        INSERT INTO Common_File_Detail
+                  ( COMMON_FILE_IDX
+                  , FILE_NAME
+                  , FILE_PATH
+                  , FILE_EXT
+                  , WRITE_AT
+                  )
         VALUES
             <foreach item="item" collection="list" separator=", ">
                 (
@@ -34,7 +34,8 @@
 
     <delete id="deleteCommonFileDetailByCommonFile">
         /* NOT_SQL_LOG */
-        DELETE FROM Common_File_Detail WHERE COMMON_FILE_IDX = #{fkIdx}
+        DELETE FROM Common_File_Detail
+         WHERE COMMON_FILE_IDX = #{fkIdx}
     </delete>
 
 </mapper>

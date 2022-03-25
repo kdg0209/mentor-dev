@@ -5,6 +5,7 @@
 <mapper namespace="com.intw.mentorapi.mapper.MentorCategoryConfigMapper">
 
     <select id="isCategoryNameExist" resultType="int">
+        /* NOT_SQL_LOG */
         SELECT COUNT(*)
           FROM Mentor_Category_Config
          WHERE NAME = #{name}
@@ -22,17 +23,12 @@
     <select id="findAllMentorCategoryConfig" resultType="MentorCategoryConfig">
         SELECT IDX
              , NAME
-        FROM Mentor_Category_Config
+          FROM Mentor_Category_Config
     </select>
 
     <insert id="insertMentorCategoryConfig">
-        INSERT INTO
-               Mentor_Category_Config (
-               NAME
-        )
-        VALUES (
-               #{name}
-               )
+        INSERT INTO Mentor_Category_Config ( NAME )
+        VALUES ( #{name} )
     </insert>
 
     <select id="findOneMentorCategoryConfig" resultType="MentorCategoryConfig">

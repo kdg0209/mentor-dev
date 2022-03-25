@@ -33,15 +33,13 @@
 
     <insert id="insertBoardCategoryConfig">
         /* NOT_SQL_LOG */
-        INSERT INTO
-               Board_Category_Config (
-               NAME
-             , WRITE_AT
-        )
-        VALUES (
-               #{name}
-             , NOW()
-               )
+        INSERT INTO Board_Category_Config
+                  ( NAME
+                  , WRITE_AT
+                  )
+           VALUES ( #{name}
+                  , NOW()
+                  )
     </insert>
 
     <select id="findOneBoardCategoryConfig" resultType="com.intw.mentorapi.dto.boardCategoryConfig.BoardCategoryConfigViewDTO">
@@ -64,7 +62,8 @@
 
     <delete id="deleteBoardCategoryConfig">
         /* NOT_SQL_LOG */
-        DELETE FROM Board_Category_Config WHERE IDX = #{idx}
+        DELETE FROM Board_Category_Config
+         WHERE IDX = #{idx}
     </delete>
 
 </mapper>

@@ -23,14 +23,12 @@
 
     <insert id="inserRoleCode">
         /* NOT_SQL_LOG */
-        INSERT INTO
-               Role_Code (
-               NAME
-             , CODE
-        )
-        VALUES (
-                 #{name}
-               , #{code}
-               )
+        INSERT INTO Role_Code
+                  ( NAME
+                  , CODE
+                  )
+           VALUES ( #{name}
+                  , #{code}
+                  )
     </insert>
 </mapper>
