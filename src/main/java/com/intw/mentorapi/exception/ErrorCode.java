@@ -45,6 +45,8 @@ public enum ErrorCode {
 
     isMentorCareerNotFoundException(701, "등록되어 있지 않은 멘토 경력 입니다.", HttpStatus.BAD_REQUEST),
     isMentorProjectNotFoundException(701, "등록되어 있지 않은 멘토 프로젝트 입니다.", HttpStatus.BAD_REQUEST),
+
+    isMentorCertificateNotFoundException(701, "등록되어 있지 않은 멘토 자격증 입니다.", HttpStatus.BAD_REQUEST),
     ;
 
     @Getter

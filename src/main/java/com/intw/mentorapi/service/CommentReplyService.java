@@ -1,12 +1,9 @@
 package com.intw.mentorapi.service;
 
 import com.intw.mentorapi.common.GetUserIp;
-import com.intw.mentorapi.dao.Comment;
 import com.intw.mentorapi.dao.CommentReply;
-import com.intw.mentorapi.dto.comment.CommentDTO;
 import com.intw.mentorapi.dto.commentReply.CommentReplyDTO;
 import com.intw.mentorapi.exception.ErrorCode;
-import com.intw.mentorapi.exception.customException.BoardException;
 import com.intw.mentorapi.exception.customException.CommentException;
 import com.intw.mentorapi.handler.UserProvider;
 import com.intw.mentorapi.mapper.CommentMapper;

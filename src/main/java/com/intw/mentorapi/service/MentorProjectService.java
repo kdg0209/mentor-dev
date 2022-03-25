@@ -1,12 +1,8 @@
 package com.intw.mentorapi.service;
 
-import com.intw.mentorapi.dao.Mentor;
-import com.intw.mentorapi.dao.MentorCareer;
 import com.intw.mentorapi.dao.MentorProject;
-import com.intw.mentorapi.dto.mentor.MentorDTO;
 import com.intw.mentorapi.dto.mentorProject.MentorProjectDTO;
 import com.intw.mentorapi.exception.ErrorCode;
-import com.intw.mentorapi.exception.customException.MentorCategoryConfigException;
 import com.intw.mentorapi.exception.customException.MentorException;
 import com.intw.mentorapi.exception.customException.MentorProjectException;
 import com.intw.mentorapi.mapper.MentorMapper;

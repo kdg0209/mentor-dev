@@ -1,6 +1,5 @@
 package com.intw.mentorapi.dto.board;
 
-import com.intw.mentorapi.dto.file.FileDTO;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
 import lombok.Setter;

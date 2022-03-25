@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.intw.mentorapi.mapper.MentorCertificateMapper">
+
+    <select id="isMentorCertificateExist" resultType="int">
+        /* NOT_SQL_LOG */
+        SELECT COUNT(*) FROM Mentor_Certificate
+         WHERE IDX = #{idx}
+    </select>
+
+
+    <insert id="insertMentorCertificate">
+        INSERT INTO Mentor_Certificate
+                  ( MENTOR_IDX
+                  , NAME
+                  , CONTENTS
+                  , ACCEPTANCE_ORGANIZATION
+                  , EXPIRATION_AT
+                  , WRITE_AT
+                  )
+           VALUES ( #{mentorIdx}
+                  , #{name}
+                  , #{contents}
+                  , #{acceptanceOrganization}
+                  , #{expirationAt}
+                  , NOW()
+                  )
+    </insert>
+
+
+    <update id="updateMentorCertificate">
+        /* NOT_SQL_LOG */
+        UPDATE Mentor_Certificate
+           SET NAME = #{name}
+             , CONTENTS = #{contents}
+             , ACCEPTANCE_ORGANIZATION = #{acceptanceOrganization}
+             , EXPIRATION_AT = #{expirationAt}
+         WHERE IDX = #{idx}
+    </update>
+
+    <delete id="deleteMentorCertificate">
+        /* NOT_SQL_LOG */
+        DELETE FROM Mentor_Certificate
+         WHERE IDX = #{idx}
+    </delete>
+</mapper>

@@ -1,7 +1,6 @@
 package com.intw.mentorapi.handler;
 
 import com.intw.mentorapi.dao.User;
-import com.intw.mentorapi.dto.auth.AuthDTO;
 import com.intw.mentorapi.service.CustomUserDetailService;
 import io.jsonwebtoken.*;
 import lombok.RequiredArgsConstructor;
