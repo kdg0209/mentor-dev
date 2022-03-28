@@ -21,6 +21,14 @@
                   )
     </insert>
 
+    <select id="findOneCommentReply" resultType="com.intw.mentorapi.dto.commentReply.CommentViewDTO">
+        /* NOT_SQL_LOG */
+        SELECT IDX
+             , REPLY
+          FROM Comment_Reply
+         WHERE IDX = #{idx}
+    </select>
+
     <update id="updateCommentReply">
         /* NOT_SQL_LOG */
         UPDATE Comment_Reply

@@ -12,6 +12,7 @@ public interface CommentMapper {
     int isCommentExist(long idx);
 
     List<CommentListDTO> findAllCommentByBoard(long boardIdx);
+    Comment findOneComment(long idx);
     void insertComment(Comment comment);
     void updateComment(Comment comment);
     void deleteComment(long idx, String role, long userIdx);

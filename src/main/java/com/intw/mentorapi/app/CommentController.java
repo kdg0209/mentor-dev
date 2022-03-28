@@ -24,6 +24,12 @@ public class CommentController {
         return commentService.write(commentInsertDTO);
     }
 
+    @GetMapping("/{idx}")
+    @ApiOperation(value="댓글 조회")
+    public ApiResponse view(@PathVariable("idx") long idx) {
+        return commentService.view(idx);
+    }
+
     @PutMapping
     @ApiOperation(value="댓글 수정")
     public ApiResponse update(@RequestBody @Valid CommentDTO.CommentUpdateDTO commentUpdateDTO) {

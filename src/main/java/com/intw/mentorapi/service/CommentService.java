@@ -1,6 +1,7 @@
 package com.intw.mentorapi.service;
 
 import com.intw.mentorapi.common.GetUserIp;
+import com.intw.mentorapi.common.Role;
 import com.intw.mentorapi.dao.Comment;
 import com.intw.mentorapi.dto.comment.CommentDTO;
 import com.intw.mentorapi.exception.ErrorCode;
@@ -40,6 +41,14 @@ public class CommentService extends UserProvider {
         commentMapper.insertComment(comment);
         return result;
     }
+
+    public ApiResponse view(long idx) {
+        ResponseMap result = new ResponseMap();
+
+        result.setResponseData("comment", commentMapper.findOneComment(idx));
+        return result;
+    }
+
 
     public ApiResponse update(CommentDTO.CommentUpdateDTO commentUpdateDTO) {
         ResponseMap result = new ResponseMap();

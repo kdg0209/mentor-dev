@@ -40,6 +40,13 @@ public class CommentReplyService extends UserProvider {
         return result;
     }
 
+    public ApiResponse view(long idx) {
+        ResponseMap result = new ResponseMap();
+
+        result.setResponseData("commentReply", commentReplyMapper.findOneCommentReply(idx));
+        return result;
+    }
+
     public ApiResponse update(CommentReplyDTO.CommentReplyUpdateDTO commentReplyUpdateDTO) {
         ResponseMap result = new ResponseMap();
 

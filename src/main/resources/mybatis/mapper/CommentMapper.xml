@@ -40,6 +40,18 @@
                   )
     </insert>
 
+    <select id="findOneComment" resultType="Comment">
+        /* NOT_SQL_LOG */
+        SELECT IDX
+             , USER_IDX
+             , BOARD_IDX
+             , COMMENT
+             , WRITE_AT
+          FROM Comment
+         WHERE IDX = #{idx}
+    </select>
+
+
     <update id="updateComment">
         /* NOT_SQL_LOG */
         UPDATE Comment
