@@ -2,7 +2,6 @@ package com.intw.mentorapi.service;
 
 import com.intw.mentorapi.common.HashPassword;
 import com.intw.mentorapi.dao.Company;
-import com.intw.mentorapi.dao.RoleCode;
 import com.intw.mentorapi.dao.User;
 import com.intw.mentorapi.dto.PageDTO;
 import com.intw.mentorapi.dto.company.CompanyDTO;
@@ -39,9 +38,9 @@ public class UserService {
 
         int isEmailCount = userMapper.isEmailExist(userDTO.getEmail());
         int isPhoneCount = userMapper.isPhoneExist(userDTO.getPhone(), null);
-        RoleCode isRoleExist = roleCodeMapper.isRoleExist(userDTO.getRoleCodeIdx());
+        int isRoleExist = roleCodeMapper.isRoleExist(userDTO.getRoleCodeIdx());
 
-        if (isRoleExist == null) {
+        if (isRoleExist == 0) {
             throw new RoleCodeException(ErrorCode.isRoleNotFoundException);
         }
 
@@ -74,9 +73,9 @@ public class UserService {
         ResponseMap result = new ResponseMap();
 
         int isPhoneCount = userMapper.isPhoneExist(userDTO.getPhone(), userDTO.getIdx());
-        RoleCode isRoleExist = roleCodeMapper.isRoleExist(userDTO.getRoleCodeIdx());
+        int isRoleExist = roleCodeMapper.isRoleExist(userDTO.getRoleCodeIdx());
 
-        if (isRoleExist == null) {
+        if (isRoleExist == 0) {
             throw new RoleCodeException(ErrorCode.isRoleNotFoundException);
         }
 

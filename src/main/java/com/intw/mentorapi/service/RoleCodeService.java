@@ -27,9 +27,9 @@ public class RoleCodeService {
     public ApiResponse write(RoleCodeDTO roleCodeDTO) {
         ResponseMap result = new ResponseMap();
 
-        RoleCode isRoleExist = roleCodeMapper.isRoleExist(roleCodeDTO.getCode());
+        int isRoleExist = roleCodeMapper.isRoleExist(roleCodeDTO.getCode());
 
-        if (isRoleExist != null) {
+        if (isRoleExist > 0) {
             throw new RoleCodeException(ErrorCode.isRoleExistException);
         }
 

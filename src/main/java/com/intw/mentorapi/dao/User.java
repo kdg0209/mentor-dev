@@ -10,7 +10,6 @@ import java.util.Collection;
 
 @Getter
 @Setter
-@ToString
 public class User implements UserDetails {
 
     private long idx;

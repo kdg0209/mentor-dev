@@ -1,7 +1,6 @@
 package com.intw.mentorapi.service;
 
 import com.intw.mentorapi.common.GetUserIp;
-import com.intw.mentorapi.common.Role;
 import com.intw.mentorapi.dao.Comment;
 import com.intw.mentorapi.dto.comment.CommentDTO;
 import com.intw.mentorapi.exception.ErrorCode;

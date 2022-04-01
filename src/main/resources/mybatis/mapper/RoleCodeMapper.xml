@@ -4,11 +4,9 @@
 
 <mapper namespace="com.intw.mentorapi.mapper.RoleCodeMapper">
 
-    <select id="isRoleExist" resultType="RoleCode">
+    <select id="isRoleExist" resultType="int">
         /* NOT_SQL_LOG */
-        SELECT IDX
-             , NAME
-             , CODE
+        SELECT COUNT(*)
           FROM Role_Code
          WHERE IDX = #{idx}
     </select>

@@ -3,7 +3,6 @@ package com.intw.mentorapi.service;
 import com.intw.mentorapi.app.AuthController;
 import com.intw.mentorapi.common.HashPassword;
 import com.intw.mentorapi.dao.RefreshToken;
-import com.intw.mentorapi.dao.RoleCode;
 import com.intw.mentorapi.dao.User;
 import com.intw.mentorapi.dto.auth.AuthDTO;
 import com.intw.mentorapi.exception.ErrorCode;
@@ -77,16 +76,17 @@ public class AuthService {
         return result;
     }
 
-    public ApiResponse join(AuthDTO.JoinDTO joinDTO) {
+    public synchronized ApiResponse join(AuthDTO.JoinDTO joinDTO) {
         ResponseMap result = new ResponseMap();
 
         int isEmailCount = authMapper.isEmailExist(joinDTO.getEmail());
         int isPhoneCount = authMapper.isPhoneExist(joinDTO.getPhone());
-        RoleCode isRoleExist = roleCodeMapper.isRoleExist(joinDTO.getRoleCodeIdx());
+        int isRoleExist = roleCodeMapper.isRoleExist(joinDTO.getRoleCodeIdx());
 
-        if (isRoleExist == null) {
+        if (isRoleExist == 0) {
             throw new RoleCodeException(ErrorCode.isRoleNotFoundException);
         }
+
         if (isEmailCount > 0) {
             throw new UserException(ErrorCode.isEmailExistException);
         }
@@ -96,7 +96,16 @@ public class AuthService {
         }
 
         joinDTO.setPassword(new HashPassword().hashPassword(joinDTO.getPassword()));
-        User user = modelMapper.map(joinDTO, User.class);
+        User user = new User();
+        user.setEmail(joinDTO.getEmail());
+        user.setPassword(joinDTO.getPassword());
+        user.setName(joinDTO.getName());
+        user.setRole(joinDTO.getRole());
+        user.setRoleCodeIdx(joinDTO.getRoleCodeIdx());
+        user.setStatus(joinDTO.getStatus());
+        user.setPhone(joinDTO.getPhone());
+        user.setGender(joinDTO.getGender());
+        user.setIsAgreement(joinDTO.getIsAgreement());
         authMapper.insertUser(user);
         return result;
     }
