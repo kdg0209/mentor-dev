@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.intw.mentorapi.mapper.FileDetailMapper">
+    <select id="findAllFileDetail" resultType="FileDetail">
+        /* NOT_SQL_LOG */
+        SELECT IDX
+             , FILE_PATH
+          FROM Common_File_Detail
+         WHERE COMMON_FILE_IDX = #{fkIdx}
+    </select>
+
+    <insert id="insertFileDetail" parameterType="java.util.List">
+        /* NOT_SQL_LOG */
+        INSERT INTO Common_File_Detail
+                  ( COMMON_FILE_IDX
+                  , FILE_NAME
+                  , FILE_PATH
+                  , FILE_EXT
+                  , WRITE_AT
+                  )
+        VALUES
+            <foreach item="item" collection="list" separator=", ">
+                (
+                     #{item.commonFileIdx}
+                   , #{item.fileName}
+                   , #{item.filePath}
+                   , #{item.fileExt}
+                   , NOW()
+                )
+            </foreach>
+    </insert>
+
+    <delete id="deleteCommonFileDetailByCommonFile">
+        /* NOT_SQL_LOG */
+        DELETE FROM Common_File_Detail
+         WHERE COMMON_FILE_IDX = #{fkIdx}
+    </delete>
+
+</mapper>

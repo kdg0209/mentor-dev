@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.intw.mentorapi.mapper.AuthMapper">
+    <select id="isEmailExist" resultType="int">
+        /* NOT_SQL_LOG */
+        SELECT COUNT(*)
+        FROM User
+        WHERE EMAIL = #{email}
+    </select>
+
+    <select id="isPhoneExist" resultType="int">
+        /* NOT_SQL_LOG */
+        SELECT COUNT(*)
+        FROM User
+        WHERE PHONE = #{phone}
+    </select>
+
+    <select id="findOneUserEmail" resultType="User">
+        /* NOT_SQL_LOG */
+        SELECT U.IDX
+             , U.EMAIL
+             , U.PASSWORD
+             , U.ROLE
+             , U.ROLE_CODE_IDX
+             , RC.CODE AS ROLE_CODE
+             , C.IDX AS COMPANY_IDX
+          FROM User U
+          LEFT JOIN Role_Code RC ON RC.IDX = U.ROLE_CODE_IDX
+          LEFT JOIN Company C ON C.USER_IDX = U.IDX
+         WHERE U.EMAIL = #{email}
+    </select>
+
+    <select id="findOneRefreshToken" resultType="String">
+        /* NOT_SQL_LOG */
+        SELECT REFRESH_TOKEN
+          FROM Refresh_Token
+         WHERE IDX = #{idx}
+    </select>
+
+    <insert id="insertOrUpdateRefreshToken" useGeneratedKeys="true" keyProperty="idx">
+        /* NOT_SQL_LOG */
+        INSERT INTO
+               Refresh_Token (
+                             USER_EMAIL
+                           , ACCESS_TOKEN
+                           , REFRESH_TOKEN
+                           , REFRESH_TOKEN_EXPIRATION_AT
+        )
+        VALUES (
+               #{userEmail}
+             , #{accessToken}
+             , #{refreshToken}
+             , #{refreshTokenExpirationAt}
+        )
+        ON DUPLICATE KEY UPDATE
+                     IDX = ( SELECT idx FROM
+                        ( SELECT (idx + 1) AS idx FROM Refresh_Token B ORDER BY idx DESC LIMIT 1)
+                     AS A)
+              , ACCESS_TOKEN = #{accessToken}
+              , REFRESH_TOKEN = #{refreshToken}
+              , REFRESH_TOKEN_EXPIRATION_AT = #{refreshTokenExpirationAt}
+              , USER_EMAIL = #{userEmail}
+    </insert>
+
+    <insert id="insertUser">
+        /* NOT_SQL_LOG */
+        INSERT INTO User
+                  ( EMAIL
+                  , PASSWORD
+                  , ROLE
+                  , ROLE_CODE_IDX
+                  , STATUS
+                  , NAME
+                  , PHONE
+                  , GENDER
+                  , IS_AGREEMENT
+                  , WRITE_AT
+                  )
+           VALUES ( #{email}
+                  , #{password}
+                  , #{role}
+                  , #{roleCodeIdx}
+                  , #{status}
+                  , #{name}
+                  , #{phone}
+                  , #{gender}
+                  , #{isAgreement}
+                  , NOW()
+                  )
+    </insert>
+</mapper>

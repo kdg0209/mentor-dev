@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.intw.mentorapi.mapper.MentorCategoryConfigMapper">
+
+    <select id="isCategoryNameExist" resultType="int">
+        /* NOT_SQL_LOG */
+        SELECT COUNT(*)
+          FROM Mentor_Category_Config
+         WHERE NAME = #{name}
+    </select>
+
+    <select id="isCategoryContainsExist" resultType="int">
+        SELECT COUNT(*)
+          FROM Mentor_Category_Config
+         WHERE IDX IN
+        <foreach item="idx" index="index" collection="list" open="(" separator="," close=")">
+            #{idx}
+        </foreach>
+    </select>
+
+    <select id="findAllMentorCategoryConfig" resultType="MentorCategoryConfig">
+        SELECT IDX
+             , NAME
+          FROM Mentor_Category_Config
+    </select>
+
+    <insert id="insertMentorCategoryConfig">
+        INSERT INTO Mentor_Category_Config ( NAME )
+        VALUES ( #{name} )
+    </insert>
+
+    <select id="findOneMentorCategoryConfig" resultType="MentorCategoryConfig">
+        SELECT IDX
+             , NAME
+          FROM Mentor_Category_Config
+         WHERE IDX = #{idx}
+    </select>
+
+    <update id="updateMentorCategoryConfig">
+        /* NOT_SQL_LOG */
+        UPDATE Mentor_Category_Config
+           SET NAME = #{name}
+         WHERE IDX = #{idx};
+    </update>
+
+    <delete id="deleteMentorCategoryConfig">
+        /* NOT_SQL_LOG */
+        DELETE FROM Mentor_Category_Config
+         WHERE IDX = #{idx};
+    </delete>
+</mapper>

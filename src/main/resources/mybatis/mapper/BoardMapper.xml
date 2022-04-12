@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.intw.mentorapi.mapper.BoardMapper">
+
+    <select id="isBoardExist" resultType="int">
+        /* NOT_SQL_LOG */
+        SELECT COUNT(*) FROM Board
+         WHERE IDX = #{idx}
+    </select>
+
+    <select id="findAllBoard" resultType="com.intw.mentorapi.dto.board.BoardListDTO">
+        /* NOT_SQL_LOG */
+        SELECT B.IDX
+             , B.TITLE
+             , B.VIEW_COUNT
+             , B.WRITE_AT
+             , U.NAME
+             , U.EMAIL
+          FROM Board B
+          LEFT JOIN User U ON U.IDX = B.USER_IDX
+         WHERE 1 = 1
+               <if test='pageDTO.keyword != null'>
+                  AND U.NAME LIKE CONCAT('%',#{pageDTO.keyword},'%')
+                   OR U.EMAIL LIKE CONCAT('%',#{pageDTO.keyword},'%')
+                   OR B.TITLE LIKE CONCAT('%',#{pageDTO.keyword},'%')
+               </if>
+               <if test='role.equals("ALL") || !role.equals("ROLE_ADMIN")'>
+                   AND B.STATUS = "Y"
+               </if>
+         ORDER BY B.IDX DESC
+         LIMIT #{pageDTO.pageIndex}, #{pageDTO.pageSize}
+    </select>
+
+    <insert id="insertBoard" useGeneratedKeys="true" keyProperty="idx">
+        /* NOT_SQL_LOG */
+        INSERT INTO Board
+                  ( BOARD_CONFIG_IDX
+                  , BOARD_CATEGORY_CONFIG_IDX
+                  , USER_IDX
+                  , STATUS
+                  , TITLE
+                  , CONTENTS
+                  , VIEW_COUNT
+                  , WRITE_AT
+                  )
+           VALUES ( #{boardConfigIdx}
+                  , #{boardCategoryConfigIdx}
+                  , #{userIdx}
+                  , #{status}
+                  , #{title}
+                  , #{contents}
+                  , 0
+                  , NOW()
+                  )
+    </insert>
+
+    <select id="findOneBoard" resultType="com.intw.mentorapi.dto.board.BoardViewDTO">
+        /* NOT_SQL_LOG */
+        SELECT B.IDX
+             , B.TITLE
+             , B.VIEW_COUNT
+             , B.WRITE_AT
+             , U.NAME
+             , U.EMAIL
+          FROM Board B
+          LEFT JOIN User U ON U.IDX = B.USER_IDX
+         WHERE B.IDX = #{idx}
+               <if test='role.equals("ALL") || !role.equals("ROLE_ADMIN")'>
+                   AND B.STATUS = "Y"
+               </if>
+    </select>
+
+    <select id="findAllFilesByBoard" resultType="com.intw.mentorapi.dto.file.FileListDTO">
+        /* NOT_SQL_LOG */
+        SELECT CFD.FILE_NAME
+             , CFD.FILE_PATH
+             , CF.TARGET_TYPE
+          FROM Common_File CF
+          LEFT JOIN Board B ON B.IDX = CF.FK_IDX
+          LEFT JOIN Common_File_Detail CFD ON CFD.COMMON_FILE_IDX = CF.IDX
+         WHERE B.IDX = #{idx}
+           AND CF.TABLES = "board"
+    </select>
+
+    <update id="updateBoard">
+        /* NOT_SQL_LOG */
+        UPDATE Board
+           SET BOARD_CONFIG_IDX = #{boardConfigIdx}
+             , BOARD_CATEGORY_CONFIG_IDX = #{boardCategoryConfigIdx}
+             , STATUS = #{status}
+             , TITLE = #{title}
+             , CONTENTS = #{contents}
+             , UPDATE_AT = NOW()
+         WHERE IDX = #{idx}
+    </update>
+
+    <update id="updateBoardViewCount">
+        /* NOT_SQL_LOG */
+        UPDATE Board
+           SET VIEW_COUNT = VIEW_COUNT + 1
+         WHERE IDX = #{idx}
+    </update>
+
+    <delete id="deleteBoard">
+        /* NOT_SQL_LOG */
+        UPDATE Board
+           SET STATUS = 'D'
+         WHERE IDX = #{idx}
+    </delete>
+</mapper>
