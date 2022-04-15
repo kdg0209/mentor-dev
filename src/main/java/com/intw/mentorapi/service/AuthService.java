@@ -75,7 +75,7 @@ public class AuthService {
         return result;
     }
 
-    public synchronized ApiResponse join(AuthDTO.JoinDTO joinDTO) {
+    public ApiResponse join(AuthDTO.JoinDTO joinDTO) {
         ResponseMap result = new ResponseMap();
 
         int isEmailCount = authMapper.isEmailExist(joinDTO.getEmail());
@@ -126,13 +126,14 @@ public class AuthService {
         String refreshToken = jwtProvider.createRefreshToken(user).get("refreshToken");
         String refreshTokenExpirationAt = jwtProvider.createRefreshToken(user).get("refreshTokenExpirationAt");
 
-        RefreshToken insertRefreshToken = new RefreshToken();
-        insertRefreshToken.setUserEmail(user.getEmail());
-        insertRefreshToken.setAccessToken(accessToken);
-        insertRefreshToken.setRefreshToken(refreshToken);
-        insertRefreshToken.setRefreshTokenExpirationAt(refreshTokenExpirationAt);
-        authMapper.insertOrUpdateRefreshToken(insertRefreshToken);
+        RefreshToken insertRefreshToken = RefreshToken.builder()
+                                            .userEmail(user.getEmail())
+                                            .accessToken(accessToken)
+                                            .refreshToken(refreshToken)
+                                            .refreshTokenExpirationAt(refreshTokenExpirationAt)
+                                            .build();
 
+        authMapper.insertOrUpdateRefreshToken(insertRefreshToken);
         result.put("accessToken", accessToken);
         result.put("refreshIdx", insertRefreshToken.getIdx());
         return result;
