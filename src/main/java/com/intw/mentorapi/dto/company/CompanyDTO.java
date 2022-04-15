@@ -5,7 +5,9 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
+import java.time.LocalDate;
 
 @Setter
 @Getter
@@ -63,9 +65,9 @@ public class CompanyDTO {
     @ApiModelProperty(value = "담당자 연락처", example = "010-1234-5678", required = true)
     private String managerPhone;
 
-    @NotBlank
+    @NotNull
     @ApiModelProperty(value = "설립일", example = "2022-02-22", required = true)
-    private String createAt;
+    private LocalDate createAt;
 
     @Getter
     @Setter
@@ -92,12 +94,12 @@ public class CompanyDTO {
         @ApiModelProperty(value = "잔여할당 시간", example = "1")
         private float availableTime;
 
-        @NotBlank
+        @NotNull
         @ApiModelProperty(value = "서비스 시작일", example = "2022-01-01", required = true)
-        private String serviceStartAt;
+        private LocalDate serviceStartAt;
 
-        @NotBlank
+        @NotNull
         @ApiModelProperty(value = "서비스 종료일", example = "2022-01-01", required = true)
-        private String serviceEndAt;
+        private LocalDate serviceEndAt;
     }
 }

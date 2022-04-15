@@ -5,6 +5,7 @@ import com.intw.mentorapi.dto.PageDTO;
 import com.intw.mentorapi.dto.board.BoardListDTO;
 import com.intw.mentorapi.dto.board.BoardViewDTO;
 import com.intw.mentorapi.dto.file.FileListDTO;
+import com.intw.mentorapi.status.RoleStatus;
 import org.apache.ibatis.annotations.Param;
 import org.mapstruct.Mapper;
 
@@ -17,8 +18,8 @@ public interface BoardMapper {
     List<FileListDTO> findAllFilesByBoard(long idx);
     void updateBoardViewCount(long idx);
 
-    List<BoardListDTO> findAllBoard(@Param("pageDTO") PageDTO pageDTO, String role);
-    BoardViewDTO findOneBoard(long idx, String role);
+    List<BoardListDTO> findAllBoard(@Param("pageDTO") PageDTO pageDTO, RoleStatus role);
+    BoardViewDTO findOneBoard(long idx, RoleStatus role);
     void insertBoard(Board board);
     void updateBoard(Board board);
     void deleteBoard(long idx);

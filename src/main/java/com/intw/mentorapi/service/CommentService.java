@@ -21,22 +21,22 @@ public class CommentService extends UserProvider {
     private final BoardMapper boardMapper;
     private final CommentMapper commentMapper;
 
-    public ApiResponse write(CommentDTO.CommentInsertDTO commentInsertDTO) {
+    public ApiResponse write(CommentDTO.CommentInsertDTO params) {
         ResponseMap result = new ResponseMap();
         GetUserIp getUserIp = new GetUserIp();
 
-        int isBoardExist = boardMapper.isBoardExist(commentInsertDTO.getBoardIdx());
+        int isBoardExist = boardMapper.isBoardExist(params.getBoardIdx());
 
         if (isBoardExist == 0) {
             throw new BoardException(ErrorCode.isBoardNotFoundException);
         }
 
-        Comment comment = new Comment();
-        comment.setUserIdx(getUser().getIdx());
-        comment.setBoardIdx(commentInsertDTO.getBoardIdx());
-        comment.setComment(commentInsertDTO.getComment());
-        comment.setWriteIp(getUserIp.returnIP());
-
+        Comment comment = Comment.builder()
+                            .userIdx(getUser().getIdx())
+                            .boardIdx(params.getBoardIdx())
+                            .comment(params.getComment())
+                            .writeIp(getUserIp.returnIP())
+                            .build();
         commentMapper.insertComment(comment);
         return result;
     }
@@ -49,20 +49,21 @@ public class CommentService extends UserProvider {
     }
 
 
-    public ApiResponse update(CommentDTO.CommentUpdateDTO commentUpdateDTO) {
+    public ApiResponse update(CommentDTO.CommentUpdateDTO params) {
         ResponseMap result = new ResponseMap();
 
-        int isCommentExist = commentMapper.isCommentExist(commentUpdateDTO.getIdx());
+        int isCommentExist = commentMapper.isCommentExist(params.getIdx());
 
         if (isCommentExist == 0) {
             throw new CommentException(ErrorCode.isCommentNotFoundException);
         }
 
-        Comment comment = new Comment();
-        comment.setIdx(commentUpdateDTO.getIdx());
-        comment.setUserIdx(getUser().getIdx());
-        comment.setBoardIdx(commentUpdateDTO.getBoardIdx());
-        comment.setComment(commentUpdateDTO.getComment());
+        Comment comment = Comment.builder()
+                            .idx(params.getIdx())
+                            .userIdx(getUser().getIdx())
+                            .boardIdx(params.getBoardIdx())
+                            .comment(params.getComment())
+                            .build();
 
         commentMapper.updateComment(comment);
         return result;
@@ -70,7 +71,6 @@ public class CommentService extends UserProvider {
 
     public ApiResponse delete(long idx) {
         ResponseMap result = new ResponseMap();
-
         commentMapper.deleteComment(idx, getUser().getRole(), getUser().getIdx());
         return result;
     }

@@ -107,6 +107,13 @@ public class ExceptionController {
         return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
     }
 
+    @ExceptionHandler(CommentReplyException.class)
+    @ResponseBody
+    public ResponseEntity<ErrorResponse> handleCommentReplyException(CommentException ex){
+        ErrorResponse errorResponse = new ErrorResponse(ex.getErrorCode().getCode(), ex.getErrorCode().getMessage());
+        return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
+    }
+
     @ExceptionHandler(MentorCategoryConfigException.class)
     @ResponseBody
     public ResponseEntity<ErrorResponse> handleMentorCategoryConfigException(MentorCategoryConfigException ex){

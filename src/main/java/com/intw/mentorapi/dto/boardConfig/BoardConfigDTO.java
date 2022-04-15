@@ -30,6 +30,7 @@ public class BoardConfigDTO {
     @Getter
     @Setter
     public static class BoardConfigInsertDTO extends BoardConfigDTO {
+
         @NotBlank
         @ApiModelProperty(value = "모듈 타입", example = "notice", required = true)
         private String type;

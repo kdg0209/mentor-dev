@@ -57,6 +57,7 @@
                   , PHONE
                   , GENDER
                   , IS_AGREEMENT
+                  , JOIN_AT
                   , WRITE_AT
                   )
            VALUES ( #{email}
@@ -68,6 +69,7 @@
                   , #{phone}
                   , #{gender}
                   , #{isAgreement}
+                  , #{joinAt}
                   , NOW()
                   )
     </insert>

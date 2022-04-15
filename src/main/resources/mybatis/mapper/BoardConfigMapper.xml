@@ -8,7 +8,7 @@
         /* NOT_SQL_LOG */
         SELECT COUNT(*)
           FROM Board_config
-         WHERE IDX = #{idx)}
+         WHERE IDX = #{idx}
     </select>
 
     <select id="isTypeExist" resultType="int">

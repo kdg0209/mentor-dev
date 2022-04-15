@@ -23,26 +23,26 @@ public class MentorCareerService {
     private final MentorMapper mentorMapper;
     private final MentorCareerMapper mentorCareerMapper;
 
-    public ApiResponse write(MentorCareerDTO.MentorCareerInsertDTO mentorCareerInsertDTO) {
+    public ApiResponse write(MentorCareerDTO.MentorCareerInsertDTO params) {
         ResponseMap result = new ResponseMap();
 
-        int isMentorExist = mentorMapper.isMentorExist(mentorCareerInsertDTO.getMentorIdx());
+        int isMentorExist = mentorMapper.isMentorExist(params.getMentorIdx());
 
         if (isMentorExist == 0) {
             throw new MentorException(ErrorCode.isMentorNotFoundException);
         }
-        double annual = yearCalculation(mentorCareerInsertDTO.getStartAt(), mentorCareerInsertDTO.getEndAt());
+        double annual = yearCalculation(params.getStartAt(), params.getEndAt());
 
         MentorCareer mentorCareer = MentorCareer.builder()
-                        .mentorIdx(mentorCareerInsertDTO.getMentorIdx())
-                        .status(mentorCareerInsertDTO.getStatus())
-                        .company(mentorCareerInsertDTO.getCompany())
-                        .department(mentorCareerInsertDTO.getDepartment())
-                        .grade(mentorCareerInsertDTO.getGrade())
-                        .annual(annual)
-                        .startAt(mentorCareerInsertDTO.getStartAt())
-                        .endAt(mentorCareerInsertDTO.getEndAt())
-                        .build();
+                                    .mentorIdx(params.getMentorIdx())
+                                    .status(params.getStatus())
+                                    .company(params.getCompany())
+                                    .department(params.getDepartment())
+                                    .grade(params.getGrade())
+                                    .annual(annual)
+                                    .startAt(params.getStartAt())
+                                    .endAt(params.getEndAt())
+                                    .build();
 
         mentorCareerMapper.insertMentorCareer(mentorCareer);
         return result;
@@ -54,27 +54,27 @@ public class MentorCareerService {
         return result;
     }
 
-    public ApiResponse update(MentorCareerDTO.MentorCareerUpdateDTO mentorCareerUpdateDTO) {
+    public ApiResponse update(MentorCareerDTO.MentorCareerUpdateDTO params) {
         ResponseMap result = new ResponseMap();
 
-        int isMentorCareerExist = mentorCareerMapper.isMentorCareerExist(mentorCareerUpdateDTO.getIdx());
+        int isMentorCareerExist = mentorCareerMapper.isMentorCareerExist(params.getIdx());
 
         if (isMentorCareerExist == 0) {
             throw new MentorCareerException(ErrorCode.isMentorCareerNotFoundException);
         }
 
-        double annual = yearCalculation(mentorCareerUpdateDTO.getStartAt(), mentorCareerUpdateDTO.getEndAt());
+        double annual = yearCalculation(params.getStartAt(), params.getEndAt());
 
         MentorCareer mentorCareer = MentorCareer.builder()
-                .idx(mentorCareerUpdateDTO.getIdx())
-                .status(mentorCareerUpdateDTO.getStatus())
-                .company(mentorCareerUpdateDTO.getCompany())
-                .department(mentorCareerUpdateDTO.getDepartment())
-                .grade(mentorCareerUpdateDTO.getGrade())
-                .annual(annual)
-                .startAt(mentorCareerUpdateDTO.getStartAt())
-                .endAt(mentorCareerUpdateDTO.getEndAt())
-                .build();
+                                        .idx(params.getIdx())
+                                        .status(params.getStatus())
+                                        .company(params.getCompany())
+                                        .department(params.getDepartment())
+                                        .grade(params.getGrade())
+                                        .annual(annual)
+                                        .startAt(params.getStartAt())
+                                        .endAt(params.getEndAt())
+                                        .build();
 
         mentorCareerMapper.updateMentorCareer(mentorCareer);
         return result;

@@ -1,6 +1,5 @@
 package com.intw.mentorapi.service;
 
-import com.intw.mentorapi.common.Role;
 import com.intw.mentorapi.dao.Board;
 import com.intw.mentorapi.dto.PageDTO;
 import com.intw.mentorapi.dto.board.BoardDTO;
@@ -15,15 +14,14 @@ import com.intw.mentorapi.mapper.BoardMapper;
 import com.intw.mentorapi.mapper.CommentMapper;
 import com.intw.mentorapi.response.ApiResponse;
 import com.intw.mentorapi.response.ResponseMap;
+import com.intw.mentorapi.status.RoleStatus;
 import lombok.RequiredArgsConstructor;
-import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
 public class BoardService extends UserProvider {
 
-    private final ModelMapper modelMapper;
     private final BoardMapper boardMapper;
     private final CommentMapper commentMapper;
     private final BoardCategoryConfigMapper boardCategoryConfigMapper;
@@ -36,17 +34,17 @@ public class BoardService extends UserProvider {
         if (getUser() != null) {
             result.setResponseData("boardList", boardMapper.findAllBoard(pageDTO, getUser().getRole()));
         } else {
-            result.setResponseData("boardList", boardMapper.findAllBoard(pageDTO, Role.ALL.toString()));
+            result.setResponseData("boardList", boardMapper.findAllBoard(pageDTO, RoleStatus.ROLE_ALL));
         }
 
         return result;
     }
 
-    public ApiResponse write(BoardDTO.BoardInsertDTO boardInsertDTO) {
+    public ApiResponse write(BoardDTO.BoardInsertDTO params) {
         ResponseMap result = new ResponseMap();
 
-        int isBoardConfigExist = boardConfigMapper.isBoardConfigExist(boardInsertDTO.getBoardConfigIdx());
-        int isCategoryExist = boardCategoryConfigMapper.isCategoryExist(boardInsertDTO.getBoardCategoryConfigIdx());
+        int isBoardConfigExist = boardConfigMapper.isBoardConfigExist(params.getBoardConfigIdx());
+        int isCategoryExist = boardCategoryConfigMapper.isCategoryExist(params.getBoardCategoryConfigIdx());
 
         if (isBoardConfigExist == 0) {
             throw new BoardConfigException(ErrorCode.isBoardConfigNotFoundException);
@@ -56,10 +54,16 @@ public class BoardService extends UserProvider {
             throw new BoardCategoryConfigException(ErrorCode.isBoardCategoryConfigNotFoundException);
         }
 
-        boardInsertDTO.setUserIdx(getUser().getIdx());
-        Board board = modelMapper.map(boardInsertDTO, Board.class);
+        Board board = Board.builder()
+                        .boardConfigIdx(params.getBoardConfigIdx())
+                        .boardCategoryConfigIdx(params.getBoardCategoryConfigIdx())
+                        .userIdx(getUser().getIdx())
+                        .status(params.getStatus())
+                        .title(params.getTitle())
+                        .contents(params.getContents())
+                        .build();
         boardMapper.insertBoard(board);
-        fileService.fileUpload(boardInsertDTO.getFiles(), boardInsertDTO.getTargetType(), "board", board.getIdx());
+        fileService.fileUpload(params.getFiles(), params.getTargetType(), "board", board.getIdx());
         return result;
     }
 
@@ -69,7 +73,7 @@ public class BoardService extends UserProvider {
         if (getUser() != null) {
             result.setResponseData("board", boardMapper.findOneBoard(idx, getUser().getRole()));
         } else {
-            result.setResponseData("board", boardMapper.findOneBoard(idx, Role.ALL.toString()));
+            result.setResponseData("board", boardMapper.findOneBoard(idx, RoleStatus.ROLE_ALL));
         }
 
         boardMapper.updateBoardViewCount(idx);
@@ -78,12 +82,12 @@ public class BoardService extends UserProvider {
         return result;
     }
 
-    public ApiResponse update(BoardDTO.BoardUpdateDTO boardUpdateDTO) {
+    public ApiResponse update(BoardDTO.BoardUpdateDTO params) {
         ResponseMap result = new ResponseMap();
 
-        int isBoardExist = boardMapper.isBoardExist(boardUpdateDTO.getIdx());
-        int isBoardConfigExist = boardConfigMapper.isBoardConfigExist(boardUpdateDTO.getBoardConfigIdx());
-        int isCategoryExist = boardCategoryConfigMapper.isCategoryExist(boardUpdateDTO.getBoardCategoryConfigIdx());
+        int isBoardExist = boardMapper.isBoardExist(params.getIdx());
+        int isBoardConfigExist = boardConfigMapper.isBoardConfigExist(params.getBoardConfigIdx());
+        int isCategoryExist = boardCategoryConfigMapper.isCategoryExist(params.getBoardCategoryConfigIdx());
 
         if (isBoardExist == 0) {
             throw new BoardException(ErrorCode.isBoardNotFoundException);
@@ -97,9 +101,16 @@ public class BoardService extends UserProvider {
             throw new BoardCategoryConfigException(ErrorCode.isBoardCategoryConfigNotFoundException);
         }
 
-        Board board = modelMapper.map(boardUpdateDTO, Board.class);
+        Board board = Board.builder()
+                        .idx(params.getIdx())
+                        .boardConfigIdx(params.getBoardConfigIdx())
+                        .boardCategoryConfigIdx(params.getBoardCategoryConfigIdx())
+                        .status(params.getStatus())
+                        .title(params.getTitle())
+                        .contents(params.getContents())
+                        .build();
+
         boardMapper.updateBoard(board);
-        fileService.fileUpdate(boardUpdateDTO.getFiles(), "board", board.getIdx());
         return result;
     }
 

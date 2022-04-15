@@ -4,6 +4,13 @@
 
 <mapper namespace="com.intw.mentorapi.mapper.CommentReplyMapper">
 
+    <select id="isCommentReplyExist" resultType="int">
+        /* NOT_SQL_LOG */
+        SELECT COUNT(*)
+          FROM Comment_Reply
+         WHERE IDX = #{idx}
+    </select>
+
     <insert id="insertCommentReply">
         /* NOT_SQL_LOG */
         INSERT INTO Comment_Reply

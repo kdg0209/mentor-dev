@@ -14,8 +14,8 @@ import com.intw.mentorapi.mapper.AuthMapper;
 import com.intw.mentorapi.mapper.RoleCodeMapper;
 import com.intw.mentorapi.response.ApiResponse;
 import com.intw.mentorapi.response.ResponseMap;
+import com.intw.mentorapi.status.RoleStatus;
 import lombok.RequiredArgsConstructor;
-import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -35,17 +35,16 @@ public class AuthService {
     private final AuthenticationManager authenticationManager;
     private final AuthMapper authMapper;
     private final RoleCodeMapper roleCodeMapper;
-    private final ModelMapper modelMapper;
 
     public ApiResponse login(AuthDTO.LoginDTO loginDTO) {
         ResponseMap result = new ResponseMap();
 
         try {
-            User user = (User)authenticationManager.authenticate(
+            User user = (User) authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(loginDTO.getEmail(), loginDTO.getPassword())
             ).getPrincipal();
 
-            Map createToken = createTokenReturn(user);
+            Map createToken = createToken(user);
             result.setResponseData("accessToken", createToken.get("accessToken"));
             result.setResponseData("refreshIdx", createToken.get("refreshIdx"));
         } catch (Exception e) {
@@ -64,7 +63,7 @@ public class AuthService {
         if(jwtProvider.validateJwtToken(request, refreshToken)){
             User user = (User) jwtProvider.getAuthentication(refreshToken).getPrincipal();
 
-            Map createToken = createTokenReturn(user);
+            Map createToken = createToken(user);
             result.setResponseData("accessToken", createToken.get("accessToken"));
             result.setResponseData("refreshIdx", createToken.get("refreshIdx"));
         }else{
@@ -96,16 +95,20 @@ public class AuthService {
         }
 
         joinDTO.setPassword(new HashPassword().hashPassword(joinDTO.getPassword()));
-        User user = new User();
-        user.setEmail(joinDTO.getEmail());
-        user.setPassword(joinDTO.getPassword());
-        user.setName(joinDTO.getName());
-        user.setRole(joinDTO.getRole());
-        user.setRoleCodeIdx(joinDTO.getRoleCodeIdx());
-        user.setStatus(joinDTO.getStatus());
-        user.setPhone(joinDTO.getPhone());
-        user.setGender(joinDTO.getGender());
-        user.setIsAgreement(joinDTO.getIsAgreement());
+
+        User user = User.builder()
+                        .email(joinDTO.getEmail())
+                        .password(joinDTO.getPassword())
+                        .name(joinDTO.getName())
+                        .role(RoleStatus.valueOf(joinDTO.getRole()))
+                        .roleCodeIdx(joinDTO.getRoleCodeIdx())
+                        .status(joinDTO.getStatus())
+                        .phone(joinDTO.getPhone())
+                        .gender(joinDTO.getGender())
+                        .joinAt(joinDTO.getJoinAt())
+                        .isAgreement(joinDTO.getIsAgreement())
+                        .build();
+
         authMapper.insertUser(user);
         return result;
     }
@@ -116,7 +119,7 @@ public class AuthService {
      * @return accessToken 새로운 토큰
      * @return refreshIdx DB의 새로운 토큰 IDX
      */
-    private Map<String, String> createTokenReturn(User user) {
+    private Map<String, String> createToken(User user) {
         Map result = new HashMap();
 
         String accessToken = jwtProvider.createAccessToken(user);

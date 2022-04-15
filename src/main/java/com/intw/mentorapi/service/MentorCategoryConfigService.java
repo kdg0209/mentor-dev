@@ -3,6 +3,7 @@ package com.intw.mentorapi.service;
 import com.intw.mentorapi.dao.MentorCategoryConfig;
 import com.intw.mentorapi.dto.mentorCategoryConfig.MentorCategoryConfigDTO;
 import com.intw.mentorapi.exception.ErrorCode;
+import com.intw.mentorapi.exception.customException.BoardCategoryConfigException;
 import com.intw.mentorapi.exception.customException.MentorCategoryConfigException;
 import com.intw.mentorapi.mapper.MentorCategoryConfigMapper;
 import com.intw.mentorapi.response.ApiResponse;
@@ -22,17 +23,18 @@ public class MentorCategoryConfigService {
         return result;
     }
 
-    public ApiResponse write(MentorCategoryConfigDTO.MentorCategoryConfigInsertDTO mentorCategoryConfigInsertDTO) {
+    public ApiResponse write(MentorCategoryConfigDTO.MentorCategoryConfigInsertDTO params) {
         ResponseMap result = new ResponseMap();
 
-        int isCategoryNameExist = mentorCategoryConfigMapper.isCategoryNameExist(mentorCategoryConfigInsertDTO.getName());
+        int isCategoryNameExist = mentorCategoryConfigMapper.isCategoryNameExist(params.getName());
 
         if (isCategoryNameExist > 0) {
             throw new MentorCategoryConfigException(ErrorCode.isMentorCategoryConfigNameExistException);
         }
 
-        MentorCategoryConfig mentorCategoryConfig = new MentorCategoryConfig();
-        mentorCategoryConfig.setName(mentorCategoryConfigInsertDTO.getName());
+        MentorCategoryConfig mentorCategoryConfig = MentorCategoryConfig.builder()
+                                                        .name(params.getName())
+                                                        .build();
 
         mentorCategoryConfigMapper.insertMentorCategoryConfig(mentorCategoryConfig);
         return result;
@@ -45,12 +47,19 @@ public class MentorCategoryConfigService {
     }
 
 
-    public ApiResponse update(MentorCategoryConfigDTO.MentorCategoryConfigUpdateDTO mentorCategoryConfigUpdateDTO) {
+    public ApiResponse update(MentorCategoryConfigDTO.MentorCategoryConfigUpdateDTO params) {
         ResponseMap result = new ResponseMap();
 
-        MentorCategoryConfig mentorCategoryConfig = new MentorCategoryConfig();
-        mentorCategoryConfig.setIdx(mentorCategoryConfigUpdateDTO.getIdx());
-        mentorCategoryConfig.setName(mentorCategoryConfigUpdateDTO.getName());
+        int isMentorCategoryExist = mentorCategoryConfigMapper.isMentorCategoryExist(params.getIdx());
+
+        if (isMentorCategoryExist == 0) {
+            throw new MentorCategoryConfigException(ErrorCode.isMentorCategoryConfigNotFoundException);
+        }
+
+        MentorCategoryConfig mentorCategoryConfig = MentorCategoryConfig.builder()
+                                                        .idx(params.getIdx())
+                                                        .name(params.getName())
+                                                        .build();
 
         mentorCategoryConfigMapper.updateMentorCategoryConfig(mentorCategoryConfig);
         return result;

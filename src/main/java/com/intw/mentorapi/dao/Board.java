@@ -1,10 +1,13 @@
 package com.intw.mentorapi.dao;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
+
+import java.time.LocalDateTime;
 
 @Getter
-@Setter
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class Board {
     private long idx;
     private long boardConfigIdx;
@@ -14,7 +17,7 @@ public class Board {
     private String title;
     private String contents;
     private int viewCount;
-    private String writeAt;
-    private String updateAt;
+    private LocalDateTime writeAt;
+    private LocalDateTime updateAt;
 
 }

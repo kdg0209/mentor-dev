@@ -2,6 +2,7 @@ package com.intw.mentorapi.mapper;
 
 import com.intw.mentorapi.dao.InquiryReply;
 import com.intw.mentorapi.dto.inquiryReply.InquiryReplyListDTO;
+import com.intw.mentorapi.status.RoleStatus;
 import org.apache.ibatis.annotations.Param;
 import org.mapstruct.Mapper;
 
@@ -14,7 +15,7 @@ public interface InquiryReplyMapper {
 
     List<InquiryReplyListDTO> findAllInquiryReply(long inquiryIdx, long companyIdx);
     void insertInquiryReply(InquiryReply inquiryReply);
-    void updateInquiryReply(@Param("inquiryReply") InquiryReply inquiryReply, String role);
-    void deleteInquiryReply(long idx, String role, long companyIdx);
-    void deleteAllInquiryReplyByInquiry(long inquiryIdx, String role, long companyIdx);
+    void updateInquiryReply(@Param("inquiryReply") InquiryReply inquiryReply, RoleStatus role);
+    void deleteInquiryReply(long idx, RoleStatus role, long companyIdx);
+    void deleteAllInquiryReplyByInquiry(long inquiryIdx, RoleStatus role, long companyIdx);
 }

@@ -7,9 +7,9 @@
         /* NOT_SQL_LOG */
         SELECT COUNT(*) FROM Company
          WHERE CORPORATION_NUMBER = #{corporationNumber}
-        <if test='idx != null'>
-            AND IDX != #{idx}
-        </if>
+           <if test='idx != null'>
+           AND IDX != #{idx}
+           </if>
     </select>
 
     <select id="isBusinessNumberExist" resultType="int">
@@ -136,8 +136,6 @@
              , ADDRESS = #{address}
              , CATEGORY = #{category}
              , EMPLOYEE_COUNT = #{employeeCount}
-             , CORPORATION_NUMBER = #{corporationNumber}
-             , BUSINESS_NUMBER = #{businessNumber}
              , TOTAL_TIME = #{totalTime}
              , TOTAL_USED_TIME = #{totalUsedTime}
              , AVAILABLE_TIME = #{availableTime}

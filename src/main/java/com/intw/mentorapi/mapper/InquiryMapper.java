@@ -4,6 +4,7 @@ import com.intw.mentorapi.dao.Inquiry;
 import com.intw.mentorapi.dto.PageDTO;
 import com.intw.mentorapi.dto.inquiry.InquiryListDTO;
 import com.intw.mentorapi.dto.inquiry.InquiryViewDTO;
+import com.intw.mentorapi.status.RoleStatus;
 import org.apache.ibatis.annotations.Param;
 import org.mapstruct.Mapper;
 

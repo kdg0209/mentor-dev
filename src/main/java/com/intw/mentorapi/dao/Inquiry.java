@@ -1,10 +1,11 @@
 package com.intw.mentorapi.dao;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 @Setter
-@Getter
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class Inquiry {
 
     private long idx;

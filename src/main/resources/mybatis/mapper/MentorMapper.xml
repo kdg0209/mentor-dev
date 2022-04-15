@@ -41,15 +41,11 @@
                   ( USER_IDX
                   , STATUS
                   , IS_FREELANCER
-                  , MENTORING_COUNT
-                  , CAREER_YEAR
                   , WRITE_AT
                   )
            VALUES ( #{userIdx}
                   , #{status}
                   , #{isFreelancer}
-                  , 0
-                  , 0
                   , NOW()
                   )
     </insert>
@@ -71,7 +67,6 @@
         UPDATE Mentor
            SET STATUS = #{status}
              , IS_FREELANCER = #{isFreelancer}
-             , MENTORING_COUNT = #{mentoringCount}
          WHERE IDX = #{idx}
     </update>
 

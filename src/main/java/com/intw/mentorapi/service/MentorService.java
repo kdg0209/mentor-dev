@@ -31,14 +31,14 @@ public class MentorService {
         return result;
     }
 
-    public ApiResponse write(MentorDTO.MentorInsertDTO mentorInsertDTO) {
+    public ApiResponse write(MentorDTO.MentorInsertDTO params) {
         ResponseMap result = new ResponseMap();
 
-        UserViewDTO user = userMapper.findOneUser(mentorInsertDTO.getUserIdx());
-        int isMentorRegisterCount = mentorMapper.isMentorRegistered(mentorInsertDTO.getUserIdx());
-        int isCategoryContainsCount = mentorCategoryConfigMapper.isCategoryContainsExist(mentorInsertDTO.getMentorCategoryConfigIdx());
+        UserViewDTO user = userMapper.findOneUser(params.getUserIdx());
+        int isMentorRegisterCount = mentorMapper.isMentorRegistered(params.getUserIdx());
+        int isCategoryContainsCount = mentorCategoryConfigMapper.isCategoryContainsExist(params.getMentorCategoryConfigIdx());
 
-        if (isCategoryContainsCount != mentorInsertDTO.getMentorCategoryConfigIdx().size()) {
+        if (isCategoryContainsCount != params.getMentorCategoryConfigIdx().size()) {
             throw new MentorCategoryConfigException(ErrorCode.InvalidMentorCategoryConfigException);
         }
 
@@ -50,12 +50,14 @@ public class MentorService {
             throw new UserException(ErrorCode.isUserNotFoundException);
         }
 
-        Mentor mentor = new Mentor();
-        mentor.setUserIdx(mentorInsertDTO.getUserIdx());
-        mentor.setStatus(mentorInsertDTO.getStatus());
-        mentor.setIsFreelancer(mentorInsertDTO.getIFreelancer());
+        Mentor mentor = Mentor.builder()
+                            .userIdx(params.getUserIdx())
+                            .status(params.getStatus())
+                            .isFreelancer(params.getIFreelancer())
+                            .build();
+
         mentorMapper.insertMentor(mentor);
-        mentorCategoryMapper.insertMentorCategory(mentor.getIdx(), mentorInsertDTO.getMentorCategoryConfigIdx());
+        mentorCategoryMapper.insertMentorCategory(mentor.getIdx(), params.getMentorCategoryConfigIdx());
         return result;
     }
 
@@ -66,29 +68,29 @@ public class MentorService {
         return result;
     }
 
-    public ApiResponse update(MentorDTO.MentorUpdateDTO mentorUpdateDTO) {
+    public ApiResponse update(MentorDTO.MentorUpdateDTO params) {
         ResponseMap result = new ResponseMap();
 
-        int isMentorExist = mentorMapper.isMentorExist(mentorUpdateDTO.getIdx());
-        int isCategoryContainsCount = mentorCategoryConfigMapper.isCategoryContainsExist(mentorUpdateDTO.getMentorCategoryConfigIdx());
+        int isMentorExist = mentorMapper.isMentorExist(params.getIdx());
+        int isCategoryContainsCount = mentorCategoryConfigMapper.isCategoryContainsExist(params.getMentorCategoryConfigIdx());
 
         if (isMentorExist == 0) {
             throw new MentorException(ErrorCode.isMentorNotFoundException);
         }
 
-        if (isCategoryContainsCount != mentorUpdateDTO.getMentorCategoryConfigIdx().size()) {
+        if (isCategoryContainsCount != params.getMentorCategoryConfigIdx().size()) {
             throw new MentorCategoryConfigException(ErrorCode.InvalidMentorCategoryConfigException);
         }
 
-        Mentor mentor = new Mentor();
-        mentor.setIdx(mentorUpdateDTO.getIdx());
-        mentor.setStatus(mentorUpdateDTO.getStatus());
-        mentor.setIsFreelancer(mentorUpdateDTO.getIFreelancer());
-        mentor.setMentoringCount(mentorUpdateDTO.getMentoringCount());
+        Mentor mentor = Mentor.builder()
+                            .idx(params.getIdx())
+                            .status(params.getStatus())
+                            .isFreelancer(params.getIFreelancer())
+                            .build();
 
         mentorMapper.updateMentor(mentor);
         mentorCategoryMapper.deleteMentorCategory(mentor.getIdx());
-        mentorCategoryMapper.insertMentorCategory(mentor.getIdx(), mentorUpdateDTO.getMentorCategoryConfigIdx());
+        mentorCategoryMapper.insertMentorCategory(mentor.getIdx(), params.getMentorCategoryConfigIdx());
         return result;
     }
 

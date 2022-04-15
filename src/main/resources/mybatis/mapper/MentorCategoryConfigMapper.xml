@@ -4,6 +4,13 @@
 
 <mapper namespace="com.intw.mentorapi.mapper.MentorCategoryConfigMapper">
 
+    <select id="isMentorCategoryExist" resultType="int">
+        /* NOT_SQL_LOG */
+        SELECT COUNT(*)
+          FROM Mentor_Category_Config
+         WHERE IDX = #{idx}
+    </select>
+
     <select id="isCategoryNameExist" resultType="int">
         /* NOT_SQL_LOG */
         SELECT COUNT(*)

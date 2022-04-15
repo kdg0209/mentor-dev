@@ -19,24 +19,24 @@ public class MentorProjectService {
     private final MentorMapper mentorMapper;
     private final MentorProjectMapper mentorProjectMapper;
 
-    public ApiResponse write(MentorProjectDTO.MentorProjectInsertDTO mentorProjectInsertDTO) {
+    public ApiResponse write(MentorProjectDTO.MentorProjectInsertDTO params) {
         ResponseMap result = new ResponseMap();
 
-        int isMentorExist = mentorMapper.isMentorExist(mentorProjectInsertDTO.getMentorIdx());
+        int isMentorExist = mentorMapper.isMentorExist(params.getMentorIdx());
 
         if (isMentorExist == 0) {
             throw new MentorException(ErrorCode.isMentorNotFoundException);
         }
 
         MentorProject mentorProject = MentorProject.builder()
-                    .mentorIdx(mentorProjectInsertDTO.getMentorIdx())
-                    .name(mentorProjectInsertDTO.getName())
-                    .category(mentorProjectInsertDTO.getCategory())
-                    .role(mentorProjectInsertDTO.getRole())
-                    .startAt(mentorProjectInsertDTO.getStartAt())
-                    .endAt(mentorProjectInsertDTO.getEndAt())
-                    .etc(mentorProjectInsertDTO.getEtc())
-                    .build();
+                                        .mentorIdx(params.getMentorIdx())
+                                        .name(params.getName())
+                                        .category(params.getCategory())
+                                        .role(params.getRole())
+                                        .startAt(params.getStartAt())
+                                        .endAt(params.getEndAt())
+                                        .etc(params.getEtc())
+                                        .build();
 
         mentorProjectMapper.insertMentorProject(mentorProject);
         return result;
@@ -49,24 +49,24 @@ public class MentorProjectService {
         return result;
     }
 
-    public ApiResponse update(MentorProjectDTO.MentorProjectUpdateDTO mentorProjectUpdateDTO) {
+    public ApiResponse update(MentorProjectDTO.MentorProjectUpdateDTO params) {
         ResponseMap result = new ResponseMap();
 
-        int isMentorProjectExist = mentorProjectMapper.isMentorProjectExist(mentorProjectUpdateDTO.getIdx());
+        int isMentorProjectExist = mentorProjectMapper.isMentorProjectExist(params.getIdx());
 
         if (isMentorProjectExist == 0) {
             throw new MentorProjectException(ErrorCode.isMentorProjectNotFoundException);
         }
 
         MentorProject mentorProject = MentorProject.builder()
-                    .idx(mentorProjectUpdateDTO.getIdx())
-                    .name(mentorProjectUpdateDTO.getName())
-                    .category(mentorProjectUpdateDTO.getCategory())
-                    .role(mentorProjectUpdateDTO.getRole())
-                    .startAt(mentorProjectUpdateDTO.getStartAt())
-                    .endAt(mentorProjectUpdateDTO.getEndAt())
-                    .etc(mentorProjectUpdateDTO.getEtc())
-                    .build();
+                                        .idx(params.getIdx())
+                                        .name(params.getName())
+                                        .category(params.getCategory())
+                                        .role(params.getRole())
+                                        .startAt(params.getStartAt())
+                                        .endAt(params.getEndAt())
+                                        .etc(params.getEtc())
+                                        .build();
 
         mentorProjectMapper.updateMentorProject(mentorProject);
         return result;

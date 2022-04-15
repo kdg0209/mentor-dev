@@ -8,7 +8,6 @@ import com.intw.mentorapi.mapper.RoleCodeMapper;
 import com.intw.mentorapi.response.ApiResponse;
 import com.intw.mentorapi.response.ResponseMap;
 import lombok.RequiredArgsConstructor;
-import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -16,7 +15,6 @@ import org.springframework.stereotype.Service;
 public class RoleCodeService {
 
     private final RoleCodeMapper roleCodeMapper;
-    private final ModelMapper modelMapper;
 
     public ApiResponse lists() {
         ResponseMap result = new ResponseMap();
@@ -24,16 +22,18 @@ public class RoleCodeService {
         return result;
     }
 
-    public ApiResponse write(RoleCodeDTO roleCodeDTO) {
+    public ApiResponse write(RoleCodeDTO params) {
         ResponseMap result = new ResponseMap();
 
-        int isRoleExist = roleCodeMapper.isRoleExist(roleCodeDTO.getCode());
+        int isRoleExist = roleCodeMapper.isRoleExist(params.getCode());
 
         if (isRoleExist > 0) {
             throw new RoleCodeException(ErrorCode.isRoleExistException);
         }
 
-        RoleCode role = modelMapper.map(roleCodeDTO, RoleCode.class);
+        RoleCode role = RoleCode.builder()
+                        .name(params.getName())
+                        .build();
         roleCodeMapper.inserRoleCode(role);
         return result;
     }

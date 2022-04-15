@@ -5,6 +5,7 @@ import com.intw.mentorapi.dao.CommentReply;
 import com.intw.mentorapi.dto.commentReply.CommentReplyDTO;
 import com.intw.mentorapi.exception.ErrorCode;
 import com.intw.mentorapi.exception.customException.CommentException;
+import com.intw.mentorapi.exception.customException.CommentReplyException;
 import com.intw.mentorapi.handler.UserProvider;
 import com.intw.mentorapi.mapper.CommentMapper;
 import com.intw.mentorapi.mapper.CommentReplyMapper;
@@ -20,21 +21,22 @@ public class CommentReplyService extends UserProvider {
     private final CommentMapper commentMapper;
     private final CommentReplyMapper commentReplyMapper;
 
-    public ApiResponse write(CommentReplyDTO.CommentReplyInsertDTO commentReplyInsertDTO) {
+    public ApiResponse write(CommentReplyDTO.CommentReplyInsertDTO params) {
         ResponseMap result = new ResponseMap();
         GetUserIp getUserIp = new GetUserIp();
 
-        int isCommentExist = commentMapper.isCommentExist(commentReplyInsertDTO.getCommentIdx());
+        int isCommentExist = commentMapper.isCommentExist(params.getCommentIdx());
 
         if (isCommentExist == 0) {
             throw new CommentException(ErrorCode.isCommentNotFoundException);
         }
 
-        CommentReply commentReply = new CommentReply();
-        commentReply.setUserIdx(getUser().getIdx());
-        commentReply.setCommentIdx(commentReplyInsertDTO.getCommentIdx());
-        commentReply.setReply(commentReplyInsertDTO.getReply());
-        commentReply.setWriteIp(getUserIp.returnIP());
+        CommentReply commentReply = CommentReply.builder()
+                                        .userIdx(getUser().getIdx())
+                                        .commentIdx(params.getCommentIdx())
+                                        .reply(params.getReply())
+                                        .writeIp(getUserIp.returnIP())
+                                        .build();
 
         commentReplyMapper.insertCommentReply(commentReply);
         return result;
@@ -42,19 +44,25 @@ public class CommentReplyService extends UserProvider {
 
     public ApiResponse view(long idx) {
         ResponseMap result = new ResponseMap();
-
         result.setResponseData("commentReply", commentReplyMapper.findOneCommentReply(idx));
         return result;
     }
 
-    public ApiResponse update(CommentReplyDTO.CommentReplyUpdateDTO commentReplyUpdateDTO) {
+    public ApiResponse update(CommentReplyDTO.CommentReplyUpdateDTO params) {
         ResponseMap result = new ResponseMap();
 
-        CommentReply commentReply = new CommentReply();
-        commentReply.setIdx(commentReplyUpdateDTO.getIdx());
-        commentReply.setUserIdx(getUser().getIdx());
-        commentReply.setCommentIdx(commentReplyUpdateDTO.getCommentIdx());
-        commentReply.setReply(commentReplyUpdateDTO.getReply());
+        int isCommentReplyExist = commentReplyMapper.isCommentReplyExist(params.getIdx());
+
+        if (isCommentReplyExist == 0) {
+            throw new CommentReplyException(ErrorCode.isCommentReplyNotFoundException);
+        }
+
+        CommentReply commentReply = CommentReply.builder()
+                                        .idx(params.getIdx())
+                                        .userIdx(getUser().getIdx())
+                                        .commentIdx(params.getCommentIdx())
+                                        .reply(params.getReply())
+                                        .build();
 
         commentReplyMapper.updateCommentReply(commentReply);
         return result;
@@ -62,7 +70,6 @@ public class CommentReplyService extends UserProvider {
 
     public ApiResponse delete(long idx) {
         ResponseMap result = new ResponseMap();
-
         commentReplyMapper.deleteCommentReply(idx, getUser().getRole(), getUser().getIdx());
         return result;
     }

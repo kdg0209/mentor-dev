@@ -39,9 +39,5 @@ public class MentorDTO {
         @Positive
         @ApiModelProperty(value = "번호", example = "1", required = true)
         private long idx;
-
-        @Positive
-        @ApiModelProperty(value = "멘토 진행 횟수", example = "1")
-        private int mentoringCount;
     }
 }

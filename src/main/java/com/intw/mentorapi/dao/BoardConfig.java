@@ -1,16 +1,17 @@
 package com.intw.mentorapi.dao;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 @Getter
-@Setter
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class BoardConfig {
 
     private long idx;
     private String type;
+    private int role;
     private String name;
-    private String role;
     private int listCount;
     private int pageCount;
 }

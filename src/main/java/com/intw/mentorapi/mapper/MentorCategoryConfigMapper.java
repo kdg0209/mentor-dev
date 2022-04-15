@@ -8,6 +8,7 @@ import java.util.List;
 @Mapper
 public interface MentorCategoryConfigMapper {
 
+    int isMentorCategoryExist(long idx);
     int isCategoryNameExist(String name);
     int isCategoryContainsExist(List<Integer> categoryIdxs);
 

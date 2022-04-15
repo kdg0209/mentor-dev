@@ -55,9 +55,7 @@
              , #{refreshTokenExpirationAt}
         )
         ON DUPLICATE KEY UPDATE
-                     IDX = ( SELECT idx FROM
-                        ( SELECT (idx + 1) AS idx FROM Refresh_Token B ORDER BY idx DESC LIMIT 1)
-                     AS A)
+                     IDX = (SELECT idx FROM (SELECT (idx + 1) AS idx FROM Refresh_Token B ORDER BY idx DESC LIMIT 1) AS A)
               , ACCESS_TOKEN = #{accessToken}
               , REFRESH_TOKEN = #{refreshToken}
               , REFRESH_TOKEN_EXPIRATION_AT = #{refreshTokenExpirationAt}

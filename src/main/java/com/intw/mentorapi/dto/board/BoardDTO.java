@@ -33,19 +33,17 @@ public class BoardDTO {
     @ApiModelProperty(value = "내용", example = "내용은", required = true)
     private String contents;
 
+    @ApiModelProperty(value = "첨부파일")
+    List<MultipartFile> files;
+
+    @ApiModelProperty(value = "첨부파일 종류", example = "files")
+    private String targetType;
+
 
     @Setter
     @Getter
     public static class BoardInsertDTO extends BoardDTO {
 
-        @ApiModelProperty(hidden = true)
-        private long userIdx;
-
-        @ApiModelProperty(value = "첨부파일")
-        List<MultipartFile> files;
-
-        @ApiModelProperty(value = "첨부파일 종류", example = "files")
-        private String targetType;
     }
 
     @Getter
@@ -55,11 +53,5 @@ public class BoardDTO {
         @Positive
         @ApiModelProperty(value = "번호", example = "1", required = true)
         private long idx;
-
-        @ApiModelProperty(value = "첨부파일")
-        List<MultipartFile> files;
-
-        @ApiModelProperty(value = "첨부파일 종류", example = "files")
-        private String targetType;
     }
 }

@@ -26,13 +26,13 @@ public class InquiryService extends UserProvider {
      */
     public ApiResponse lists(PageDTO pageDTO) {
         ResponseMap result = new ResponseMap();
-        result.setResponseData("inquiryList", inquiryMapper.findAllInquiry(pageDTO, getUser().getRole(), getUser().getCompanyIdx()));
+        result.setResponseData("inquiryList", inquiryMapper.findAllInquiry(pageDTO, getUser().getRole().toString(), getUser().getCompanyIdx()));
         return result;
     }
 
     public ApiResponse view(long idx) {
         ResponseMap result = new ResponseMap();
-        InquiryViewDTO inquiry = inquiryMapper.findOneInquiry(idx, getUser().getRole(), getUser().getCompanyIdx());
+        InquiryViewDTO inquiry = inquiryMapper.findOneInquiry(idx, getUser().getRole().toString(), getUser().getCompanyIdx());
 
         if (inquiry != null) {
             result.setResponseData("inquiryReply", inquiryReplyMapper.findAllInquiryReply(idx, inquiry.getCompanyIdx()));
@@ -44,7 +44,7 @@ public class InquiryService extends UserProvider {
 
     public ApiResponse delete(long idx) {
         ResponseMap result = new ResponseMap();
-        inquiryMapper.deleteInquiry(idx, getUser().getRole(), getUser().getCompanyIdx());
+        inquiryMapper.deleteInquiry(idx, getUser().getRole().toString(), getUser().getCompanyIdx());
         inquiryReplyMapper.deleteAllInquiryReplyByInquiry(idx, getUser().getRole(), getUser().getCompanyIdx());
         return result;
     }
@@ -52,27 +52,28 @@ public class InquiryService extends UserProvider {
     /*
      ** 매니저 기능 시작
      */
-    public ApiResponse managerWrite(InquiryDTO.InquiryInsertDTO inquiryInsertDTO) {
+    public ApiResponse managerWrite(InquiryDTO.InquiryInsertDTO params) {
         ResponseMap result = new ResponseMap();
         GetUserIp getUserIp = new GetUserIp();
 
-        Inquiry inquiry = new Inquiry();
-        inquiry.setUserIdx(getUser().getIdx());
-        inquiry.setCompanyIdx(getUser().getCompanyIdx());
-        inquiry.setMemo(inquiryInsertDTO.getMemo());
-        inquiry.setWriteIp(getUserIp.returnIP());
-
+        Inquiry inquiry = Inquiry.builder()
+                            .userIdx(getUser().getIdx())
+                            .companyIdx(getUser().getCompanyIdx())
+                            .memo(params.getMemo())
+                            .writeIp(getUserIp.returnIP())
+                            .build();
         inquiryMapper.insertInquiryByCompany(inquiry);
         return result;
     }
 
-    public ApiResponse managerUpdate(InquiryDTO.InquiryUpdateDTO inquiryUpdateDTO) {
+    public ApiResponse managerUpdate(InquiryDTO.InquiryUpdateDTO params) {
         ResponseMap result = new ResponseMap();
 
-        Inquiry inquiry = new Inquiry();
-        inquiry.setIdx(inquiryUpdateDTO.getIdx());
-        inquiry.setCompanyIdx(getUser().getCompanyIdx());
-        inquiry.setMemo(inquiryUpdateDTO.getMemo());
+        Inquiry inquiry = Inquiry.builder()
+                            .idx(params.getIdx())
+                            .companyIdx(getUser().getCompanyIdx())
+                            .memo(params.getMemo())
+                            .build();
 
         inquiryMapper.updateInquiryByCompany(inquiry);
         return result;

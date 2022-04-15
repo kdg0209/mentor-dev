@@ -1,12 +1,15 @@
 package com.intw.mentorapi.dto.auth;
 
+import com.intw.mentorapi.config.Enum;
+import com.intw.mentorapi.status.RoleStatus;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Positive;
+import java.time.LocalDate;
 
 public class AuthDTO {
 
@@ -51,7 +54,7 @@ public class AuthDTO {
         @ApiModelProperty(value = "비밀번호", example = "12345", required = true)
         private String password;
 
-        @NotBlank
+        @Enum(enumClass = RoleStatus.class, ignoreCase = true)
         @ApiModelProperty(value = "권한", example = "ROLE_ADMIN", required = true)
         private String role;
 
@@ -80,6 +83,6 @@ public class AuthDTO {
         private String isAgreement;
 
         @ApiModelProperty(value = "입사일", example = "2022-02-21")
-        private String joinAt;
+        private LocalDate joinAt;
     }
 }

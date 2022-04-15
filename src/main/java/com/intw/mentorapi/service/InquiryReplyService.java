@@ -10,6 +10,7 @@ import com.intw.mentorapi.mapper.InquiryMapper;
 import com.intw.mentorapi.mapper.InquiryReplyMapper;
 import com.intw.mentorapi.response.ApiResponse;
 import com.intw.mentorapi.response.ResponseMap;
+import com.intw.mentorapi.status.RoleStatus;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -20,35 +21,37 @@ public class InquiryReplyService extends UserProvider {
     private final InquiryReplyMapper inquiryReplyMapper;
     private final InquiryMapper inquiryMapper;
 
-    public ApiResponse write(InquiryReplyDTO.InquiryReplyInsertDTO inquiryReplyInsertDTO) {
+    public ApiResponse write(InquiryReplyDTO.InquiryReplyInsertDTO parms) {
         ResponseMap result = new ResponseMap();
         GetUserIp getUserIp = new GetUserIp();
 
-        int isInquiryCount = inquiryMapper.isInquiryExist(inquiryReplyInsertDTO.getInquiryIdx());
+        int isInquiryCount = inquiryMapper.isInquiryExist(parms.getInquiryIdx());
 
         if (isInquiryCount == 0) {
             throw new InquiryException(ErrorCode.isInquiryNotFoundException);
         }
 
-        InquiryReply inquiryReply = new InquiryReply();
-        inquiryReply.setInquiryIdx(inquiryReplyInsertDTO.getInquiryIdx());
-        inquiryReply.setReply(inquiryReplyInsertDTO.getReply());
-        inquiryReply.setUserIdx(getUser().getIdx());
-        inquiryReply.setWriteIp(getUserIp.returnIP());
+        InquiryReply inquiryReply = InquiryReply.builder()
+                                        .inquiryIdx(parms.getInquiryIdx())
+                                        .reply(parms.getReply())
+                                        .userIdx(getUser().getIdx())
+                                        .writeIp(getUserIp.returnIP())
+                                        .build();
 
         inquiryReplyMapper.insertInquiryReply(inquiryReply);
-        inquiryMapper.updateStatusByInquiryReply(inquiryReplyInsertDTO.getInquiryIdx(), getUser().getRole());
+        inquiryMapper.updateStatusByInquiryReply(inquiryReply.getInquiryIdx(), getUser().getRole().toString());
         return result;
     }
 
-    public ApiResponse update(InquiryReplyDTO.InquiryReplyUpdateDTO inquiryReplyUpdateDTO) {
+    public ApiResponse update(InquiryReplyDTO.InquiryReplyUpdateDTO parms) {
         ResponseMap result = new ResponseMap();
 
-        InquiryReply inquiryReply = new InquiryReply();
-        inquiryReply.setIdx(inquiryReplyUpdateDTO.getIdx());
-        inquiryReply.setReply(inquiryReplyUpdateDTO.getReply());
+        InquiryReply inquiryReply = InquiryReply.builder()
+                                        .idx(parms.getIdx())
+                                        .reply(parms.getReply())
+                                        .build();
 
-        boolean isAccessRole = isAccessInquiryReply(getUser().getRole(), inquiryReplyUpdateDTO.getIdx());
+        boolean isAccessRole = isAccessInquiryReply(getUser().getRole(), parms.getIdx());
 
         if (!isAccessRole) {
             throw new InquiryException(ErrorCode.ForbiddenException);
@@ -75,7 +78,7 @@ public class InquiryReplyService extends UserProvider {
      * @param role
      * @param idx
      */
-    private boolean isAccessInquiryReply(String role, long idx) {
+    private boolean isAccessInquiryReply(RoleStatus role, long idx) {
         if (role.equals("ROLE_MANAGER")) {
             Integer companyIdx = inquiryReplyMapper.isAccessible(idx);
 

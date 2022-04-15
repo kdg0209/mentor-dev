@@ -35,13 +35,14 @@ public enum ErrorCode {
     isInquiryNotFoundException(701, "등록되어 있지 않은 문의 입니다.", HttpStatus.BAD_REQUEST),
 
     isCommentNotFoundException(600, "해당 댓글은 존재하지 않습니다.", HttpStatus.BAD_REQUEST),
+    isCommentReplyNotFoundException(600, "해당 대댓글은 존재하지 않습니다.", HttpStatus.BAD_REQUEST),
 
     isMentorNotFoundException(701, "등록되어 있지 않은 멘토 입니다.", HttpStatus.BAD_REQUEST),
     isMentorRegisteredException(701, "이미 등록되어 있는 멘토 입니다.", HttpStatus.BAD_REQUEST),
     InvalidMentorCareerException(701, "잘못된 형식의 멘토 경력 양식입니다.", HttpStatus.BAD_REQUEST),
     InvalidMentorCategoryConfigException(600, "잘못된 카테고리 선택입니다", HttpStatus.BAD_REQUEST),
+    isMentorCategoryConfigNotFoundException(600, "해당 카테고리는 존재하지 않습니다.", HttpStatus.BAD_REQUEST),
     isMentorCategoryConfigNameExistException(600, "해당 카테고리명은 존재합니다.", HttpStatus.BAD_REQUEST),
-
 
     isMentorCareerNotFoundException(701, "등록되어 있지 않은 멘토 경력 입니다.", HttpStatus.BAD_REQUEST),
     isMentorProjectNotFoundException(701, "등록되어 있지 않은 멘토 프로젝트 입니다.", HttpStatus.BAD_REQUEST),

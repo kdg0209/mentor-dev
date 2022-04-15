@@ -10,7 +10,6 @@ import com.intw.mentorapi.mapper.CompanyMapper;
 import com.intw.mentorapi.response.ApiResponse;
 import com.intw.mentorapi.response.ResponseMap;
 import lombok.RequiredArgsConstructor;
-import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 
@@ -19,7 +18,6 @@ import org.springframework.stereotype.Service;
 public class CompanyService {
 
     private final CompanyMapper companyMapper;
-    private final ModelMapper modelMapper;
 
     public ApiResponse lists(PageDTO pageDTO) {
         ResponseMap result = new ResponseMap();
@@ -41,7 +39,23 @@ public class CompanyService {
             throw new UserException(ErrorCode.isBusinessNumberExistException);
         }
 
-        Company company = modelMapper.map(companyInsertDTO, Company.class);
+        Company company = Company.builder()
+                            .userIdx(companyInsertDTO.getUserIdx())
+                            .status(companyInsertDTO.getStatus())
+                            .name(companyInsertDTO.getName())
+                            .tel(companyInsertDTO.getTel())
+                            .email(companyInsertDTO.getEmail())
+                            .address(companyInsertDTO.getAddress())
+                            .category(companyInsertDTO.getCategory())
+                            .ceo(companyInsertDTO.getCeo())
+                            .employeeCount(companyInsertDTO.getEmployeeCount())
+                            .corporationNumber(companyInsertDTO.getCorporationNumber())
+                            .businessNumber(companyInsertDTO.getBusinessNumber())
+                            .managerName(companyInsertDTO.getManagerName())
+                            .managerEmail(companyInsertDTO.getManagerEmail())
+                            .managerPhone(companyInsertDTO.getManagerPhone())
+                            .createAt(companyInsertDTO.getCreateAt())
+                            .build();
         companyMapper.insertCompany(company);
         return result;
     }
@@ -56,22 +70,32 @@ public class CompanyService {
         ResponseMap result = new ResponseMap();
 
         int isCompanyExist = companyMapper.isCompanyExist(companyUpdateDTO.getIdx());
-        int isCorporationNumberExist = companyMapper.isCorporationNumberExist(companyUpdateDTO.getCorporationNumber(), companyUpdateDTO.getIdx());
-        int isBusinessNumberExist = companyMapper.isBusinessNumberExist(companyUpdateDTO.getBusinessNumber(), companyUpdateDTO.getIdx());
 
-        if (isCompanyExist > 0) {
+        if (isCompanyExist == 0) {
             throw new CompanyException(ErrorCode.isCompanyNotFoundException);
         }
 
-        if (isCorporationNumberExist > 0) {
-            throw new CompanyException(ErrorCode.isCorporationNumberExistException);
-        }
+        Company company = Company.builder()
+                            .idx(companyUpdateDTO.getIdx())
+                            .status(companyUpdateDTO.getStatus())
+                            .name(companyUpdateDTO.getName())
+                            .tel(companyUpdateDTO.getTel())
+                            .email(companyUpdateDTO.getEmail())
+                            .address(companyUpdateDTO.getAddress())
+                            .category(companyUpdateDTO.getCategory())
+                            .ceo(companyUpdateDTO.getCeo())
+                            .employeeCount(companyUpdateDTO.getEmployeeCount())
+                            .totalTime(companyUpdateDTO.getTotalTime())
+                            .totalUsedTime(companyUpdateDTO.getTotalUsedTime())
+                            .availableTime(companyUpdateDTO.getAvailableTime())
+                            .serviceStartAt(companyUpdateDTO.getServiceStartAt())
+                            .serviceEndAt(companyUpdateDTO.getServiceEndAt())
+                            .managerName(companyUpdateDTO.getManagerName())
+                            .managerEmail(companyUpdateDTO.getManagerEmail())
+                            .managerPhone(companyUpdateDTO.getManagerPhone())
+                            .createAt(companyUpdateDTO.getCreateAt())
+                            .build();
 
-        if (isBusinessNumberExist > 0) {
-            throw new UserException(ErrorCode.isBusinessNumberExistException);
-        }
-
-        Company company = modelMapper.map(companyUpdateDTO, Company.class);
         companyMapper.updateCompany(company);
         return result;
     }

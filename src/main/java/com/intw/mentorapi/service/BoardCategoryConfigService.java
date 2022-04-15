@@ -9,14 +9,12 @@ import com.intw.mentorapi.mapper.BoardCategoryConfigMapper;
 import com.intw.mentorapi.response.ApiResponse;
 import com.intw.mentorapi.response.ResponseMap;
 import lombok.RequiredArgsConstructor;
-import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
 public class BoardCategoryConfigService {
 
-    private final ModelMapper modelMapper;
     private final BoardCategoryConfigMapper boardCategoryConfigMapper;
 
     public ApiResponse lists(PageDTO pageDTO) {
@@ -25,16 +23,18 @@ public class BoardCategoryConfigService {
         return result;
     }
 
-    public ApiResponse write(BoardCategoryConfigDTO.BoardCategoryConfigInsertDTO boardCategoryConfigInsertDTO) {
+    public ApiResponse write(BoardCategoryConfigDTO.BoardCategoryConfigInsertDTO params) {
         ResponseMap result = new ResponseMap();
 
-        int isCategoryNameExist = boardCategoryConfigMapper.isCategoryNameExist(boardCategoryConfigInsertDTO.getName());
+        int isCategoryNameExist = boardCategoryConfigMapper.isCategoryNameExist(params.getName());
 
         if (isCategoryNameExist > 0) {
             throw new BoardCategoryConfigException(ErrorCode.isBoardCategoryConfigNameExistException);
         }
 
-        BoardCategoryConfig boardCategoryConfig = modelMapper.map(boardCategoryConfigInsertDTO, BoardCategoryConfig.class);
+        BoardCategoryConfig boardCategoryConfig = BoardCategoryConfig.builder()
+                                                    .name(params.getName())
+                                                    .build();
         boardCategoryConfigMapper.insertBoardCategoryConfig(boardCategoryConfig);
         return result;
     }
@@ -45,9 +45,12 @@ public class BoardCategoryConfigService {
         return result;
     }
 
-    public ApiResponse update(BoardCategoryConfigDTO.BoardCategoryConfigUpdateDTO boardCategoryConfigUpdateDTO) {
+    public ApiResponse update(BoardCategoryConfigDTO.BoardCategoryConfigUpdateDTO params) {
         ResponseMap result = new ResponseMap();
-        BoardCategoryConfig boardCategoryConfig = modelMapper.map(boardCategoryConfigUpdateDTO, BoardCategoryConfig.class);
+        BoardCategoryConfig boardCategoryConfig = BoardCategoryConfig.builder()
+                                                    .idx(params.getIdx())
+                                                    .name(params.getName())
+                                                    .build();
         boardCategoryConfigMapper.updateBoardCategoryConfig(boardCategoryConfig);
         return result;
     }

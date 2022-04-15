@@ -1,11 +1,15 @@
 package com.intw.mentorapi.dao;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
+
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 
-@Setter
 @Getter
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class Company {
 
     private long idx;
@@ -23,12 +27,12 @@ public class Company {
     private float totalTime;
     private float totalUsedTime;
     private float availableTime;
-    private String serviceStartAt;
-    private String serviceEndAt;
+    private LocalDate serviceStartAt;
+    private LocalDate serviceEndAt;
     private String managerName;
     private String managerEmail;
     private String managerPhone;
-    private String createAt;
-    private String writeAt;
-    private String updateAt;
+    private LocalDate createAt;
+    private LocalDateTime writeAt;
+    private LocalDateTime updateAt;
 }

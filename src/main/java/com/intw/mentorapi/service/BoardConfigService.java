@@ -25,16 +25,23 @@ public class BoardConfigService {
         return result;
     }
 
-    public ApiResponse write(BoardConfigDTO.BoardConfigInsertDTO boardConfigInsertDTO) {
+    public ApiResponse write(BoardConfigDTO.BoardConfigInsertDTO params) {
         ResponseMap result = new ResponseMap();
 
-        int isTypeCount = boardConfigMapper.isTypeExist(boardConfigInsertDTO.getType());
+        int isTypeCount = boardConfigMapper.isTypeExist(params.getType());
 
         if (isTypeCount > 0) {
             throw new BoardConfigException(ErrorCode.isBoardConfigTypeExistException);
         }
 
-        BoardConfig boardConfig = modelMapper.map(boardConfigInsertDTO, BoardConfig.class);
+        BoardConfig boardConfig = BoardConfig.builder()
+                                    .name(params.getName())
+                                    .type(params.getType())
+                                    .role(params.getRole())
+                                    .listCount(params.getListCount())
+                                    .pageCount(params.getPageCount())
+                                    .build();
+
         boardConfigMapper.insertBoardConfig(boardConfig);
         return result;
     }
@@ -45,9 +52,23 @@ public class BoardConfigService {
         return result;
     }
 
-    public ApiResponse update(BoardConfigDTO.BoardConfigUpdateDTO boardConfigUpdateDTO) {
+    public ApiResponse update(BoardConfigDTO.BoardConfigUpdateDTO params) {
         ResponseMap result = new ResponseMap();
-        BoardConfig boardConfig = modelMapper.map(boardConfigUpdateDTO, BoardConfig.class);
+
+        int isBoardConfigExist = boardConfigMapper.isBoardConfigExist(params.getIdx());
+
+        if (isBoardConfigExist == 0) {
+            throw new BoardConfigException(ErrorCode.isBoardConfigNotFoundException);
+        }
+
+        BoardConfig boardConfig = BoardConfig.builder()
+                .idx(params.getIdx())
+                .name(params.getName())
+                .role(params.getRole())
+                .listCount(params.getListCount())
+                .pageCount(params.getPageCount())
+                .build();
+
         boardConfigMapper.updateBoardConfig(boardConfig);
         return result;
     }

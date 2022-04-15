@@ -14,8 +14,8 @@ import com.intw.mentorapi.mapper.RoleCodeMapper;
 import com.intw.mentorapi.mapper.UserMapper;
 import com.intw.mentorapi.response.ApiResponse;
 import com.intw.mentorapi.response.ResponseMap;
+import com.intw.mentorapi.status.RoleStatus;
 import lombok.RequiredArgsConstructor;
-import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -25,7 +25,6 @@ public class UserService {
     private final UserMapper userMapper;
     private final CompanyMapper companyMapper;
     private final RoleCodeMapper roleCodeMapper;
-    private final ModelMapper modelMapper;
 
     public ApiResponse lists(PageDTO pageDTO) {
         ResponseMap result = new ResponseMap();
@@ -53,12 +52,37 @@ public class UserService {
         }
 
         userDTO.setPassword(new HashPassword().hashPassword(userDTO.getPassword()));
-        User user = modelMapper.map(userDTO, User.class);
+        User user = User.builder()
+                    .email(userDTO.getEmail())
+                    .password(userDTO.getPassword())
+                    .role(RoleStatus.valueOf(userDTO.getRole()))
+                    .roleCodeIdx(userDTO.getRoleCodeIdx())
+                    .status(userDTO.getStatus())
+                    .name(userDTO.getName())
+                    .phone(userDTO.getPhone())
+                    .gender(userDTO.getGender())
+                    .isAgreement(userDTO.getIsAgreement())
+                    .build();
         userMapper.insertUser(user);
 
         CompanyDTO.CompanyInsertDTO companyDTO = userDTO.getCompanyDTO();
-        companyDTO.setUserIdx(user.getIdx());
-        Company company = modelMapper.map(companyDTO, Company.class);
+        Company company = Company.builder()
+                            .userIdx(user.getIdx())
+                            .status(companyDTO.getStatus())
+                            .name(companyDTO.getName())
+                            .tel(companyDTO.getTel())
+                            .email(companyDTO.getEmail())
+                            .address(companyDTO.getAddress())
+                            .category(companyDTO.getCategory())
+                            .ceo(companyDTO.getCeo())
+                            .employeeCount(companyDTO.getEmployeeCount())
+                            .businessNumber(companyDTO.getBusinessNumber())
+                            .managerName(companyDTO.getManagerName())
+                            .managerEmail(companyDTO.getManagerEmail())
+                            .managerPhone(companyDTO.getManagerPhone())
+                            .createAt(companyDTO.getCreateAt())
+                            .build();
+
         companyMapper.insertCompany(company);
         return result;
     }
@@ -87,7 +111,18 @@ public class UserService {
             userDTO.setPassword(new HashPassword().hashPassword(userDTO.getPassword()));
         }
 
-        User user = modelMapper.map(userDTO, User.class);
+        User user = User.builder()
+                    .idx(userDTO.getIdx())
+                    .password(userDTO.getPassword())
+                    .role(RoleStatus.valueOf(userDTO.getRole()))
+                    .roleCodeIdx(userDTO.getRoleCodeIdx())
+                    .status(userDTO.getStatus())
+                    .name(userDTO.getName())
+                    .phone(userDTO.getPhone())
+                    .gender(userDTO.getGender())
+                    .isAgreement(userDTO.getIsAgreement())
+                    .build();
+
         userMapper.updateUser(user);
         return result;
     }

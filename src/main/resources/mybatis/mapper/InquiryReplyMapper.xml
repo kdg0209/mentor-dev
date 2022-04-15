@@ -51,7 +51,7 @@
            SET REPLY = #{inquiryReply.reply}
          WHERE IR.IDX = #{inquiryReply.idx}
            <if test='role.equals("ROLE_MANAGER")'>
-               AND U.ROLE = "ROLE_MANAGER"
+           AND U.ROLE = "ROLE_MANAGER"
            </if>
     </update>
 
