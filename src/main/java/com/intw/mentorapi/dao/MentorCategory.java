@@ -1,12 +1,13 @@
 package com.intw.mentorapi.dao;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import java.util.List;
 
-@Setter
 @Getter
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class MentorCategory {
 
     private long mentorIdx;

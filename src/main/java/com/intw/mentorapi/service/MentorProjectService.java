@@ -11,14 +11,17 @@ import com.intw.mentorapi.response.ApiResponse;
 import com.intw.mentorapi.response.ResponseMap;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
+@Transactional(readOnly = true)
 @RequiredArgsConstructor
 public class MentorProjectService {
 
     private final MentorMapper mentorMapper;
     private final MentorProjectMapper mentorProjectMapper;
 
+    @Transactional
     public ApiResponse write(MentorProjectDTO.MentorProjectInsertDTO params) {
         ResponseMap result = new ResponseMap();
 
@@ -44,11 +47,11 @@ public class MentorProjectService {
 
     public ApiResponse view(long idx) {
         ResponseMap result = new ResponseMap();
-
         result.setResponseData("mentorProject", mentorProjectMapper.findOneMentorProject(idx));
         return result;
     }
 
+    @Transactional
     public ApiResponse update(MentorProjectDTO.MentorProjectUpdateDTO params) {
         ResponseMap result = new ResponseMap();
 
@@ -72,6 +75,7 @@ public class MentorProjectService {
         return result;
     }
 
+    @Transactional
     public ApiResponse delete(long idx) {
         ResponseMap result = new ResponseMap();
         mentorProjectMapper.deleteMentorProject(idx);

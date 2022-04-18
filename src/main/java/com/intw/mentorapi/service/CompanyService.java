@@ -11,9 +11,11 @@ import com.intw.mentorapi.response.ApiResponse;
 import com.intw.mentorapi.response.ResponseMap;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 
 @Service
+@Transactional(readOnly = true)
 @RequiredArgsConstructor
 public class CompanyService {
 
@@ -25,6 +27,7 @@ public class CompanyService {
         return result;
     }
 
+    @Transactional
     public ApiResponse write(CompanyDTO.CompanyInsertDTO companyInsertDTO) {
         ResponseMap result = new ResponseMap();
 
@@ -66,6 +69,7 @@ public class CompanyService {
         return result;
     }
 
+    @Transactional
     public ApiResponse update(CompanyDTO.CompanyUpdateDTO companyUpdateDTO) {
         ResponseMap result = new ResponseMap();
 
@@ -100,6 +104,7 @@ public class CompanyService {
         return result;
     }
 
+    @Transactional
     public ApiResponse delete(long idx) {
         ResponseMap result = new ResponseMap();
         companyMapper.deleteCompany(idx);

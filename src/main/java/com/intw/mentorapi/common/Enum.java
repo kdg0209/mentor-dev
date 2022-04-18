@@ -1,6 +1,4 @@
-package com.intw.mentorapi.config;
-
-import com.intw.mentorapi.common.EnumValidator;
+package com.intw.mentorapi.common;
 
 import javax.validation.Constraint;
 import javax.validation.Payload;

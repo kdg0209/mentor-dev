@@ -13,14 +13,17 @@ import com.intw.mentorapi.response.ResponseMap;
 import com.intw.mentorapi.status.RoleStatus;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
+@Transactional(readOnly = true)
 @RequiredArgsConstructor
 public class InquiryReplyService extends UserProvider {
 
     private final InquiryReplyMapper inquiryReplyMapper;
     private final InquiryMapper inquiryMapper;
 
+    @Transactional
     public ApiResponse write(InquiryReplyDTO.InquiryReplyInsertDTO parms) {
         ResponseMap result = new ResponseMap();
         GetUserIp getUserIp = new GetUserIp();
@@ -43,6 +46,7 @@ public class InquiryReplyService extends UserProvider {
         return result;
     }
 
+    @Transactional
     public ApiResponse update(InquiryReplyDTO.InquiryReplyUpdateDTO parms) {
         ResponseMap result = new ResponseMap();
 
@@ -61,6 +65,7 @@ public class InquiryReplyService extends UserProvider {
         return result;
     }
 
+    @Transactional
     public ApiResponse delete(long idx) {
         ResponseMap result = new ResponseMap();
         boolean isAccessRole = isAccessInquiryReply(getUser().getRole(), idx);

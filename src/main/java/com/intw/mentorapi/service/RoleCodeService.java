@@ -9,8 +9,10 @@ import com.intw.mentorapi.response.ApiResponse;
 import com.intw.mentorapi.response.ResponseMap;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
+@Transactional(readOnly = true)
 @RequiredArgsConstructor
 public class RoleCodeService {
 
@@ -22,6 +24,7 @@ public class RoleCodeService {
         return result;
     }
 
+    @Transactional
     public ApiResponse write(RoleCodeDTO params) {
         ResponseMap result = new ResponseMap();
 

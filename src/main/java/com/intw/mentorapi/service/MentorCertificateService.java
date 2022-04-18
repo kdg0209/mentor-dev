@@ -11,14 +11,17 @@ import com.intw.mentorapi.response.ApiResponse;
 import com.intw.mentorapi.response.ResponseMap;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
+@Transactional(readOnly = true)
 @RequiredArgsConstructor
 public class MentorCertificateService {
 
     private final MentorMapper mentorMapper;
     private final MentorCertificateMapper mentorCertificateMapper;
 
+    @Transactional
     public ApiResponse write(MentorCertificateDTO.MentorCertificateInsertDTO params) {
         ResponseMap result = new ResponseMap();
 
@@ -42,11 +45,11 @@ public class MentorCertificateService {
 
     public ApiResponse view(long idx) {
         ResponseMap result = new ResponseMap();
-
         result.setResponseData("mentorCertificate", mentorCertificateMapper.findOneMentorCertificate(idx));
         return result;
     }
 
+    @Transactional
     public ApiResponse update(MentorCertificateDTO.MentorCertificateUpdateDTO params) {
         ResponseMap result = new ResponseMap();
 
@@ -64,14 +67,13 @@ public class MentorCertificateService {
                                                 .expirationAt(params.getExpirationAt())
                                                 .build();
 
-
         mentorCertificateMapper.updateMentorCertificate(mentorCertificate);
         return result;
     }
 
+    @Transactional
     public ApiResponse delete(long idx) {
         ResponseMap result = new ResponseMap();
-
         mentorCertificateMapper.deleteMentorCertificate(idx);
         return result;
     }

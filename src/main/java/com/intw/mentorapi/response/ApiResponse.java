@@ -1,6 +1,7 @@
 package com.intw.mentorapi.response;
 
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.http.HttpStatus;
 
@@ -8,17 +9,18 @@ import org.springframework.http.HttpStatus;
 @Getter
 public class ApiResponse {
 
-    private int code = HttpStatus.OK.value();
+    private HttpStatus status = HttpStatus.OK;
     private Object result;
 
     public ApiResponse() {}
 
-    public ApiResponse(int code, Object result) {
-        this.code = code;
+    public ApiResponse(HttpStatus status, Object result) {
+        this.status = status;
         this.result = result;
     }
 
     public void setResult(Object result) {
         this.result = result;
     }
+
 }

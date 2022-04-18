@@ -1,6 +1,7 @@
 package com.intw.mentorapi.service;
 
 import com.intw.mentorapi.dao.Mentor;
+import com.intw.mentorapi.dao.MentorCategory;
 import com.intw.mentorapi.dto.PageDTO;
 import com.intw.mentorapi.dto.mentor.MentorDTO;
 import com.intw.mentorapi.dto.user.UserViewDTO;
@@ -14,8 +15,10 @@ import com.intw.mentorapi.response.ApiResponse;
 import com.intw.mentorapi.response.ResponseMap;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
+@Transactional(readOnly = true)
 @RequiredArgsConstructor
 public class MentorService {
 
@@ -26,19 +29,19 @@ public class MentorService {
 
     public ApiResponse lists(PageDTO pageDTO) {
         ResponseMap result = new ResponseMap();
-
         result.setResponseData("mentorList", mentorMapper.findAllMentor(pageDTO));
         return result;
     }
 
+    @Transactional
     public ApiResponse write(MentorDTO.MentorInsertDTO params) {
         ResponseMap result = new ResponseMap();
 
         UserViewDTO user = userMapper.findOneUser(params.getUserIdx());
         int isMentorRegisterCount = mentorMapper.isMentorRegistered(params.getUserIdx());
-        int isCategoryContainsCount = mentorCategoryConfigMapper.isCategoryContainsExist(params.getMentorCategoryConfigIdx());
+        int isCategoryContainsCount = mentorCategoryConfigMapper.isCategoryContainsExist(params.getMentorCategoryConfigIdxs());
 
-        if (isCategoryContainsCount != params.getMentorCategoryConfigIdx().size()) {
+        if (isCategoryContainsCount != params.getMentorCategoryConfigIdxs().size()) {
             throw new MentorCategoryConfigException(ErrorCode.InvalidMentorCategoryConfigException);
         }
 
@@ -57,7 +60,12 @@ public class MentorService {
                             .build();
 
         mentorMapper.insertMentor(mentor);
-        mentorCategoryMapper.insertMentorCategory(mentor.getIdx(), params.getMentorCategoryConfigIdx());
+        MentorCategory mentorCategory = MentorCategory.builder()
+                                            .mentorIdx(mentor.getIdx())
+                                            .mentorCategoryConfigIdx(params.getMentorCategoryConfigIdxs())
+                                            .build();
+
+        mentorCategoryMapper.insertMentorCategory(mentorCategory);
         return result;
     }
 
@@ -68,17 +76,18 @@ public class MentorService {
         return result;
     }
 
+    @Transactional
     public ApiResponse update(MentorDTO.MentorUpdateDTO params) {
         ResponseMap result = new ResponseMap();
 
         int isMentorExist = mentorMapper.isMentorExist(params.getIdx());
-        int isCategoryContainsCount = mentorCategoryConfigMapper.isCategoryContainsExist(params.getMentorCategoryConfigIdx());
+        int isCategoryContainsCount = mentorCategoryConfigMapper.isCategoryContainsExist(params.getMentorCategoryConfigIdxs());
 
         if (isMentorExist == 0) {
             throw new MentorException(ErrorCode.isMentorNotFoundException);
         }
 
-        if (isCategoryContainsCount != params.getMentorCategoryConfigIdx().size()) {
+        if (isCategoryContainsCount != params.getMentorCategoryConfigIdxs().size()) {
             throw new MentorCategoryConfigException(ErrorCode.InvalidMentorCategoryConfigException);
         }
 
@@ -87,13 +96,18 @@ public class MentorService {
                             .status(params.getStatus())
                             .isFreelancer(params.getIFreelancer())
                             .build();
-
         mentorMapper.updateMentor(mentor);
+
+        MentorCategory mentorCategory = MentorCategory.builder()
+                .mentorIdx(mentor.getIdx())
+                .mentorCategoryConfigIdx(params.getMentorCategoryConfigIdxs())
+                .build();
         mentorCategoryMapper.deleteMentorCategory(mentor.getIdx());
-        mentorCategoryMapper.insertMentorCategory(mentor.getIdx(), params.getMentorCategoryConfigIdx());
+        mentorCategoryMapper.insertMentorCategory(mentorCategory);
         return result;
     }
 
+    @Transactional
     public ApiResponse delete(long idx) {
         ResponseMap result = new ResponseMap();
         mentorMapper.deleteMentor(idx);

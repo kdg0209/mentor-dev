@@ -22,7 +22,7 @@
         SELECT COUNT(*)
           FROM Mentor_Category_Config
          WHERE IDX IN
-        <foreach item="idx" index="index" collection="list" open="(" separator="," close=")">
+        <foreach item="idx" index="index" collection="categories" open="(" separator="," close=")">
             #{idx}
         </foreach>
     </select>

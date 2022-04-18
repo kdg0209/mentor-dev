@@ -17,8 +17,10 @@ import com.intw.mentorapi.response.ResponseMap;
 import com.intw.mentorapi.status.RoleStatus;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
+@Transactional(readOnly = true)
 @RequiredArgsConstructor
 public class BoardService extends UserProvider {
 
@@ -40,6 +42,7 @@ public class BoardService extends UserProvider {
         return result;
     }
 
+    @Transactional
     public ApiResponse write(BoardDTO.BoardInsertDTO params) {
         ResponseMap result = new ResponseMap();
 
@@ -82,6 +85,7 @@ public class BoardService extends UserProvider {
         return result;
     }
 
+    @Transactional
     public ApiResponse update(BoardDTO.BoardUpdateDTO params) {
         ResponseMap result = new ResponseMap();
 
@@ -114,6 +118,7 @@ public class BoardService extends UserProvider {
         return result;
     }
 
+    @Transactional
     public ApiResponse delete(long idx) {
         ResponseMap result = new ResponseMap();
 

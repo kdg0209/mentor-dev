@@ -10,8 +10,10 @@ import com.intw.mentorapi.response.ApiResponse;
 import com.intw.mentorapi.response.ResponseMap;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
+@Transactional(readOnly = true)
 @RequiredArgsConstructor
 public class BoardCategoryConfigService {
 
@@ -23,6 +25,7 @@ public class BoardCategoryConfigService {
         return result;
     }
 
+    @Transactional
     public ApiResponse write(BoardCategoryConfigDTO.BoardCategoryConfigInsertDTO params) {
         ResponseMap result = new ResponseMap();
 
@@ -45,6 +48,7 @@ public class BoardCategoryConfigService {
         return result;
     }
 
+    @Transactional
     public ApiResponse update(BoardCategoryConfigDTO.BoardCategoryConfigUpdateDTO params) {
         ResponseMap result = new ResponseMap();
         BoardCategoryConfig boardCategoryConfig = BoardCategoryConfig.builder()
@@ -55,6 +59,7 @@ public class BoardCategoryConfigService {
         return result;
     }
 
+    @Transactional
     public ApiResponse delete(long idx) {
         ResponseMap result = new ResponseMap();
         boardCategoryConfigMapper.deleteBoardCategoryConfig(idx);

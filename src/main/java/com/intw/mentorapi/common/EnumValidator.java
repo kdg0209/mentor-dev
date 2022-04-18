@@ -1,7 +1,5 @@
 package com.intw.mentorapi.common;
 
-import com.intw.mentorapi.config.Enum;
-
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
@@ -27,7 +25,6 @@ public class EnumValidator implements ConstraintValidator<Enum, String> {
                 }
             }
         }
-
         return result;
     }
 

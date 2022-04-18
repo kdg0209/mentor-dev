@@ -7,6 +7,7 @@ import com.intw.mentorapi.mapper.FileDetailMapper;
 import com.intw.mentorapi.mapper.FileMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.ArrayList;
@@ -14,6 +15,7 @@ import java.util.List;
 import java.util.Map;
 
 @Service
+@Transactional(readOnly = true)
 @RequiredArgsConstructor
 public class FileService {
 
@@ -28,6 +30,7 @@ public class FileService {
      * @param tables : 관련된 테이블 명칭
      * @param fkIdx : 외래키
      */
+    @Transactional(rollbackFor = Exception.class)
     public void fileUpload(List<MultipartFile> files, String targetType, String tables, long fkIdx) {
         List<Map> uploadedFiles = s3Uploader.uploadFile(files);
         List<FileDetail> fileDetails = new ArrayList<>();
@@ -77,6 +80,7 @@ public class FileService {
      * @param fkIdx 외래키
      * @param tables 관련된 테이블 명칭
      */
+    @Transactional
     public void fileDelete(long fkIdx, String tables) {
         File file = fileMapper.findAllFile(fkIdx, tables);
         List<FileDetail> fileDetails = fileDetailMapper.findAllFileDetail(file.getIdx());

@@ -13,8 +13,10 @@ import com.intw.mentorapi.response.ApiResponse;
 import com.intw.mentorapi.response.ResponseMap;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
+@Transactional(readOnly = true)
 @RequiredArgsConstructor
 public class InquiryService extends UserProvider {
 
@@ -42,6 +44,7 @@ public class InquiryService extends UserProvider {
         return result;
     }
 
+    @Transactional
     public ApiResponse delete(long idx) {
         ResponseMap result = new ResponseMap();
         inquiryMapper.deleteInquiry(idx, getUser().getRole().toString(), getUser().getCompanyIdx());
@@ -66,6 +69,7 @@ public class InquiryService extends UserProvider {
         return result;
     }
 
+    @Transactional
     public ApiResponse managerUpdate(InquiryDTO.InquiryUpdateDTO params) {
         ResponseMap result = new ResponseMap();
 

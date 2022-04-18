@@ -1,6 +1,6 @@
 package com.intw.mentorapi.dto.user;
 
-import com.intw.mentorapi.config.Enum;
+import com.intw.mentorapi.common.Enum;
 import com.intw.mentorapi.dto.company.CompanyDTO;
 import com.intw.mentorapi.status.RoleStatus;
 import io.swagger.annotations.ApiModelProperty;
@@ -14,8 +14,6 @@ import java.time.LocalDate;
 @Setter
 @Getter
 public class UserDTO {
-
-
 
     @Enum(enumClass = RoleStatus.class, ignoreCase = true)
     @ApiModelProperty(value = "권한", example = "ROLE_USER", required = true)

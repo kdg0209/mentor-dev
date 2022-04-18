@@ -17,8 +17,10 @@ import com.intw.mentorapi.response.ResponseMap;
 import com.intw.mentorapi.status.RoleStatus;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
+@Transactional(readOnly = true)
 @RequiredArgsConstructor
 public class UserService {
 
@@ -32,6 +34,7 @@ public class UserService {
         return result;
     }
 
+    @Transactional
     public ApiResponse write(UserDTO.UserInsertDTO userDTO) {
         ResponseMap result = new ResponseMap();
 
@@ -93,6 +96,7 @@ public class UserService {
         return result;
     }
 
+    @Transactional
     public ApiResponse update(UserDTO.UserUpdateDTO userDTO) {
         ResponseMap result = new ResponseMap();
 
@@ -127,6 +131,7 @@ public class UserService {
         return result;
     }
 
+    @Transactional
     public ApiResponse delete(long idx) {
         ResponseMap result = new ResponseMap();
         userMapper.deleteUser(idx);

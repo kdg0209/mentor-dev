@@ -9,14 +9,14 @@ import com.intw.mentorapi.mapper.BoardConfigMapper;
 import com.intw.mentorapi.response.ApiResponse;
 import com.intw.mentorapi.response.ResponseMap;
 import lombok.RequiredArgsConstructor;
-import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
+@Transactional(readOnly = true)
 @RequiredArgsConstructor
 public class BoardConfigService {
 
-    private final ModelMapper modelMapper;
     private final BoardConfigMapper boardConfigMapper;
 
     public ApiResponse lists(PageDTO pageDTO) {
@@ -25,6 +25,7 @@ public class BoardConfigService {
         return result;
     }
 
+    @Transactional
     public ApiResponse write(BoardConfigDTO.BoardConfigInsertDTO params) {
         ResponseMap result = new ResponseMap();
 
@@ -52,6 +53,7 @@ public class BoardConfigService {
         return result;
     }
 
+    @Transactional
     public ApiResponse update(BoardConfigDTO.BoardConfigUpdateDTO params) {
         ResponseMap result = new ResponseMap();
 
@@ -73,6 +75,7 @@ public class BoardConfigService {
         return result;
     }
 
+    @Transactional
     public ApiResponse delete(long idx) {
         ResponseMap result = new ResponseMap();
         boardConfigMapper.deleteBoardConfig(idx);

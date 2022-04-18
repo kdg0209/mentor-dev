@@ -13,14 +13,17 @@ import com.intw.mentorapi.response.ApiResponse;
 import com.intw.mentorapi.response.ResponseMap;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
+@Transactional(readOnly = true)
 @RequiredArgsConstructor
 public class CommentService extends UserProvider {
 
     private final BoardMapper boardMapper;
     private final CommentMapper commentMapper;
 
+    @Transactional
     public ApiResponse write(CommentDTO.CommentInsertDTO params) {
         ResponseMap result = new ResponseMap();
         GetUserIp getUserIp = new GetUserIp();
@@ -48,7 +51,7 @@ public class CommentService extends UserProvider {
         return result;
     }
 
-
+    @Transactional
     public ApiResponse update(CommentDTO.CommentUpdateDTO params) {
         ResponseMap result = new ResponseMap();
 
@@ -69,6 +72,7 @@ public class CommentService extends UserProvider {
         return result;
     }
 
+    @Transactional
     public ApiResponse delete(long idx) {
         ResponseMap result = new ResponseMap();
         commentMapper.deleteComment(idx, getUser().getRole(), getUser().getIdx());

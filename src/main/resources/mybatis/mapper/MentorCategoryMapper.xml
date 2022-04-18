@@ -17,10 +17,10 @@
                   , MENTOR_CATEGORY_CONFIG_IDX
                   )
         VALUES
-            <foreach item="categoryIdx" collection="mentorCategoryConfigIdx" separator=", ">
+            <foreach item="item" collection="mentorCategory.mentorCategoryConfigIdx" separator=", ">
                 (
-                  #{mentorIdx}
-                , #{categoryIdx}
+                  #{mentorCategory.mentorIdx}
+                , #{item}
                 )
             </foreach>
     </insert>

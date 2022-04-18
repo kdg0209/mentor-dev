@@ -11,18 +11,21 @@ import com.intw.mentorapi.response.ApiResponse;
 import com.intw.mentorapi.response.ResponseMap;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
 @Service
+@Transactional(readOnly = true)
 @RequiredArgsConstructor
 public class MentorCareerService {
 
     private final MentorMapper mentorMapper;
     private final MentorCareerMapper mentorCareerMapper;
 
+    @Transactional
     public ApiResponse write(MentorCareerDTO.MentorCareerInsertDTO params) {
         ResponseMap result = new ResponseMap();
 
@@ -54,6 +57,7 @@ public class MentorCareerService {
         return result;
     }
 
+    @Transactional
     public ApiResponse update(MentorCareerDTO.MentorCareerUpdateDTO params) {
         ResponseMap result = new ResponseMap();
 
@@ -80,6 +84,7 @@ public class MentorCareerService {
         return result;
     }
 
+    @Transactional
     public ApiResponse delete(long idx) {
         ResponseMap result = new ResponseMap();
         mentorCareerMapper.deleteMentorCareer(idx);

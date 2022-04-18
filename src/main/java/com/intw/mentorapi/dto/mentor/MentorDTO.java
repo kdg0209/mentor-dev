@@ -21,7 +21,7 @@ public class MentorDTO {
     private String iFreelancer;
 
     @ApiModelProperty(value = "멘토 카테고리", example = "1, 2", required = true)
-    private List<Integer> mentorCategoryConfigIdx;
+    private List<Integer> mentorCategoryConfigIdxs;
 
     @Setter
     @Getter

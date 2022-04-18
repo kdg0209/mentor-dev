@@ -1,12 +1,11 @@
 package com.intw.mentorapi.dto.auth;
 
-import com.intw.mentorapi.config.Enum;
+import com.intw.mentorapi.common.Enum;
 import com.intw.mentorapi.status.RoleStatus;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Positive;
 import java.time.LocalDate;
